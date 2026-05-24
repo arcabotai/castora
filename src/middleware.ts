@@ -10,7 +10,10 @@ const VERCEL_ENV_ALLOWED_ORIGINS: Record<string, string> = {
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
-  const environment = process.env.NEXT_PUBLIC_VERCEL_ENV || 'development';
+  const environment =
+    process.env.NEXT_PUBLIC_VERCEL_ENV ||
+    process.env.VERCEL_ENV ||
+    (process.env.NODE_ENV === 'production' ? 'production' : 'development');
   const allowedOrigin = VERCEL_ENV_ALLOWED_ORIGINS[environment] || process.env.NEXT_PUBLIC_APP_URL || DEFAULT_APP_URL;
 
   response.headers.set('Access-Control-Allow-Origin', allowedOrigin);
