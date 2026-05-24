@@ -8,7 +8,10 @@ const withPWA = require('next-pwa')({
   additionalManifestEntries: [
     { url: process.env.NODE_ENV === 'development' ? '/worker-development.js' : '/worker.js', revision: Date.now().toString() }
   ],
-  disable: process.env.NODE_ENV === 'development'
+  // Keep first production deploys boring. The inherited Supercast PWA worker
+  // is memory-heavy during build and is not required for Castora's launch shell.
+  // Re-enable with CASTORA_ENABLE_PWA=true once the full client wiring is ready.
+  disable: process.env.NODE_ENV === 'development' || process.env.CASTORA_ENABLE_PWA !== 'true'
 })
 
 /** @type {import('next').NextConfig} */

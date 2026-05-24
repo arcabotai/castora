@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const dynamic = "force-dynamic";
 
@@ -40,7 +37,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`bg-white text-gray-950 dark:bg-gray-950 dark:text-gray-50 ${inter.className}`}>
+      <body className="bg-white text-gray-950 dark:bg-gray-950 dark:text-gray-50 font-sans">
         {children}
       </body>
     </html>
