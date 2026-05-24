@@ -35,10 +35,12 @@ import { CheckoutDialogProvider } from '@/hooks/useCheckoutDialog'
 
 const inter = Inter({ subsets: ["latin"] });
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   metadataBase: new URL(HOST_URL),
-  title: "Super",
-  description: "Have fun on farcaster ツ",
+  title: "Castora",
+  description: "Castora: a Farcaster client bootstrapped by Arca.",
   manifest: "/manifest.json",
   icons: {
     apple: "/supercast-logo-white.png",
@@ -48,16 +50,16 @@ export const metadata: Metadata = {
     { media: "(prefers-color-scheme: dark)", color: "#111827" },
   ],
   openGraph: {
-    title: "Super",
-    description: "Have fun on farcaster ツ",
+    title: "Castora",
+    description: "Castora: a Farcaster client bootstrapped by Arca.",
     url: "https://super.sc",
-    siteName: "Super",
+    siteName: "Castora",
     images: [
       {
         url: "/api/og?type=landing",
         width: 1200,
         height: 630,
-        alt: "Super",
+        alt: "Castora",
       },
     ],
     locale: "en_US",
