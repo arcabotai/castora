@@ -1,7 +1,7 @@
 const links = [
-  { label: "Repository", href: "https://github.com/arcabotai/castora" },
-  { label: "Blog", href: "/blog" },
-  { label: "API smoke test", href: "/api/v1/super-members" },
+  { label: "Read the placeholder blog", href: "/blog" },
+  { label: "Check API status", href: "/api/v1/super-members" },
+  { label: "Full client wiring next", href: "/onboarding" },
 ];
 
 export default function Home() {
@@ -15,7 +15,7 @@ export default function Home() {
           Castora is coming online.
         </h1>
         <p className="mt-6 max-w-2xl text-lg leading-8 text-gray-600 dark:text-gray-300">
-          A Farcaster client fork bootstrapped from the Supercast codebase. First deploy is live; product wiring, branding, and auth cleanup come next.
+          A Farcaster client fork bootstrapped from the Supercast codebase. First deploy is live; product wiring, branding, and auth cleanup come next. The source repo is private while the fork is being cleaned up.
         </p>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           {links.map((link) => (
