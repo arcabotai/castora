@@ -2,6 +2,8 @@ import { prisma } from "@/prisma/client"
 import { PLAN } from "@prisma/client"
 import { NextResponse } from "next/server"
 
+export const dynamic = "force-dynamic";
+
 type PublicSuperMember = {
   fid: number
   member_until: Date
