@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://super.sc
+
+# Sitemaps
+Sitemap: https://super.sc/sitemap.xml

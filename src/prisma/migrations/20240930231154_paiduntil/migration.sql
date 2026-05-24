@@ -1,0 +1,6 @@
+-- CreateEnum
+CREATE TYPE "PAYMENT_TYPE" AS ENUM ('STRIPE', 'CRYPTO', 'NONE');
+
+-- AlterTable
+ALTER TABLE "SupercastPrivyUser" ADD COLUMN     "paidUntil" TIMESTAMP(3),
+ADD COLUMN     "paymentType" "PAYMENT_TYPE" NOT NULL DEFAULT 'NONE';

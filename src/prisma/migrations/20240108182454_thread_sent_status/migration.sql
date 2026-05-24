@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "ScheduledThread" ADD COLUMN     "status" "SCHEDULED_CAST_STATUS" NOT NULL DEFAULT 'PENDING';

@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/cast/send-scheduled-drafts",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/index-superanon-scores-from-dune",
+      "schedule": "0 6 * * *"
+    }
+  ]
+}

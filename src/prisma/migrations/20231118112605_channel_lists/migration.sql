@@ -1,0 +1,6 @@
+-- CreateEnum
+CREATE TYPE "LIST_TYPE" AS ENUM ('CHANNEL', 'USERS');
+
+-- AlterTable
+ALTER TABLE "List" ADD COLUMN     "parent_url" TEXT,
+ADD COLUMN     "type" "LIST_TYPE" NOT NULL DEFAULT 'USERS';

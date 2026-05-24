@@ -1,0 +1,574 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection"
+}
+
+model Bookmark {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  castHash  String
+  ownerFid  Int
+}
+
+enum LIST_TYPE {
+  CHANNEL
+  USERS
+}
+
+model List {
+  id             String           @id @default(uuid())
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  name           String
+  authorFid      Int
+  ListMembership ListMembership[]
+  ListFollowing  ListFollowing[]
+  type           LIST_TYPE        @default(USERS)
+  private        Boolean          @default(false)
+}
+
+model ListMembership {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  list      List     @relation(fields: [listId], references: [id], onDelete: Cascade)
+  listId    String
+  memberFid Int
+}
+
+model ListFollowing {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  list        List     @relation(fields: [listId], references: [id], onDelete: Cascade)
+  listId      String
+  followerFid Int
+}
+
+model NotificationLastChecked {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userFid   Int      @unique
+  timestamp DateTime
+}
+
+enum EVENT_TYPE {
+  LANDING_PAGE_VIEW
+  SIGNUP //
+  FEED_REFRESH //
+  PAYWALL_VIEW
+  PERSONAL_PLAN_PURCHASE //
+  PROFILE_VIEW
+  CAST_DETAIL_VIEW
+  CAST_SENT //
+  CAST_SCHEDULED //
+  THREAD_SCHEDULED //
+  REPLY_SENT
+  BOOKMARK_SAVED
+  LIST_CREATED //
+  POLL_CREATED //
+  POLL_VOTED //
+}
+
+model AnalyticsEvent {
+  id         String     @id @default(uuid())
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  userFid    Int
+  event_type EVENT_TYPE
+}
+
+enum PLAN {
+  FREE
+  PERSONAL
+}
+
+enum PLAN_STATUS {
+  NO_PLAN
+  ACTIVE
+  CANCELLED
+  GRACE_PERIOD
+  EXPIRED
+}
+
+model SupercastUser {
+  id                   String            @id @default(uuid())
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  fid                  Int
+  signerUUID           String
+  plan                 PLAN              @default(FREE)
+  stripeCustomerId     String            @default("")
+  stripeSubscriptionId String            @default("")
+  ScheduledCast        ScheduledCast[]
+  ScheduledThread      ScheduledThread[]
+  Poll                 Poll[]
+  paidUntil            DateTime?
+}
+
+enum SESSION_STATUS {
+  PENDING
+  CANCELLED
+  SUCCESS
+}
+
+model StripeSession {
+  id                   String         @id @default(uuid())
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+  fid                  Int
+  sessionId            String         @unique
+  plan                 PLAN
+  status               SESSION_STATUS
+  supercastPrivyUserId String?
+}
+
+model CryptoCheckoutSession {
+  id                   String         @id @default(uuid())
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+  glideSessionId       String?        @unique
+  plan                 PLAN
+  status               SESSION_STATUS
+  supercastPrivyUserId String?
+  daimoPayId           String?        @unique
+  daimoPayAmountUsd    Float?
+}
+
+enum PRODUCT_TYPE {
+  MEMBERSHIP
+  REGISTRATION
+  STORAGE
+}
+
+enum PAYMENT_METHOD {
+  STRIPE
+  DAIMO
+}
+
+model PaymentSession {
+  id                   String             @id @default(uuid())
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  supercastPrivyUserId String
+  SupercastPrivyUser   SupercastPrivyUser @relation(fields: [supercastPrivyUserId], references: [id])
+  productType          PRODUCT_TYPE
+  productQuantity      Int
+  usdValue             Int
+  sessionStatus        SESSION_STATUS
+  paymentMethod        PAYMENT_METHOD
+  sessionId            String             @unique
+  receiptUrl           String?
+}
+
+enum SCHEDULED_CAST_STATUS {
+  PENDING
+  CANCELLED
+  FAILED
+  SUCCESS
+}
+
+model ScheduledCast {
+  id                          String                     @id @default(uuid())
+  createdAt                   DateTime                   @default(now())
+  updatedAt                   DateTime                   @updatedAt
+  scheduledAt                 DateTime
+  supercastUserId             String?
+  supercastUser               SupercastUser?             @relation(fields: [supercastUserId], references: [id])
+  status                      SCHEDULED_CAST_STATUS      @default(PENDING)
+  text                        String
+  embedURLs                   String[]
+  embedRecasts                Json?
+  parentURL                   String
+  ScheduledThread             ScheduledThread?           @relation(fields: [scheduledThreadId], references: [id])
+  scheduledThreadId           String?
+  threadPosition              Int?
+  supercastFarcasterAccountId String?
+  SupercastFarcasterAccount   SupercastFarcasterAccount? @relation(fields: [supercastFarcasterAccountId], references: [id])
+}
+
+model ScheduledThread {
+  id                          String                     @id @default(uuid())
+  createdAt                   DateTime                   @default(now())
+  updatedAt                   DateTime                   @updatedAt
+  scheduledAt                 DateTime
+  scheduledCasts              ScheduledCast[]
+  supercastUser               SupercastUser?             @relation(fields: [supercastUserId], references: [id])
+  supercastUserId             String?
+  parentURL                   String
+  status                      SCHEDULED_CAST_STATUS      @default(PENDING)
+  supercastFarcasterAccountId String?
+  SupercastFarcasterAccount   SupercastFarcasterAccount? @relation(fields: [supercastFarcasterAccountId], references: [id])
+}
+
+model Poll {
+  id                          String                     @id @default(uuid())
+  createdAt                   DateTime                   @default(now())
+  updatedAt                   DateTime                   @updatedAt
+  question                    String
+  username                    String                     @default("")
+  answer_1                    String
+  answer_2                    String                     @default("")
+  answer_3                    String                     @default("")
+  answer_4                    String                     @default("")
+  // adding vote counts to the model for performance
+  vote_1_count                Int                        @default(0)
+  vote_2_count                Int                        @default(0)
+  vote_3_count                Int                        @default(0)
+  vote_4_count                Int                        @default(0)
+  PollVote                    PollVote[]
+  owner                       SupercastUser?             @relation(fields: [ownerId], references: [id])
+  ownerId                     String?
+  supercastFarcasterAccountId String?
+  SupercastFarcasterAccount   SupercastFarcasterAccount? @relation(fields: [supercastFarcasterAccountId], references: [id])
+}
+
+model PollVote {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  poll      Poll     @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  pollId    String
+  voterFid  Int
+  answer    Int
+}
+
+model BoostRequest {
+  id            String   @id @default(uuid())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  authorFid     Int
+  castHash      String
+  recipientFids Int[]
+}
+
+enum OPT_OUT_TYPE {
+  GLOBAL
+  PERSONAL
+}
+
+model BoostRequestOptOut {
+  id        String       @id @default(uuid())
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  boostId   String
+  userFid   Int
+  type      OPT_OUT_TYPE
+  targetFid Int?
+}
+
+enum PAYMENT_TYPE {
+  STRIPE
+  CRYPTO
+  NONE
+}
+
+model SupercastPrivyUser {
+  id                        String                     @id @default(uuid())
+  createdAt                 DateTime                   @default(now())
+  updatedAt                 DateTime                   @updatedAt
+  fid                       Int
+  privyUserId               String                     @unique
+  stripeCustomerId          String                     @default("")
+  stripeSubscriptionId      String                     @default("")
+  email                     String                     @default("")
+  plan                      PLAN                       @default(FREE)
+  planState                 PLAN_STATUS                @default(NO_PLAN)
+  paymentType               PAYMENT_TYPE               @default(NONE)
+  paidUntil                 DateTime?
+  lastPlanChange            DateTime                   @default(now())
+  registrationPaidFor       Boolean                    @default(false)
+  superanonLeaderboardOptIn Boolean                    @default(false)
+  ConnectedAccount          ConnectedAccount[]
+  AccountConnectionSession  AccountConnectionSession[]
+  CreatedAccount            CreatedAccount[]
+  SharedAccounts            SharedAccount[]            @relation("sharedBy")
+  ReceivedSharedAccounts    SharedAccount[]            @relation("sharedWith")
+  Draft                     Draft[]
+  NotificationSettings      NotificationSettings[]
+  NotificationSubscription  NotificationSubscription[]
+  SuperanonBan              SuperanonBan[]
+  PaymentSession            PaymentSession[]
+  superanonScore            Int                        @default(0)
+
+  @@index([plan])
+}
+
+model SupercastFarcasterAccount {
+  id                   String                 @id @default(uuid())
+  fid                  Int                    @unique
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  signerUUID           String                 @default("")
+  ConnectedAccount     ConnectedAccount[]
+  ScheduledCast        ScheduledCast[]
+  ScheduledThread      ScheduledThread[]
+  Poll                 Poll[]
+  SharedAccount        SharedAccount[]
+  Draft                Draft[]
+  ScheduledReaction    ScheduledReaction[]
+  Pet                  Pet[]                  @relation("petFarcasterAccount")
+  PetsOwned            Pet[]                  @relation("petOwner")
+  PetOption            PetOption[]
+  UserPersonality      UserPersonality[]
+  Waitlist             Waitlist[]
+  notificationSettings NotificationSettings[]
+
+  @@index([fid])
+}
+
+model ConnectedAccount {
+  id                          String                    @id @default(uuid())
+  createdAt                   DateTime                  @default(now())
+  updatedAt                   DateTime                  @updatedAt
+  supercastFarcasterAccountId String
+  SupercastFarcasterAccount   SupercastFarcasterAccount @relation(fields: [supercastFarcasterAccountId], references: [id])
+  supercastPrivyUserId        String
+  SupercastPrivyUser          SupercastPrivyUser        @relation(fields: [supercastPrivyUserId], references: [id])
+
+  @@unique([supercastFarcasterAccountId, supercastPrivyUserId])
+  @@index([supercastPrivyUserId])
+  @@index([supercastFarcasterAccountId])
+}
+
+model SharedAccount {
+  id                          String                    @id @default(uuid())
+  createdAt                   DateTime                  @default(now())
+  updatedAt                   DateTime                  @updatedAt
+  sharedById                  String // ID of the user who is sharing the account
+  sharedBy                    SupercastPrivyUser        @relation(fields: [sharedById], references: [id], name: "sharedBy")
+  sharedWithId                String // ID of the user to whom the account is shared
+  sharedWith                  SupercastPrivyUser        @relation(fields: [sharedWithId], references: [id], name: "sharedWith")
+  supercastFarcasterAccountId String
+  SupercastFarcasterAccount   SupercastFarcasterAccount @relation(fields: [supercastFarcasterAccountId], references: [id])
+
+  @@unique([sharedById, sharedWithId, supercastFarcasterAccountId])
+  @@index([sharedById])
+  @@index([sharedWithId])
+  @@index([supercastFarcasterAccountId])
+}
+
+model AccountConnectionSession {
+  id                   String             @id @default(uuid())
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  supercastPrivyUserId String
+  SupercastPrivyUser   SupercastPrivyUser @relation(fields: [supercastPrivyUserId], references: [id])
+}
+
+model CreatedAccount {
+  id                        String             @id @default(uuid())
+  createdAt                 DateTime           @default(now())
+  updatedAt                 DateTime           @updatedAt
+  createdById               String
+  createdBy                 SupercastPrivyUser @relation(fields: [createdById], references: [id])
+  createdSupercastAccountId String
+}
+
+enum DRAFT_SEND_STATUS {
+  DRAFT
+  SENT
+  SCHEDULED
+  ERROR
+  DELETED
+}
+
+enum DRAFT_RECURRING_SCHEDULE {
+  NONE
+  DAILY
+  WEEKLY
+  MONTHLY
+}
+
+model Draft {
+  id                String                    @id @default(uuid())
+  createdAt         DateTime                  @default(now())
+  updatedAt         DateTime                  @updatedAt
+  castHash          String?
+  text              String
+  embeds            Json[]
+  channelId         String?
+  parentDraft       Draft?                    @relation("Thread", fields: [parentId], references: [id])
+  parentId          String?                   @unique
+  replyDraft        Draft?                    @relation("Thread")
+  isTopLevel        Boolean                   @default(true)
+  author            SupercastFarcasterAccount @relation(fields: [authorId], references: [id])
+  authorId          String
+  creator           SupercastPrivyUser        @relation(fields: [creatorId], references: [id])
+  creatorId         String
+  sendStatus        DRAFT_SEND_STATUS         @default(DRAFT)
+  recurring         DRAFT_RECURRING_SCHEDULE  @default(NONE)
+  firstScheduledAt  DateTime?
+  nextScheduledAt   DateTime?
+  lastSentAt        DateTime?
+  ScheduledReaction ScheduledReaction[]
+  shared            Boolean                   @default(false)
+  isAnon            Boolean                   @default(false)
+  SuperanonScore    SuperanonScore[]
+
+  @@index([parentId])
+}
+
+enum REACTION_TYPE {
+  LIKE
+  RECAST
+  REPLY
+}
+
+enum SCHEDULED_REACTION_STATUS {
+  PENDING
+  CANCELLED
+  FAILED
+  SUCCESS
+}
+
+model ScheduledReaction {
+  id               String                    @id @default(uuid())
+  createdAt        DateTime                  @default(now())
+  updatedAt        DateTime                  @updatedAt
+  reaction         REACTION_TYPE
+  text             String?
+  draft            Draft                     @relation(fields: [draftId], references: [id], onDelete: Cascade)
+  draftId          String
+  reactionAuthor   SupercastFarcasterAccount @relation(fields: [reactionAuthorId], references: [id])
+  reactionAuthorId String
+  sendStatus       SCHEDULED_REACTION_STATUS @default(PENDING)
+}
+
+model Pet {
+  id                 String                    @id @default(uuid())
+  createdAt          DateTime                  @default(now())
+  updatedAt          DateTime                  @updatedAt
+  happiness          Int                       @default(100)
+  lastFedAt          DateTime                  @default(now())
+  lastPlayedAt       DateTime                  @default(now())
+  farcasterAccount   SupercastFarcasterAccount @relation(fields: [farcasterAccountId], references: [id], name: "petFarcasterAccount")
+  farcasterAccountId String
+  owner              SupercastFarcasterAccount @relation(fields: [ownerId], references: [id], name: "petOwner")
+  ownerId            String
+  petOption          PetOption?                @relation(fields: [petOptionId], references: [id])
+  petOptionId        String?
+
+  @@index([ownerId])
+}
+
+model PetOption {
+  id            String                    @id @default(uuid())
+  createdAt     DateTime                  @default(now())
+  updatedAt     DateTime                  @updatedAt
+  name          String
+  species       String
+  traits        String[]
+  interests     String[]
+  pfp_url       String
+  description   String
+  owner         SupercastFarcasterAccount @relation(fields: [ownerId], references: [id])
+  ownerId       String
+  ownerUsername String?
+  Pet           Pet[]
+}
+
+model UserPersonality {
+  id                          String                    @id @default(uuid())
+  createdAt                   DateTime                  @default(now())
+  updatedAt                   DateTime                  @updatedAt
+  description                 String
+  interests                   String[]
+  traits                      String[]
+  channels                    String[]
+  randomFacts                 String[]
+  friend_usernames            String[]
+  occupations                 String[]
+  supercastFarcasterAccountId String
+  SupercastFarcasterAccount   SupercastFarcasterAccount @relation(fields: [supercastFarcasterAccountId], references: [id])
+}
+
+enum WAITLIST_STATUS {
+  PENDING
+  APPROVED
+}
+
+enum WAITLIST_TYPE {
+  PETS
+}
+
+model Waitlist {
+  id                          String                    @id @default(uuid())
+  createdAt                   DateTime                  @default(now())
+  updatedAt                   DateTime                  @updatedAt
+  supercastFarcasterAccountId String
+  SupercastFarcasterAccount   SupercastFarcasterAccount @relation(fields: [supercastFarcasterAccountId], references: [id])
+  type                        WAITLIST_TYPE             @default(PETS)
+  status                      WAITLIST_STATUS           @default(PENDING)
+
+  @@unique([supercastFarcasterAccountId, type])
+  @@index([supercastFarcasterAccountId, type])
+}
+
+// maps SupercastPrivyUser to FIDs (SupercastFarcasterAccount) and stores the respective notification setting of that supercast user for that FID
+model NotificationSettings {
+  id                          String                    @id @default(uuid())
+  createdAt                   DateTime                  @default(now())
+  updatedAt                   DateTime                  @updatedAt
+  supercastPrivyUserId        String
+  SupercastPrivyUser          SupercastPrivyUser        @relation(fields: [supercastPrivyUserId], references: [id])
+  supercastFarcasterAccountId String
+  SupercastFarcasterAccount   SupercastFarcasterAccount @relation(fields: [supercastFarcasterAccountId], references: [id])
+  pushNotifications           Boolean                   @default(true)
+  priorityMode                Boolean                   @default(true)
+  replies                     Boolean                   @default(true)
+  mentions                    Boolean                   @default(true)
+
+  @@unique([supercastPrivyUserId, supercastFarcasterAccountId])
+  @@index([supercastFarcasterAccountId])
+  @@index([supercastPrivyUserId])
+}
+
+// maps the devices with notifications enabled for all Supercast users (SupercastPrivyUser)
+model NotificationSubscription {
+  id                   String             @id @default(uuid())
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  supercastPrivyUserId String
+  SupercastPrivyUser   SupercastPrivyUser @relation(fields: [supercastPrivyUserId], references: [id])
+  subscriptionObject   Json
+
+  @@index([supercastPrivyUserId])
+}
+
+enum SUPERANON_BAN_LEVEL {
+  WARNING
+  BANNED
+}
+
+model SuperanonBan {
+  id                   String              @id @default(uuid())
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+  supercastPrivyUserId String
+  SupercastPrivyUser   SupercastPrivyUser  @relation(fields: [supercastPrivyUserId], references: [id])
+  level                SUPERANON_BAN_LEVEL @default(WARNING)
+
+  @@unique([supercastPrivyUserId])
+  @@index([supercastPrivyUserId])
+}
+
+model SuperanonScore {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  date      DateTime
+  draftId   String   @unique
+  draft     Draft    @relation(fields: [draftId], references: [id])
+  score     Float
+}

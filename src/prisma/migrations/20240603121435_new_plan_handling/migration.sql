@@ -1,0 +1,5 @@
+-- CreateEnum
+CREATE TYPE "PLAN_STATUS" AS ENUM ('NO_PLAN', 'ACTIVE', 'CANCELLED', 'GRACE_PERIOD');
+
+-- AlterTable
+ALTER TABLE "SupercastPrivyUser" ADD COLUMN     "planState" "PLAN_STATUS" NOT NULL DEFAULT 'NO_PLAN';

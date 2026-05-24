@@ -1,0 +1,18 @@
+# docker-compose.yml
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    container_name: postgres_local
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust  # Allows connection without password for local dev
+      POSTGRES_DB: supercastlocal 
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
