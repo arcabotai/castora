@@ -8,7 +8,6 @@ import { prisma } from "../../../../prisma/client";
 import { trackPosthogEvent } from "../../../../utils/posthogAnalytics";
 import { memberOnboarding } from "@/utils/members";
 import { handleSuccessfulPayment } from "@/utils/checkout";
-import { getChainExplorerTxUrl } from "@daimo/contract";
 
 /** Handle Daimo Pay webhook */
 export async function POST(request: Request) {
@@ -34,7 +33,7 @@ export async function POST(request: Request) {
     }
 
     // TODO: potentially check if the usd value matches
-    const receiptUrl = getChainExplorerTxUrl(chainId, txHash);
+    const receiptUrl = `https://basescan.org/tx/${txHash}`;
 
     const updatedPaymentSession = await prisma.paymentSession.update({
       where: {
