@@ -29,7 +29,7 @@ import { useSupercastUserState } from '@/providers/SupercastUserStateProvider'
 import { usePrivy } from '@privy-io/react-auth'
 import { useQuery } from 'react-query'
 import Spinner from './Spinner'
-import SupercastBadge from './SupercastBadge'
+import CastoraBadge from './CastoraBadge'
 import { useSupercastMember } from '@/providers/SupercastMemberProvider'
 import CastEmbeds from './casts/CastEmbeds'
 import CastDetailSkeleton from './casts/CastDetailSkeleton'
@@ -240,7 +240,7 @@ export default function CastDetailColumn() {
                       <Link href={`/${castQuery.data.currentCast.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 truncate flex flex-row gap-x-1 items-center min-w-0'>
                         <span className={`truncate`}>{castQuery.data.currentCast.author.display_name}</span>
                         {castQuery.data.currentCast.author.power_badge && <PowerBadge />}
-                        {isSupercastMember(castQuery.data.currentCast.author.fid) && <SupercastBadge />}
+                        {isSupercastMember(castQuery.data.currentCast.author.fid) && <CastoraBadge />}
                       </Link>
                     </ProfileHoverCard>
                     <ProfileHoverCard

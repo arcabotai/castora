@@ -28,7 +28,7 @@ import PowerBadge from '../PowerBadge'
 import FarcasterFrame from '../casts/FarcasterFrame'
 import { useSupercastUserState } from '@/providers/SupercastUserStateProvider'
 import { usePrivy } from '@privy-io/react-auth'
-import SupercastBadge from '../SupercastBadge'
+import CastoraBadge from '../CastoraBadge'
 import { useSupercastMember } from '@/providers/SupercastMemberProvider'
 import Spinner from '../Spinner'
 import { XMarkIcon } from '@heroicons/react/24/solid'
@@ -311,10 +311,10 @@ export default function CastDetailFullScreen() {
                               followerCount={cast.author.follower_count}
                               powerBadge={cast.author.power_badge}
                             >
-                              <Link href={`/${cast.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 flex flex-row gap-x-1 items-center min-w-0 max-w-[130px] xs:max-w-[145px] sm:max-w-[280px]'>
+                              <Link href={`/${cast.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 flex flex-row gap-x-1 items-center min-w-0 max-w-full'>
                                 <span className={`truncate`}>{cast.author.display_name}</span>
                                 {cast.author.power_badge && <PowerBadge />}
-                                {isSupercastMember(cast.author.fid) && <SupercastBadge />}
+                                {isSupercastMember(cast.author.fid) && <CastoraBadge />}
                               </Link>
                             </ProfileHoverCard>
                             <ProfileHoverCard
@@ -327,7 +327,7 @@ export default function CastDetailFullScreen() {
                               followerCount={cast.author.follower_count}
                               powerBadge={cast.author.power_badge}
                             >
-                              <div className='min-w-0 max-w-[90px] xs:max-w-[105px] sm:max-w-[200px] truncate'>
+                              <div className='min-w-0 max-w-full truncate'>
                                 <Link href={`/${cast.author.username}`} className='text-gray-500 dark:text-gray-400 hover:underline truncate'>@{cast.author.username}</Link>
                               </div>
                             </ProfileHoverCard>

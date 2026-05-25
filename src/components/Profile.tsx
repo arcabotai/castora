@@ -24,7 +24,7 @@ import { useSupercastUserState } from '@/providers/SupercastUserStateProvider';
 import { usePrivy } from '@privy-io/react-auth';
 import { useOpenSignerApproval } from '@/providers/OpenSignerApprovalProvider'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from './ui/hover-card';
-import SupercastBadge from './SupercastBadge'
+import CastoraBadge from './CastoraBadge'
 import { useSupercastMember } from '@/providers/SupercastMemberProvider'
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from './ui/drawer';
 import { Button } from './ui/button';
@@ -342,7 +342,7 @@ export default function Profile({ profile, setRightColumnStatus }) {
                     {(!!profile && isSupercastMember(profile.fid) && isMobile) &&
                       <Drawer>
                         <DrawerTrigger className='focus:outline-none'>
-                          <SupercastBadge />
+                          <CastoraBadge />
                         </DrawerTrigger>
                         <DrawerContent className='focus:outline-none'>
                           <DrawerHeader>
@@ -360,7 +360,7 @@ export default function Profile({ profile, setRightColumnStatus }) {
                     {(!!profile && isSupercastMember(profile.fid) && !isMobile) &&
                       <HoverCard openDelay={50} closeDelay={100}>
                         <HoverCardTrigger className='hover:cursor-pointer'>
-                          <SupercastBadge />
+                          <CastoraBadge />
                         </HoverCardTrigger>
                         <HoverCardContent side="bottom" align='center'>
                           <div className='w-80 px-4 py-2'>

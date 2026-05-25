@@ -60,7 +60,7 @@ export default function DraftPreviewScheduledReply({ reply, author, isLast }: { 
                 followerCount={author.followerCount}
                 powerBadge={author.powerBadge}
               >
-                <Link href={`/${author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 flex flex-row items-center min-w-0 max-w-[130px] xs:max-w-[145px] sm:max-w-[280px]'>
+                <Link href={`/${author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 flex flex-row items-center min-w-0 max-w-full'>
                   <span className={`${author.powerBadge && "mr-1"} truncate`}>{author.display_name}</span> {author.powerBadge && <PowerBadge />}
                 </Link>
               </ProfileHoverCard>
@@ -74,7 +74,7 @@ export default function DraftPreviewScheduledReply({ reply, author, isLast }: { 
                 followerCount={author.followerCount}
                 powerBadge={author.powerBadge}
               >
-                <div className='min-w-0 max-w-[90px] xs:max-w-[105px] sm:max-w-[200px] truncate'>
+                <div className='min-w-0 max-w-full truncate'>
                   <Link href={`/${author.username}`} className='text-gray-500 dark:text-gray-400 hover:underline truncate'>@{author.username}</Link>
                 </div>
               </ProfileHoverCard>

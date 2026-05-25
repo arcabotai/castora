@@ -12,7 +12,7 @@ import { Loader2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Skeleton } from "../ui/skeleton";
 import PowerBadge from "../PowerBadge";
-import SupercastBadge from "../SupercastBadge";
+import CastoraBadge from "../CastoraBadge";
 import { useSupercastMember } from "@/providers/SupercastMemberProvider";
 import { formatNumber, truncateLongWord } from "@/utils/textUtils";
 import ProfileFollowingSkeleton from "./ProfileFollowingSkeleton";
@@ -130,7 +130,7 @@ export default function ProfileFollowing({ setRightColumnStatus, fid, type }: Pr
                             <div className="flex flex-row gap-x-1 items-center">
                               <div className="font-bold dark:text-gray-100 hover:underline">{user.display_name ? user.display_name : "New user"}</div>
                               {user.power_badge && <PowerBadge />}
-                              {isSupercastMember(user.fid) && <SupercastBadge />}
+                              {isSupercastMember(user.fid) && <CastoraBadge />}
                             </div>
                             <div className='flex flex-col gap-y-1 items-start lg:flex-row lg:items-center'>
                               <span className='flex flex-row items-center'>

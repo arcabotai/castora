@@ -13,7 +13,7 @@ import PowerBadge from '../PowerBadge';
 import { useQuery } from 'react-query';
 import { Skeleton } from '../ui/skeleton';
 import { isMobile } from 'react-device-detect';
-import SupercastBadge from '../SupercastBadge';
+import CastoraBadge from '../CastoraBadge';
 import { useSupercastMember } from '@/providers/SupercastMemberProvider'
 import { useSupercastUserState } from '@/providers/SupercastUserStateProvider';
 import CastEmbeds from './CastEmbeds';
@@ -73,10 +73,10 @@ export default function Recast({ hash, isColumn }: { hash: string, isColumn?: bo
                   followerCount={castQuery.data.author.follower_count}
                   powerBadge={castQuery.data.author.power_badge}
                 >
-                  <Link href={`/${castQuery.data.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 min-w-0 max-w-[100px] xs:max-w-[115px] sm:max-w-[280px] flex flex-row items-center gap-x-1'>
+                  <Link href={`/${castQuery.data.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 min-w-0 max-w-full flex flex-row items-center gap-x-1'>
                     <span className={`truncate`}>{truncateLongWord(castQuery.data.author.display_name ? castQuery.data.author.display_name : "", 15)}</span>
                     {castQuery.data.author.power_badge && <PowerBadge />}
-                    {isSupercastMember(castQuery.data.author.fid) && <SupercastBadge />}
+                    {isSupercastMember(castQuery.data.author.fid) && <CastoraBadge />}
                   </Link>
                 </ProfileHoverCard>
                 <ProfileHoverCard

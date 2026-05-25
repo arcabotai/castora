@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
     const replyCount = Number(searchParams.get('replyCount') || 0);
     const text = searchParams.get('text');
 
-    const superlogo = await fetch(
+    const castoraLogo = await fetch(
       new URL("../../../../public/castora-mark.png", import.meta.url)
     ).then((res) => res.arrayBuffer());
 
@@ -136,7 +136,7 @@ export async function GET(req: NextRequest) {
     } else {
 
       const bg = await fetch(
-        new URL("../../assets/og/superbg2.jpeg", import.meta.url)
+        new URL("../../assets/og/castora-og-bg.jpeg", import.meta.url)
       ).then((res) => res.arrayBuffer());
 
       return new ImageResponse(
@@ -155,8 +155,8 @@ export async function GET(req: NextRequest) {
             <div tw="flex flex-col items-center">
               <div tw="flex flex-row items-center pt-[100px]">
                 {/* @ts-ignore */}
-                <img src={superlogo} tw="w-[128px] h-[128px] mr-8" />
-                <h1 tw="text-black text-[128px] font-bold">super</h1>
+                <img src={castoraLogo} tw="w-[128px] h-[128px] mr-8" />
+                <h1 tw="text-black text-[128px] font-bold">Castora</h1>
               </div>
               <p tw="text-gray-800 text-[72px] pt-[20px]">Build on Farcaster ツ</p>
             </div>

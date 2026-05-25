@@ -36,7 +36,7 @@ export async function POST(req: Request) {
     });
 
     if (!supercastUser) {
-      return Response.json({ "error": "SupercastPrivyUser with this privyId not found" }, { status: 404 })
+      return Response.json({ "error": "Castora user with this privyId not found" }, { status: 404 })
     }
 
     if (!supercastUser.registrationPaidFor) {

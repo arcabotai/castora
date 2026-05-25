@@ -170,9 +170,9 @@ export default function SettingsDashboard() {
                         />
                       </AvatarFallback>
                     </Avatar>
-                    <div className="flex flex-row items-center flex-grow">
-                      <span className="text-gray-900 dark:text-gray-100 text-sm font-semibold mr-1 truncate max-w-[110px]">{account.displayName}</span>
-                      <span className="text-gray-500 text-sm font-light truncate max-w-[110px]">@{account.username}</span>
+                    <div className="flex flex-row items-center flex-grow min-w-0 overflow-hidden">
+                      <span className="text-gray-900 dark:text-gray-100 text-sm font-semibold mr-1 truncate max-w-full">{account.displayName}</span>
+                      <span className="text-gray-500 text-sm font-light truncate max-w-full">@{account.username}</span>
                     </div>
                   </div>
                   <div className="w-full sm:w-auto sm:mr-1">
@@ -349,7 +349,7 @@ export default function SettingsDashboard() {
               {billingQuery.isSuccess && (
                 <div>
                   <div className="flex flex-col gap-y-2">
-                    <p className="text-sm leading-6 text-gray-500">{billingQuery.data.current_plan == PLAN.FREE ? "You are currently not a Super Member. Join today to enjoy all the benefits." : "Congrats! You are a Super Member. Your membership will expire on " + new Date(billingQuery.data.paid_until).toLocaleDateString()}</p>
+                    <p className="text-sm leading-6 text-gray-500">{billingQuery.data.current_plan == PLAN.FREE ? "You are currently not a Castora member. Join today to enjoy all the benefits." : "Congrats! You are a Castora member. Your membership will expire on " + new Date(billingQuery.data.paid_until).toLocaleDateString()}</p>
                     <Button
                       onClick={() => handleExtendSubscription()}
                       className="w-full"

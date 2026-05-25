@@ -32,7 +32,7 @@ export default function CommunityDashboard() {
   const { ready, authenticated, getAccessToken } = usePrivy()
   const { openCheckout } = useCheckoutDialog()
 
-  const [loadingSupercastFollow, setLoadingSupercastFollow] = useState(false)
+  const [loadingCommunityFollow, setLoadingCommunityFollow] = useState(false)
   const [loadingGeneralGroupchatInvite, setLoadingGeneralGroupchatInvite] = useState(false)
   const [loadingAlphaGroupchatInvite, setLoadingAlphaGroupchatInvite] = useState(false)
   const [loadingSupportGroupchatInvite, setLoadingSupportGroupchatInvite] = useState(false)
@@ -69,8 +69,8 @@ export default function CommunityDashboard() {
     }
   )
 
-  const handleFollowSupercast = async () => {
-    setLoadingSupercastFollow(true)
+  const handleFollowCommunityAccount = async () => {
+    setLoadingCommunityFollow(true)
     const accessToken = await getAccessToken()
 
     axios.post(`${HOST_URL}/api/profile/follow`,
@@ -88,7 +88,7 @@ export default function CommunityDashboard() {
         toast.error("Error following the community account", error)
       })
       .finally(() => {
-        setLoadingSupercastFollow(false)
+        setLoadingCommunityFollow(false)
       })
   }
 
@@ -247,10 +247,10 @@ export default function CommunityDashboard() {
             </div>
             <Button
               className='w-full lg:w-40'
-              disabled={loadingSupercastFollow || communityDataQuery.data?.following}
-              onClick={handleFollowSupercast}
+              disabled={loadingCommunityFollow || communityDataQuery.data?.following}
+              onClick={handleFollowCommunityAccount}
             >
-              {loadingSupercastFollow ? <Loader2 className='animate-spin' /> : communityDataQuery.data?.following ? "Following" : "Follow"}
+              {loadingCommunityFollow ? <Loader2 className='animate-spin' /> : communityDataQuery.data?.following ? "Following" : "Follow"}
             </Button>
           </li>
           <li className='flex flex-col lg:flex-row justify-between items-center gap-y-2 lg:gap-x-2'>

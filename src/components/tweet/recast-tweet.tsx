@@ -39,7 +39,7 @@ export const RecastTweet = ({
                 <div className="flex flex-row text-sm mb-1 items-center justify-between w-full overflow-hidden gap-x-2">
                   <div className='flex flex-row items-center min-w-0'>
                     <img src={tweet.user.profile_image_url_https} alt="" className='h-4 w-4 mr-1 rounded-full flex-shrink-0'></img>
-                    <a onClick={(e) => e.stopPropagation()} href={`https://x.com/${tweet.user.screen_name}`} target="_blank" rel="noopener noreferrer" className='font-medium mr-0.5 hover:underline dark:text-gray-100 max-w-[100px] xs:max-w-[115px] sm:max-w-[280px] truncate'>{tweet.user.name}</a>
+                    <a onClick={(e) => e.stopPropagation()} href={`https://x.com/${tweet.user.screen_name}`} target="_blank" rel="noopener noreferrer" className='font-medium mr-0.5 hover:underline dark:text-gray-100 max-w-full truncate'>{tweet.user.name}</a>
                     {tweet.user.verified || tweet.user.is_blue_verified ? (
                       <svg
                         aria-label="Verified Account"
@@ -51,7 +51,7 @@ export const RecastTweet = ({
                         </g>
                       </svg>
                     ) : null}
-                    <a onClick={(e) => e.stopPropagation()} href={`https://x.com/${tweet.user.screen_name}`} target="_blank" rel="noopener noreferrer" className='text-gray-500 dark:text-gray-400 hover:underline max-w-[90px] xs:max-w-[105px] sm:max-w-[200px] truncate'>@{tweet.user.screen_name}</a>
+                    <a onClick={(e) => e.stopPropagation()} href={`https://x.com/${tweet.user.screen_name}`} target="_blank" rel="noopener noreferrer" className='text-gray-500 dark:text-gray-400 hover:underline max-w-full truncate'>@{tweet.user.screen_name}</a>
                     <span className='text-gray-500 dark:text-gray-400 ml-1 flex-shrink-0'>·</span>
                     <span className='text-gray-500 dark:text-gray-400 ml-1 flex-shrink-0'>{getTimeSinceTimestamp(new Date(tweet.created_at).getTime(), true)}</span>
                   </div>

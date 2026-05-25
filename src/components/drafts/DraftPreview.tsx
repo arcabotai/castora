@@ -245,7 +245,7 @@ export default function DraftPreview({ draftId }: { draftId: string }) {
                     followerCount={draftQuery.data.author.followerCount}
                     powerBadge={draftQuery.data.author.powerBadge}
                   >
-                    <Link href={`/${draftQuery.data.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 flex flex-row items-center min-w-0 max-w-[130px] xs:max-w-[145px] sm:max-w-[280px]'>
+                    <Link href={`/${draftQuery.data.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 flex flex-row items-center min-w-0 max-w-full'>
                       <span className={`${draftQuery.data.author.powerBadge && "mr-1"} truncate`}>{draftQuery.data.author.display_name}</span> {draftQuery.data.author.powerBadge && <PowerBadge />}
                     </Link>
                   </ProfileHoverCard>
@@ -259,7 +259,7 @@ export default function DraftPreview({ draftId }: { draftId: string }) {
                     followerCount={draftQuery.data.author.followerCount}
                     powerBadge={draftQuery.data.author.powerBadge}
                   >
-                    <div className='min-w-0 max-w-[90px] xs:max-w-[105px] sm:max-w-[200px] truncate'>
+                    <div className='min-w-0 max-w-full truncate'>
                       <Link href={`/${draftQuery.data.author.username}`} className='text-gray-500 dark:text-gray-400 hover:underline truncate'>@{draftQuery.data.author.username}</Link>
                     </div>
                   </ProfileHoverCard>

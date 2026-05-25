@@ -100,7 +100,7 @@ export default function WalletPlaceholder() {
             </div>
 
             <div className="flex flex-col gap-6">
-              <h3 className="text-3xl font-semibold">Super wallet</h3>
+              <h3 className="text-3xl font-semibold">Castora Wallet</h3>
               <p className="text-base sm:text-lg leading-relaxed">
                 Automatic airdrop discovery.<br />
                 One tap interactions with frames.<br />
@@ -110,13 +110,13 @@ export default function WalletPlaceholder() {
                 <Button
                   className="bg-white text-black hover:bg-white/90 w-full"
                   onClick={() => {
-                    const initialText = `I just learned about @super wallet. WOW. My mind is blown. Well played @woj.eth.
+                    const initialText = `I just learned about Castora Wallet. WOW. My mind is blown. Well played @woj.eth.
 
 Automatic airdrop discovery.
 One tap interactions with frames.
 Making money in farcaster economy.
                     
-Super wallet is most egalitarian thing I've ever seen. It's insanely ambitious, and if it works, can really reshape the fabric of society.`
+Castora Wallet is the most egalitarian thing I've ever seen. It's insanely ambitious, and if it works, can really reshape the fabric of society.`
                     setDraftId(null)
                     setOpenDraftComposeWindow(true)
                     setInitialText(initialText)
@@ -147,9 +147,8 @@ Super wallet is most egalitarian thing I've ever seen. It's insanely ambitious, 
           Legacy ecosystem integrations
           <ArrowRightIcon className="w-4 h-4 ml-1" />
         </Button>
-        <p className="text-xs text-gray-500">(They will get much better with super wallet)</p>
+        <p className="text-xs text-gray-500">(They will get much better with Castora Wallet)</p>
       </Link>
     </div>
   )
 }
-

@@ -6,7 +6,7 @@ import { useImageInFocus } from '@/providers/ImageInFocusProvider'
 import ImageModal from './ImageModal'
 import { usePrivy } from '@privy-io/react-auth'
 import LandingPage from './LandingPage'
-import PulsingSupercastLogo from './PulsingSupercastLogo'
+import PulsingCastoraLogo from './PulsingCastoraLogo'
 import { useSupercastUserState } from '@/providers/SupercastUserStateProvider'
 import DraftComposeWindow from './casts/DraftComposeWindow'
 import MobileNavbar from './navigation/MobileNavbar'
@@ -57,7 +57,7 @@ export default function Layout({ currentTab, main, rightColumn }: { currentTab: 
 
   if (!privyUserReady) {
     // Do nothing while the PrivyProvider initializes with updated user state
-    return <PulsingSupercastLogo />
+    return <PulsingCastoraLogo />
   }
 
   if (!isAuthenticated() && !ALWAYS_ACCESSIBLE_PAGES.includes(currentTab)) {
@@ -65,7 +65,7 @@ export default function Layout({ currentTab, main, rightColumn }: { currentTab: 
   }
 
   if (!supercastUserState) {
-    return <PulsingSupercastLogo />
+    return <PulsingCastoraLogo />
   }
 
   return (

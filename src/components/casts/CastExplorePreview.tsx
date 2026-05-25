@@ -17,7 +17,7 @@ import ReactionBar from './ReactionBar';
 import { Cast } from '@/types';
 import Recast from './Recast';
 import FarcasterFrame from './FarcasterFrame';
-import SupercastBadge from '../SupercastBadge';
+import CastoraBadge from '../CastoraBadge';
 import { useSupercastMember } from '@/providers/SupercastMemberProvider'
 import CastEmbeds from './CastEmbeds';
 import { useSupercastUserState } from '@/providers/SupercastUserStateProvider';
@@ -46,13 +46,13 @@ export default function CastExplorePreview({ cast }: { cast: any }) {
             <div className='flex-shrink-0'>
               <img src={cast.author.pfp_url} className='h-4 w-4 mr-1 rounded-full'></img>
             </div>
-            <Link href={`/${cast.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 min-w-0 max-w-[100px] xs:max-w-[115px] sm:max-w-[280px] flex flex-row gap-x-1 items-center'>
+            <Link href={`/${cast.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 min-w-0 max-w-full flex flex-row gap-x-1 items-center'>
               <span className={`truncate`}>{cast.author.display_name}</span>
               {cast.author.power_badge && <PowerBadge />}
-              {isSupercastMember(cast.author.fid) && <SupercastBadge />}
+              {isSupercastMember(cast.author.fid) && <CastoraBadge />}
             </Link>
             <div className='truncate'>
-              <Link href={`/${cast.author.username}`} className='text-gray-500 dark:text-gray-400 hover:underline max-w-[90px] xs:max-w-[105px] sm:max-w-[200px] truncate'>@{cast.author.username}</Link>
+              <Link href={`/${cast.author.username}`} className='text-gray-500 dark:text-gray-400 hover:underline max-w-full truncate'>@{cast.author.username}</Link>
             </div>
             <span className='text-gray-500 dark:text-gray-400 ml-1 flex-shrink-0'>·</span>
             <span className='text-gray-500 dark:text-gray-400 ml-1 flex-shrink-0'>{getTimeSinceTimestamp(cast.timestamp, true)}</span>

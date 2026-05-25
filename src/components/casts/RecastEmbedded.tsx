@@ -13,7 +13,7 @@ import PowerBadge from '../PowerBadge';
 import { useQuery } from 'react-query';
 import { Skeleton } from '../ui/skeleton';
 import { isMobile } from 'react-device-detect';
-import SupercastBadge from '../SupercastBadge';
+import CastoraBadge from '../CastoraBadge';
 import { useSupercastMember } from '@/providers/SupercastMemberProvider'
 import { useSupercastUserState } from '@/providers/SupercastUserStateProvider';
 import CastEmbeds from './CastEmbeds';
@@ -63,10 +63,10 @@ export default function RecastEmbedded({ cast, isColumn }: { cast: CastEmbedded,
                     </AvatarFallback>
                   </Avatar>
                 </div>
-                <Link href={`/${cast.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 min-w-0 max-w-[100px] xs:max-w-[115px] sm:max-w-[280px] flex flex-row items-center gap-x-1'>
+                <Link href={`/${cast.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 min-w-0 max-w-full flex flex-row items-center gap-x-1'>
                   <span className={`truncate`}>{truncateLongWord(cast.author.display_name ? cast.author.display_name : "", 15)}</span>
                   {/* {cast.author.powerBadge && <PowerBadge />} */}
-                  {isSupercastMember(cast.author.fid) && <SupercastBadge />}
+                  {isSupercastMember(cast.author.fid) && <CastoraBadge />}
                 </Link>
                 <Link href={`/${cast.author.username}`} className='text-gray-500 dark:text-gray-400 hover:underline truncate'>@{cast.author.username}</Link>
                 <span className='text-gray-500 dark:text-gray-400 ml-1 flex-shrink-0'>·</span>

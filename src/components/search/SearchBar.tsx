@@ -168,9 +168,9 @@ export default function SearchBar() {
               >
                 <img src={channel.image_url} className="inline-block h-8 w-8 rounded-full bg-gray-100 object-cover"></img>
                 <div className="min-w-0 flex-1 flex flex-row items-center justify-between">
-                  <div className="flex flex-row items-center">
-                    <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate mr-1 max-w-[110px] xs:max-w-[145px] sm:max-w-[280px]">{channel.name}</div>
-                    <div className="text-sm text-gray-500 max-w-[90px] xs:max-w-[105px] sm:max-w-[200px] truncate">/{channel.id}</div>
+                  <div className="flex flex-row items-center min-w-0 overflow-hidden">
+                    <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate mr-1 max-w-full">{channel.name}</div>
+                    <div className="text-sm text-gray-500 max-w-full truncate">/{channel.id}</div>
                   </div>
                 </div>
               </Link>
@@ -185,10 +185,10 @@ export default function SearchBar() {
               >
                 <img src={user.pfp_url} className="inline-block h-8 w-8 rounded-full bg-gray-100 object-cover"></img>
                 <div className="min-w-0 flex-1 flex flex-row items-center justify-between">
-                  <div className="flex flex-row items-center">
-                    <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate mr-1 max-w-[110px] xs:max-w-[145px] sm:max-w-[280px]">{user.display_name}</div>
+                  <div className="flex flex-row items-center min-w-0 overflow-hidden">
+                    <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate mr-1 max-w-full">{user.display_name}</div>
                     {user.power_badge && <span className="mr-1"><PowerBadge /></span>}
-                    <div className="text-sm text-gray-500 max-w-[90px] xs:max-w-[105px] sm:max-w-[200px] truncate">@{user.username}</div>
+                    <div className="text-sm text-gray-500 max-w-full truncate">@{user.username}</div>
                   </div>
                 </div>
               </Link>

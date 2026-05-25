@@ -6,7 +6,7 @@ import { useSelectedCast } from "@/providers/SelectedCastProvider";
 import Image from "next/image";
 import ProfileHoverCard from "../profile/ProfileHoverCard";
 import PowerBadge from "../PowerBadge";
-import SupercastBadge from '../SupercastBadge';
+import CastoraBadge from '../CastoraBadge';
 import { useSupercastMember } from '@/providers/SupercastMemberProvider'
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Skeleton } from "../ui/skeleton";
@@ -67,11 +67,11 @@ export default function RecastNotification({ notification }: { notification: any
         <div className="text-sm dark:text-gray-100 flex flex-row flex-wrap items-center gap-x-1">
           <span className="font-semibold">{notification.reactions[0].user.display_name}</span>
           {notification.reactions[0].user.power_badge && <span className=""> <PowerBadge /></span>}
-          {isSupercastMember(notification.reactions[0].user.fid) && <SupercastBadge />}
+          {isSupercastMember(notification.reactions[0].user.fid) && <CastoraBadge />}
           {notification.reactions.length > 1 && <span> and {notification.reactions.length - 1} others</span>}
           <span> recasted your cast</span>
         </div>
-        <div className="max-w-[280px] sm:max-w-sm">
+        <div className="max-w-full">
           {/* display the content of the cast in gray color and small font */}
           {notification.cast && <span className="text-gray-500 text-sm">{notification.cast.text}</span>}
         </div>

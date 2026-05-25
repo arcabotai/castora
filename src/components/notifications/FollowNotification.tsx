@@ -5,7 +5,7 @@ import { useMediaQuery } from '@/hooks/useMediaQuery' // Added import
 import Image from "next/image";
 import ProfileHoverCard from "../profile/ProfileHoverCard";
 import { useSupercastUserState } from "@/providers/SupercastUserStateProvider";
-import SupercastBadge from '../SupercastBadge';
+import CastoraBadge from '../CastoraBadge';
 import { useSupercastMember } from '@/providers/SupercastMemberProvider'
 import PowerBadge from "../PowerBadge";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -70,7 +70,7 @@ export default function FollowNotification({ notification }: { notification: any
         <div className="text-sm dark:text-gray-100 flex flex-row flex-wrap items-center gap-x-1">
           <span className="font-semibold">{notification.follows[0].user.display_name}</span>
           {notification.follows[0].user.power_badge && <span className=""> <PowerBadge /></span>}
-          {isSupercastMember(notification.follows[0].user.fid) && <SupercastBadge />}
+          {isSupercastMember(notification.follows[0].user.fid) && <CastoraBadge />}
           {notification.follows.length > 1 && <span> and {notification.follows.length - 1} others</span>}
           <span> followed you</span>
         </div>

@@ -20,7 +20,7 @@ const migrateExistingUser = async (newlyCreatedSupercastPrivyUser: SupercastPriv
       },
     });
 
-    console.log('upserting supercastFarcasterAccount')
+    console.log('upserting farcaster account')
     const supercastFarcasterAccount = await tx.supercastFarcasterAccount.upsert({
       where: {
         fid: existingSupercastPrivyUser.fid,
@@ -55,7 +55,7 @@ const migrateExistingUser = async (newlyCreatedSupercastPrivyUser: SupercastPriv
 const setupNewUser = async (newlyCreatedSupercastPrivyUser: SupercastPrivyUser, approvedSignerFid: number, approvedSignerUUID: string) => {
   await prisma.$transaction(async (tx) => {
 
-    console.log('update fid on supercastPrivyUser')
+    console.log('update fid on Castora user')
     const updatedSupercastPrivyUser = await tx.supercastPrivyUser.update({
       where: {
         id: newlyCreatedSupercastPrivyUser.id,
@@ -65,7 +65,7 @@ const setupNewUser = async (newlyCreatedSupercastPrivyUser: SupercastPrivyUser, 
       },
     });
 
-    console.log("upserting supercastFarcasterAccount")
+    console.log("upserting farcaster account")
     const supercastFarcasterAccount = await tx.supercastFarcasterAccount.upsert({
       where: {
         fid: approvedSignerFid,
@@ -134,7 +134,7 @@ export async function POST(req: Request) {
 
     return Response.json({ "success": "New signer approved for existing user", "fid": approvedSignerFid }, { status: 200 })
   } else {
-    // check if there is a supercastPrivyUser with the same fid
+    // check if there is a Castora user with the same fid
     const existingSupercastPrivyUser = await prisma.supercastPrivyUser.findFirst({
       where: {
         fid: approvedSignerFid,
@@ -143,7 +143,7 @@ export async function POST(req: Request) {
 
     // if there exists, run the migration
     if (existingSupercastPrivyUser) {
-      console.log('existingSupercastPrivyUser', existingSupercastPrivyUser)
+      console.log('existing Castora user', existingSupercastPrivyUser)
       await migrateExistingUser(supercastUser, existingSupercastPrivyUser, approvedSignerUUID)
 
       return Response.json({ "success": "Signer approved for existing user", "fid": approvedSignerFid }, { status: 200 })

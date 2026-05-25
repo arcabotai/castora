@@ -215,12 +215,12 @@ export function BoostRequestDialogContent({ castHash, isOpen, setOpen }: BoostRe
               >
                 <img src={user.pfp_url} className="inline-block h-8 w-8 rounded-full bg-gray-100 object-cover"></img>
                 <div className="min-w-0 flex-1 flex flex-row items-center justify-between">
-                  <div className="flex flex-row items-center">
-                    <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate mr-1 max-w-[120px]">{user.display_name}</div>
+                  <div className="flex flex-row items-center min-w-0 overflow-hidden">
+                    <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate mr-1 max-w-full">{user.display_name}</div>
                     {user.power_badge && <span className="mr-1"><PowerBadge /></span>}
-                    <div className="text-sm text-gray-500 max-w-[110px] truncate">@{user.username}</div>
+                    <div className="text-sm text-gray-500 max-w-full truncate">@{user.username}</div>
                   </div>
-                  <div className="text-xs text-gray-500 truncate">{new Intl.NumberFormat('en-US', {
+                  <div className="text-xs text-gray-500 truncate flex-shrink-0">{new Intl.NumberFormat('en-US', {
                     notation: 'compact',
                     compactDisplay: 'short',
                   }).format(user.follower_count)} followers</div>
@@ -242,12 +242,12 @@ export function BoostRequestDialogContent({ castHash, isOpen, setOpen }: BoostRe
                 >
                   <img src={userObject.user.pfp_url} className="inline-block h-8 w-8 rounded-full bg-gray-100 object-cover"></img>
                   <div className="min-w-0 flex-1 flex flex-row items-center justify-between">
-                    <div className="flex flex-row items-center">
-                      <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate mr-1 max-w-[120px]">{userObject.user.display_name}</div>
+                    <div className="flex flex-row items-center min-w-0 overflow-hidden">
+                      <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate mr-1 max-w-full">{userObject.user.display_name}</div>
                       {userObject.user.power_badge && <span className="mr-1"><PowerBadge /></span>}
-                      <div className="text-sm text-gray-500 max-w-[110px] truncate">@{userObject.user.username}</div>
+                      <div className="text-sm text-gray-500 max-w-full truncate">@{userObject.user.username}</div>
                     </div>
-                    <div className="text-xs text-gray-500 truncate">{new Intl.NumberFormat('en-US', {
+                    <div className="text-xs text-gray-500 truncate flex-shrink-0">{new Intl.NumberFormat('en-US', {
                       notation: 'compact',
                       compactDisplay: 'short',
                     }).format(userObject.user.follower_count)} followers</div>
@@ -266,7 +266,7 @@ export function BoostRequestDialogContent({ castHash, isOpen, setOpen }: BoostRe
               // small pill with only profile picture and username and a cross
               <div key={profile.fid} className="flex flex-row items-center space-x-2 py-1 px-2 rounded-md bg-gray-100 dark:bg-gray-800">
                 <img src={profile.pfp_url} className="inline-block h-3 w-3 rounded-full bg-gray-100 object-cover"></img>
-                <div className="text-xs font-semibold text-gray-900 dark:text-gray-100 truncate mr-1 max-w-[110px] xs:max-w-[145px] sm:max-w-[280px]">{profile.display_name}</div>
+                <div className="text-xs font-semibold text-gray-900 dark:text-gray-100 truncate mr-1 max-w-full">{profile.display_name}</div>
                 <button onClick={() => removeRecipient(profile)}>
                   <XMarkIcon className="h-3 w-3" />
                 </button>

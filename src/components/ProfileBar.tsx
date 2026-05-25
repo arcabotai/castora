@@ -22,7 +22,7 @@ import { Skeleton } from "./ui/skeleton"
 import { Button } from "./ui/button"
 import { ChevronRight } from "lucide-react"
 import { useSupercastMember } from "@/providers/SupercastMemberProvider"
-import SupercastBadge from "./SupercastBadge"
+import CastoraBadge from "./CastoraBadge"
 import { useSuperLogin } from "@/hooks/useSuperLogin"
 
 export default function ProfileBar() {
@@ -106,7 +106,7 @@ export default function ProfileBar() {
             <div className="flex flex-col items-start">
               <div className="flex flex-row gap-x-1 items-center">
                 <span className="text-gray-900 dark:text-gray-100 font-semibold -mb-0.5 truncate">{currentAccount?.displayName ? truncateLongWord(currentAccount?.displayName, 15) : "New user"}</span>
-                {isSupercastMember(currentAccount.fid) && <SupercastBadge />}
+                {isSupercastMember(currentAccount.fid) && <CastoraBadge />}
               </div>
               <span className="text-gray-500 text-sm font-light">@{currentAccount?.username}</span>
             </div>

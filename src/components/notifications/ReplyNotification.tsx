@@ -12,7 +12,7 @@ import Recast from "../casts/Recast";
 import PowerBadge from "../PowerBadge";
 import FarcasterFrame from "../casts/FarcasterFrame";
 import { useSupercastUserState } from "@/providers/SupercastUserStateProvider";
-import SupercastBadge from '../SupercastBadge';
+import CastoraBadge from '../CastoraBadge';
 import { useSupercastMember } from '@/providers/SupercastMemberProvider'
 import CastEmbeds from "../casts/CastEmbeds";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -83,7 +83,7 @@ export default function ReplyNotification({ notification, isSelected = false }: 
             <Link href={`/${notification.cast.author.username}`} className='font-semibold mr-1 dark:text-gray-100 hover:underline flex flex-row gap-x-1 items-center'>
               <span className={`truncate`}>{notification.cast.author.display_name}</span>
               {notification.cast.author.power_badge && <PowerBadge />}
-              {isSupercastMember(notification.cast.author.fid) && <SupercastBadge />}
+              {isSupercastMember(notification.cast.author.fid) && <CastoraBadge />}
             </Link>
           </ProfileHoverCard>
           <ProfileHoverCard
@@ -102,7 +102,7 @@ export default function ReplyNotification({ notification, isSelected = false }: 
         <div>
           <span className="text-gray-500 dark:text-gray-400 text-xs">Replying to <span className="text-blue-500">you</span></span>
         </div>
-        <div className="max-w-[280px] sm:max-w-sm mb-2">
+        <div className="max-w-full mb-2">
           {/* display the content of the cast in gray color and small font */}
           <div className="text-gray-900 dark:text-gray-200 text-sm mb-2">
             <CastText text={notification.cast.text} />
@@ -113,7 +113,7 @@ export default function ReplyNotification({ notification, isSelected = false }: 
             </div>
           }
         </div>
-        <div className="w-[280px] sm:w-auto overflow-visible">
+        <div className="w-full overflow-visible">
           <ReactionBar
             castHash={notification.cast.hash}
             authorFid={notification.cast.author.fid}
