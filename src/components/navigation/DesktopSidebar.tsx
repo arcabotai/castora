@@ -78,13 +78,13 @@ export default function DesktopSidebar({
           >
             <img
               className="h-8 w-auto dark:hidden"
-              src="/supercast-logo-black.png"
-              alt="Your Company"
+              src="/castora-mark.svg"
+              alt="Castora"
             />
             <img
               className="h-8 w-auto hidden dark:block"
-              src="/supercast-logo-white.png"
-              alt="Your Company"
+              src="/castora-mark.svg"
+              alt="Castora"
             />
           </div>
         </div>

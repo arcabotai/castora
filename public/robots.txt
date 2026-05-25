@@ -1,9 +1,5 @@
-# *
 User-agent: *
 Allow: /
 
-# Host
-Host: https://super.sc
-
-# Sitemaps
-Sitemap: https://super.sc/sitemap.xml
+Host: https://castora.arcabot.ai
+Sitemap: https://castora.arcabot.ai/sitemap.xml

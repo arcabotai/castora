@@ -33,7 +33,7 @@ export default function AnonButtonReply({ isAnon, setIsAnon }: Props) {
 
   const ConfirmationDialog = () => (
     <div className={`px-4 ${isMobile ? '-my-2' : 'my-2'}`}>
-      <p className='text-sm text-gray-500'>Super members can post from our shared community account @superanon.</p>
+      <p className='text-sm text-gray-500'>Legacy anonymous posting is disabled during Castora beta.</p>
       <p className='text-sm text-gray-500 mt-2'>Rules:</p>
       <ul className='list-disc list-inside text-sm text-gray-500 mt-0 flex flex-col gap-y-1'>
         <li>No token or self promotion</li>

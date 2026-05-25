@@ -289,13 +289,13 @@ export default function MobileSidebar({
                     >
                       <img
                         className="h-6 w-6 dark:hidden"
-                        src="/supercast-logo-black.png"
-                        alt="Supercast logo"
+                        src="/castora-mark.svg"
+                        alt="Castora mark"
                       />
                       <img
                         className="h-6 w-6 hidden dark:block"
-                        src="/supercast-logo-white.png"
-                        alt="Supercast logo"
+                        src="/castora-mark.svg"
+                        alt="Castora mark"
                       />
                     </div>
                     <div className="text-xs text-gray-500 flex flex-row gap-x-2">

@@ -2,9 +2,9 @@ import Link from "next/link"
 
 const footerLinks = [
   { name: 'Blog', href: '/blog' },
-  { name: 'Farcaster profile', href: 'https://super.sc/super' },
-  { name: 'Farcaster channel', href: 'https://super.sc/channel/super' },
-  { name: '𝕏 profile', href: 'https://x.com/superonfc' },
+  { name: 'Arca', href: 'https://arcabot.ai' },
+  { name: 'Farcaster', href: 'https://warpcast.com/felirami' },
+  { name: '𝕏', href: 'https://x.com/felirami' },
   { name: 'Privacy policy', href: '/legal/privacy-policy' },
   { name: 'Terms of service', href: '/legal/terms-of-service' },
 ]

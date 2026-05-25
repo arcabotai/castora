@@ -13,6 +13,7 @@ import { PRODUCT_TYPE } from "@prisma/client"
 import { ChevronRight } from "lucide-react"
 
 const SUPERANON_FID = Number(process.env.NEXT_PUBLIC_SUPERANON_FID)
+const SHOW_LEGACY_SUPERCAST_FEATURES = process.env.NEXT_PUBLIC_SHOW_LEGACY_SUPERCAST_FEATURES === "true"
 
 export default function ExploreColumn() {
   const router = useRouter()
@@ -49,7 +50,7 @@ export default function ExploreColumn() {
             </Link>
           </div>
         }
-        {(isRegularUser() && !isSuperMember()) &&
+        {(SHOW_LEGACY_SUPERCAST_FEATURES && isRegularUser() && !isSuperMember()) &&
           <div className="flex flex-col gap-y-2 py-2 px-4 focus:outline-none dark:border-gray-700 rounded-xl border">
             <div className="text-sm font-semibold">Become a super member</div>
             <div className="text-xs text-gray-500">Get access to our community, @superanon, qualify for our $DEGEN rewards and for the future airdrops</div>
@@ -62,7 +63,7 @@ export default function ExploreColumn() {
           </div>
         }
 
-        {(isSuperMember()) &&
+        {(SHOW_LEGACY_SUPERCAST_FEATURES && isSuperMember()) &&
           <div className="flex flex-col gap-y-4">
             <div className="flex flex-col gap-y-2 py-2 px-4 focus:outline-none dark:border-gray-700 rounded-xl border">
               <div className="text-sm font-semibold">Post in super channel</div>
@@ -96,7 +97,7 @@ export default function ExploreColumn() {
           <Link href={`/blog`} className="hover:underline" target="_blank">Blog</Link>
           <Link href={`/legal/terms-of-service`} className="hover:underline" target="_blank">Terms</Link>
           <Link href={`/legal/privacy-policy`} className="hover:underline" target="_blank">Privacy</Link>
-          <Link href={`https://supercastxyz.notion.site/Supercast-roadmap-and-known-bugs-771e2b5491e5479280188eadaea6afcf`} className="hover:underline" target="_blank">Roadmap and bugs</Link>
+          <Link href={`https://arcabot.ai`} className="hover:underline" target="_blank">Arca</Link>
         </div>
       </div >
     </div >

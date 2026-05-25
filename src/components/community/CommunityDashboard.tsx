@@ -190,7 +190,7 @@ export default function CommunityDashboard() {
       <div className='flex flex-col gap-y-4 mb-6 px-4 sm:px-6 lg:px-8'>
         <Link href="https://zora.co/collect/base:0x2a985968efd42a5e15d14e18ee4ad86ea07aa9a9/1?referrer=0xF417ACe7b13c0ef4fcb5548390a450A4B75D3eB3" target="_blank">
           <div className="w-full flex flex-row gap-x-2 py-2 px-4 border border-gray-200 dark:border-gray-700 rounded-xl items-center sm:hover:bg-gray-50 sm:dark:hover:bg-gray-800">
-            <Image src="/superanon.png" alt="Super artifacts 1" width={400} height={400} className='w-16 h-16 rounded-lg shrink-0 shadow-sm object-cover' />
+            <Image src="/superanon.png" alt="Castora mark" width={400} height={400} className='w-16 h-16 rounded-lg shrink-0 shadow-sm object-cover' />
             <div className='flex flex-col gap-y-1'>
               <h3 className='text-xl font-semibold'>anon</h3>
               <p className='text-sm text-gray-500'>First super artifact, created on Nov 14th, 2024 to celebrate @superanon</p>
@@ -202,7 +202,7 @@ export default function CommunityDashboard() {
             <p className='text-sm'>More super artifacts are coming. Become a member to get them.</p>
           </div>
           <div className="w-full flex flex-row gap-x-2 py-2 px-4 border border-gray-200 dark:border-gray-700 rounded-xl items-center sm:hover:bg-gray-50 sm:dark:hover:bg-gray-800">
-            <Image src="/supercast-logo-black.png" alt="Super artifacts 1" width={400} height={400} className='w-16 h-16 rounded-lg shrink-0 shadow-sm object-cover' />
+            <Image src="/castora-mark.svg" alt="Castora mark" width={400} height={400} className='w-16 h-16 rounded-lg shrink-0 shadow-sm object-cover' />
             <div className='flex flex-col gap-y-1'>
               <h3 className='text-xl font-semibold'>This is alpha</h3>
               <p className='text-sm text-gray-500'>Wow you are so smart you can inspect the element wow</p>
@@ -255,8 +255,8 @@ export default function CommunityDashboard() {
           </li>
           <li className='flex flex-col lg:flex-row justify-between items-center gap-y-2 lg:gap-x-2'>
             <div className='flex flex-col'>
-              <p className='font-medium'>Join the /super channel</p>
-              <p className='text-sm text-gray-500 w-full lg:max-w-sm'>/super channel is where we hang out and post publicly about super related topics.</p>
+              <p className='font-medium'>Legacy community channel</p>
+              <p className='text-sm text-gray-500 w-full lg:max-w-sm'>Legacy Supercast community features are disabled for Castora beta.</p>
             </div>
             <Button
               className='w-full lg:w-40'

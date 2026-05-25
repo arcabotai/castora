@@ -416,13 +416,13 @@ export default function MapComponent() {
         style={{ maxHeight: '400px' }}
       />
       <div className={`absolute ${isIosPwa ? (isFullscreen ? 'bottom-16' : 'bottom-28') : (isFullscreen ? 'bottom-6' : 'bottom-20')} lg:bottom-6 left-1/2 -translate-x-1/2 text-lg font-semibold text-gray-900 dark:text-white pointer-events-none select-none flex flex-row items-center`}>
-        <img className='w-6 h-6 shrink-0 hidden dark:block' src='/supercast-logo-black.png' alt='supercast' />
-        <img className='w-6 h-6 shrink-0 dark:hidden block' src='/supercast-logo-white.png' alt='supercast' />
-        <span className='ml-2 dark:text-black'>super</span>
+        <img className='w-6 h-6 shrink-0 hidden dark:block' src='/castora-mark.svg' alt='Castora' />
+        <img className='w-6 h-6 shrink-0 dark:hidden block' src='/castora-mark.svg' alt='Castora' />
+        <span className='ml-2 dark:text-black'>Castora</span>
         <div className="ml-4 flex gap-2 pointer-events-auto">
           <Menu as="div" className="relative inline-block text-left">
             <Menu.Button className="inline-flex w-40 justify-center gap-x-1.5 rounded-md bg-white/80 hover:bg-white dark:bg-gray-900/80 dark:hover:bg-gray-900 px-3 py-1.5 text-sm text-gray-900 dark:text-gray-100 shadow-sm">
-              {viewType === 'following' ? 'Following' : 'Super members'}
+              {viewType === 'following' ? 'Following' : 'Members'}
               <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400 dark:text-gray-500" aria-hidden="true" />
             </Menu.Button>
 
@@ -451,7 +451,7 @@ export default function MapComponent() {
                           )}
                           disabled={locationGroupsQuery.isLoading || (type === 'following' && isGuest())}
                         >
-                          {type === 'following' ? 'Following' : 'Super members'}
+                          {type === 'following' ? 'Following' : 'Members'}
                         </button>
                       )}
                     </Menu.Item>

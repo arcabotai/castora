@@ -29,7 +29,7 @@ export default function FeedHeader({ title, rightAction, rightAction2, leftActio
         >
           <Avatar className='h-8 w-8'>
             <AvatarImage
-              src={isGuest() ? '/supercast-logo-white.png' : currentAccount?.avatar}
+              src={isGuest() ? '/castora-mark.svg' : currentAccount?.avatar}
               alt='Profile picture'
             />
             <AvatarFallback>

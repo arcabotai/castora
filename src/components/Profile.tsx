@@ -346,8 +346,8 @@ export default function Profile({ profile, setRightColumnStatus }) {
                         </DrawerTrigger>
                         <DrawerContent className='focus:outline-none'>
                           <DrawerHeader>
-                            <DrawerTitle>Super member</DrawerTitle>
-                            <DrawerDescription>@{profile.username} supports supercast development by being an active super member. Legend.</DrawerDescription>
+                            <DrawerTitle>Castora member</DrawerTitle>
+                            <DrawerDescription>@{profile.username} supports Castora development by being an early member. Legend.</DrawerDescription>
                           </DrawerHeader>
                           <DrawerFooter>
                             <DrawerClose>
@@ -364,8 +364,8 @@ export default function Profile({ profile, setRightColumnStatus }) {
                         </HoverCardTrigger>
                         <HoverCardContent side="bottom" align='center'>
                           <div className='w-80 px-4 py-2'>
-                            <h3 className='font-semibold tracking-tight text-lg'>Super member</h3>
-                            <p className='text-sm text-gray-500'>@{profile.username} supports super development by being an active supercast member. Legend.</p>
+                            <h3 className='font-semibold tracking-tight text-lg'>Castora member</h3>
+                            <p className='text-sm text-gray-500'>@{profile.username} supports Castora development by being an early member. Legend.</p>
                           </div>
                         </HoverCardContent>
                       </HoverCard>

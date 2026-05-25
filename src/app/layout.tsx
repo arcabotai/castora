@@ -7,10 +7,10 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://castora-tan.vercel.app"),
   title: "Castora",
-  description: "Castora: a Farcaster client bootstrapped by Arca.",
+  description: "Castora is an Arca-built Farcaster client for sharper social workflows.",
   manifest: "/manifest.json",
   icons: {
-    apple: "/supercast-logo-white.png",
+    apple: "/castora-mark.png",
   },
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
@@ -18,12 +18,12 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Castora",
-    description: "Castora: a Farcaster client bootstrapped by Arca.",
+    description: "Castora is an Arca-built Farcaster client for sharper social workflows.",
     url: process.env.NEXT_PUBLIC_APP_URL || "https://castora-tan.vercel.app",
     siteName: "Castora",
     images: [
       {
-        url: "/supercast-logo-black.png",
+        url: "/castora-mark.png",
         width: 512,
         height: 512,
         alt: "Castora",

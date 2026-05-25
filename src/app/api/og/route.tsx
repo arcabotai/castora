@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
     const text = searchParams.get('text');
 
     const superlogo = await fetch(
-      new URL("../../../../public/supercast-logo-black.png", import.meta.url)
+      new URL("../../../../public/castora-mark.png", import.meta.url)
     ).then((res) => res.arrayBuffer());
 
     if (type === 'cast') {
@@ -109,8 +109,8 @@ export async function GET(req: NextRequest) {
             <div tw="flex justify-center items-center w-full mt-6">
               {/* @ts-ignore */}
               <img src={superlogo} tw="w-12 h-12 mr-2" />
-              <p tw="text-black text-4xl font-bold mr-1">Super.</p>
-              <p tw="text-black text-4xl">Have fun on farcaster ツ</p>
+              <p tw="text-black text-4xl font-bold mr-1">Castora.</p>
+              <p tw="text-black text-4xl">Build on Farcaster ツ</p>
             </div>
           </div>
         ),
@@ -158,7 +158,7 @@ export async function GET(req: NextRequest) {
                 <img src={superlogo} tw="w-[128px] h-[128px] mr-8" />
                 <h1 tw="text-black text-[128px] font-bold">super</h1>
               </div>
-              <p tw="text-gray-800 text-[72px] pt-[20px]">Have fun on farcaster ツ</p>
+              <p tw="text-gray-800 text-[72px] pt-[20px]">Build on Farcaster ツ</p>
             </div>
           </div>
         ),

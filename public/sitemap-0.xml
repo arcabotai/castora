@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://www.super.sc</loc><lastmod>2024-07-12T11:03:56.087Z</lastmod><changefreq>daily</changefreq><priority>1</priority></url>
-<url><loc>https://www.super.sc/robots.txt</loc><lastmod>2024-07-12T11:03:56.087Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.super.sc/blog</loc><lastmod>2024-07-12T11:03:56.087Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.super.sc/blog/supercast-product-update-july-2024</loc><lastmod>2024-07-12T11:03:56.087Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.super.sc/blog/how-to-schedule-posts-on-farcaster</loc><lastmod>2024-07-12T11:03:56.087Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url><loc>https://castora.arcabot.ai</loc><changefreq>daily</changefreq><priority>1</priority></url>
+<url><loc>https://castora.arcabot.ai/explore</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+<url><loc>https://castora.arcabot.ai/legal/privacy-policy</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+<url><loc>https://castora.arcabot.ai/legal/terms-of-service</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
 </urlset>

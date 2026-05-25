@@ -231,7 +231,7 @@ const CreateAccountPage = () => {
     <div className="flex flex-col items-center justify-center">
       <div className="sm:w-[700px] mt-24 sm:border rounded-lg px-4 sm:p-12 dark:bg-opacity-50 dark:bg-gray-800">
         <h1 className="font-semibold text-2xl tracking-tight mb-2">Create account</h1>
-        <p className="text-slate-500 text-sm">Supercast runs on <a className="underline">Farcaster</a>. Your account will work on other apps on the network, like Warpcast, Nook or Buttrfly.</p>
+        <p className="text-slate-500 text-sm">Castora runs on <a className="underline">Farcaster</a>. Your account will work on other apps on the network, like Warpcast, Nook, or Buttrfly.</p>
         <div className="w-full flex flex-row justify-between px-10 py-8">
           <div className="flex flex-col items-center gap-y-1">
             <div className={`rounded-full border dark:border-white w-8 h-8 font-medium flex justify-center items-center ${currentStep > 1 ? 'bg-gray-500 border-gray-500 text-white' : 'border-black'}`}>

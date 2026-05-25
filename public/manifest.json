@@ -5,22 +5,22 @@
     {
       "purpose": "maskable",
       "sizes": "512x512",
-      "src": "supercast-logo-white.png",
+      "src": "/castora-mark.png",
       "type": "image/png"
     },
     {
       "purpose": "any",
       "sizes": "512x512",
-      "src": "supercast-logo-white.png",
+      "src": "/castora-mark.png",
       "type": "image/png"
     }
   ],
   "orientation": "portrait",
   "display": "standalone",
   "dir": "auto",
-  "lang": "en-GB",
-  "name": "supercast",
-  "short_name": "supercast",
+  "lang": "en",
+  "name": "Castora",
+  "short_name": "Castora",
   "start_url": "/",
   "scope": "/"
 }

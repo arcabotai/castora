@@ -14,7 +14,7 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   // read route params
   return {
-    title: `Unpublished draft shared on Supercast`,
+    title: `Unpublished draft shared on Castora`,
     description: "Like, recast, and comment on drafts before they are published.",
     openGraph: {
       images: [
@@ -24,7 +24,7 @@ export async function generateMetadata(
           height: 630,
         }
       ],
-      title: `Unpublished draft shared on Supercast`,
+      title: `Unpublished draft shared on Castora`,
       description: "Like, recast, and comment on drafts before they are published.",
     },
   }

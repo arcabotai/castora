@@ -30,32 +30,23 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row-reverse items-center gap-y-20 gap-x-4">
           <div className="text-center md:w-1/2">
             <div className="flex flex-row items-center justify-center gap-2 mb-4">
-              <Image
-                src="/supercast-logo-black.png"
-                alt="Supercast logo"
-                width={200}
-                height={200}
-                className='w-6 h-6 dark:hidden'
-              />
-              <Image
-                src="/supercast-logo-white.png"
-                alt="Supercast logo"
-                width={200}
-                height={200}
-                className='w-6 h-6 hidden dark:block'
+              <img
+                src="/castora-mark.svg"
+                alt="Castora mark"
+                className='w-7 h-7'
               />
               <h3 className="text-xl font-bold text-black dark:text-gray-100 tracking-tight">
-                super
+                Castora
               </h3>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-black dark:text-gray-100 tracking-tight">
-              Have fun on farcaster
+              Build on Farcaster
             </h2>
             <p className="text-lg mb-4 text-gray-800 dark:text-gray-200 max-w-md tracking-tight leading-tight font-medium">
-              Claim airdrops.<br />
-              Post anonymously.<br />
-              Join the community.<br />
-              Have fun.
+              Read the network.<br />
+              Cast with context.<br />
+              Move faster with agents.<br />
+              Stay sovereign.
             </p>
 
             <Button
@@ -72,7 +63,7 @@ export default function LandingPage() {
                 alt="App Store"
                 className='opacity-20 cursor-pointer h-12 w-auto'
                 onClick={() => {
-                  alert('iOS app is coming soon. Start on web today!')
+                  alert('Castora is web-first for beta. Start here today.')
                 }}
               />
               <img
@@ -80,7 +71,7 @@ export default function LandingPage() {
                 alt="Google Play"
                 className='opacity-20 cursor-pointer h-12 w-auto'
                 onClick={() => {
-                  alert('Android app is coming soon. Start on web today!')
+                  alert('Castora is web-first for beta. Start here today.')
                 }}
               />
             </div>

@@ -16,7 +16,7 @@ export async function sendNotification(
   subscriptions: { subscriptionObject: Prisma.JsonValue; }[],
   title: string,
   message: string,
-  pushUrl: string = "https://super.sc",
+  pushUrl: string = "https://castora.arcabot.ai",
 ) {
   try {
     if (!subscriptions) {

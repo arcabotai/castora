@@ -5,13 +5,13 @@ export default function PulsingSupercastLogo() {
       <div className='pb-32'>
         <img
           className="h-12 w-12 dark:hidden animate-pulse"
-          src="/supercast-logo-black.png"
-          alt="Supercast logo"
+          src="/castora-mark.svg"
+          alt="Castora mark"
         />
         <img
           className="h-12 w-12 hidden dark:block animate-pulse"
-          src="/supercast-logo-white.png"
-          alt="Supercast logo"
+          src="/castora-mark.svg"
+          alt="Castora mark"
         />
       </div>
     </div>

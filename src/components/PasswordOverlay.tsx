@@ -27,7 +27,7 @@ export default function PasswordOverlay() {
     // if you care so much about supercast to be here you can get in. dm me on @wojtekwtf tg
     <div className={`fixed w-screen h-screen bg-white z-50 ${hasAccess && 'hidden'}`}>
       <div className="flex flex-col items-center justify-center pt-20">
-        <p className="mb-2 text-center">Supercast is in beta. What's your code?</p>
+        <p className="mb-2 text-center">Castora is in beta. What's your code?</p>
         <div className="flex flex-row gap-x-2">
           <input
             className="border rounded-md py-2 px-4 sm:text-sm focus:outline-none"

@@ -14,7 +14,7 @@ export default function BlogIndex() {
           <div className="flex lg:flex-1">
             <a href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Castora</span>
-              <img className="h-8 w-auto" src="/supercast-logo-black.png" alt="Castora" />
+              <img className="h-8 w-auto" src="/castora-mark.svg" alt="Castora" />
             </a>
           </div>
           <div className="flex gap-x-4 lg:gap-x-12">

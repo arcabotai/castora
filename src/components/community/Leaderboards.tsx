@@ -237,7 +237,7 @@ export default function Leaderboards() {
                     <Avatar className="h-6 w-6">
                       <AvatarImage src={entry.avatar} />
                       <AvatarFallback>
-                        <Image src={"/supercast-logo-white.png"} alt={entry.username} width={24} height={24} />
+                        <Image src={"/castora-mark.svg"} alt={entry.username} width={24} height={24} />
                       </AvatarFallback>
                     </Avatar>
                     <span className="text-sm font-medium">
