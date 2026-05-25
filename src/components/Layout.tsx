@@ -28,6 +28,7 @@ const CheckoutDialog = dynamic(
 import GuestMobileBanner from './GuestMobileBanner'
 
 const ALWAYS_ACCESSIBLE_PAGES = ["Cast", "Profile", "Channel"];
+const PAYMENTS_ENABLED = process.env.NEXT_PUBLIC_PAYMENTS_ENABLED === 'true';
 
 export default function Layout({ currentTab, main, rightColumn }: { currentTab: string, main: React.ReactNode, rightColumn: React.ReactNode }) {
   const { openSidebar, setOpenSidebar } = useMobileSidebar()
@@ -78,7 +79,7 @@ export default function Layout({ currentTab, main, rightColumn }: { currentTab: 
       <ListDetail isColumn={false} />
       <ConfettiComponent />
       <NavigationHotkeys />
-      <CheckoutDialog />
+      {PAYMENTS_ENABLED && <CheckoutDialog />}
       <div className='w-full flex flex-col justify-center items-center min-h-screen max-h-screen lg:max-h-none'>
         <div className='w-full lg:w-screen max-w-screen-xl lg:flex lg:flex-row relative overflow-auto overscroll-none flex-grow'>
 

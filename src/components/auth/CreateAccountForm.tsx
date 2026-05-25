@@ -22,9 +22,10 @@ import {
 } from '@farcaster/hub-web';
 import { useRouter } from 'next/navigation';
 import { useCheckoutDialog } from '@/hooks/useCheckoutDialog';
-import { CheckoutDialog } from '../checkout/CheckoutDialog';
 import { useQueryClient } from 'react-query';
 import { DebounceInput } from 'react-debounce-input';
+
+const PAYMENTS_ENABLED = process.env.NEXT_PUBLIC_PAYMENTS_ENABLED === 'true';
 
 interface CreateAccountFormProps {
   onBack: () => void;
@@ -229,7 +230,9 @@ export default function CreateAccountForm({
   return (
     <div className="flex flex-col items-center justify-center pt-20">
       <Toaster richColors />
-      <CheckoutDialog />
+      {PAYMENTS_ENABLED && (
+        <p className="text-sm text-gray-500">Payment checkout is temporarily disabled.</p>
+      )}
       <h1 className="font-semibold text-2xl tracking-tight mb-2 text-center">Create your profile</h1>
       <p className="text-sm text-gray-600 dark:text-gray-400 mb-6 max-w-xs text-center leading">
         To use super, you need to create a profile on Farcaster.<br />Farcaster is a decentralized social media platform and has a one time $3 registration fee.

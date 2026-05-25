@@ -6,24 +6,32 @@ export async function POST(req: Request) {
 
   const privy = new PrivyClient(process.env.NEXT_PUBLIC_PRIVY_APP_ID, process.env.PRIVY_SECRET_KEY);
 
-  const authToken = req.headers.get("Authorization").split("Bearer ")[1];
+  const authorization = req.headers.get("Authorization") || "";
+  const authToken = authorization.startsWith("Bearer ")
+    ? authorization.slice("Bearer ".length).trim()
+    : "";
+
+  if (!authToken || authToken === "null" || authToken === "undefined") {
+    return Response.json({ "error": "Invalid auth" }, { status: 401 })
+  }
 
   try {
     const verifiedClaims = await privy.verifyAuthToken(authToken);
 
     const user = await privy.getUser(verifiedClaims.userId);
+    const email = user.email?.address || "";
 
     const supercastUser = await prisma.supercastPrivyUser.upsert({
       where: {
         privyUserId: user.id,
       },
       update: {
-        email: user.email.address,
+        email,
       },
       create: {
         privyUserId: user.id,
         fid: 0,
-        email: user.email.address,
+        email,
       },
     })
 

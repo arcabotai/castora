@@ -86,7 +86,7 @@ export const SupercastUserStateProvider: React.FC<{ children: ReactNode }> = ({ 
     ['supercastUserState', supercastUserState?.userFid],
     fetchUserState,
     {
-      enabled: privyUserReady,
+      enabled: privyUserReady && authenticated,
       staleTime: 10 * 60 * 1000, // 10 minutes
       cacheTime: 10 * 60 * 1000, // 10 minutes
     });

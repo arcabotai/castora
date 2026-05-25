@@ -16,26 +16,28 @@ export const useSuperLogin = () => {
       return;
     }
 
-    if (isNewUser) {
-      setSuperCastUserState({
-        currentFid: 0,
-        accounts: [],
-        userFid: 0,
-        plan: PLAN.FREE
-      });
-    }
-
     const accessToken = await getAccessToken();
 
-    axios.post(`${HOST_URL}/api/user`, {}, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`
+    try {
+      await axios.post(`${HOST_URL}/api/user`, {}, {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
+      })
+
+      if (isNewUser) {
+        setSuperCastUserState({
+          currentFid: 0,
+          accounts: [],
+          userFid: 0,
+          plan: PLAN.FREE
+        });
       }
-    }).then((response) => {
+
       queryClient.invalidateQueries("supercastUserState");
-    }).catch((error) => {
+    } catch (error) {
       console.log(error)
-    });
+    }
   };
 
   const { login } = useLogin({
