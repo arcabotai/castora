@@ -80,8 +80,8 @@ export default function Layout({ currentTab, main, rightColumn }: { currentTab: 
       <ConfettiComponent />
       <NavigationHotkeys />
       {PAYMENTS_ENABLED && <CheckoutDialog />}
-      <div className='w-full flex flex-col justify-center items-center min-h-screen max-h-screen lg:max-h-none'>
-        <div className='w-full lg:w-screen max-w-screen-xl lg:flex lg:flex-row relative overflow-auto overscroll-none flex-grow'>
+      <div className='w-full flex flex-col justify-center items-center min-h-screen'>
+        <div className='w-full lg:w-screen max-w-screen-xl lg:flex lg:flex-row relative flex-grow'>
 
           <MobileSidebar
             openSidebar={openSidebar}
@@ -96,7 +96,7 @@ export default function Layout({ currentTab, main, rightColumn }: { currentTab: 
             isRefreshing={isRefreshing}
           />
 
-          <main className="lg:w-3/6 overflow-hidden w-full">
+          <main className="lg:w-3/6 w-full min-w-0">
             <div className="sm:border-x border-gray-200 dark:border-gray-800 max-w-full lg:min-h-screen">
               {main}
             </div>
