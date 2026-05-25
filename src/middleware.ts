@@ -4,7 +4,7 @@ const DEFAULT_APP_URL = 'https://castora.arcabot.ai';
 
 const VERCEL_ENV_ALLOWED_ORIGINS: Record<string, string> = {
   production: process.env.NEXT_PUBLIC_APP_URL || DEFAULT_APP_URL,
-  preview: process.env.NEXT_PUBLIC_APP_URL || 'https://castora-tan.vercel.app',
+  preview: process.env.NEXT_PUBLIC_APP_URL || DEFAULT_APP_URL,
   development: 'http://localhost:3000',
 };
 

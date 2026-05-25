@@ -3,13 +3,12 @@ import { prisma } from '@/prisma/client'
 import { isAuthenticated } from "@/utils/auth/isAuthenticated";
 import { isAuthorized } from "@/utils/auth/isAuthorized";
 import { trackPosthogEvent } from "@/utils/posthogAnalytics";
-import Redis from 'ioredis'
+import { redis } from '@/utils/redis'
 
 const PAGE_SIZE = 20
 const CACHE_TTL = 60 * 60 // 1 hour in seconds
 
 // Initialize Redis client
-const redis = new Redis(process.env.REDIS_URL!)
 
 export async function GET(req: Request) {
 

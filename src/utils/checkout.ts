@@ -3,9 +3,8 @@ import { PaymentSession, PLAN, PRODUCT_TYPE } from '@prisma/client'
 import axios from 'axios'
 import { memberOnboarding } from './members'
 import { trackPosthogEvent } from './posthogAnalytics'
-import Redis from 'ioredis'
+import { redis } from '@/utils/redis'
 
-const redis = new Redis(process.env.REDIS_URL!)
 
 const handleSuccessfulPayment = async (paymentSession: PaymentSession) => {
 
