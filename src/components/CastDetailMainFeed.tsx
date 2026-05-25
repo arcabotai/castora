@@ -217,9 +217,9 @@ export default function CastDetailMainFeed({ castHash }: { castHash: string }) {
                         </span>
                       }
                     </div>
-                    <div className="flex flex-col flex-grow">
-                      <div className="flex flex-row text-sm mb-1 items-center justify-between max-w-[280px] xs:max-w-[310px] sm:max-w-none">
-                        <div className='flex flex-row items-center'>
+                    <div className="flex flex-col flex-grow min-w-0">
+                      <div className="flex flex-row text-sm mb-1 items-center justify-between max-w-full min-w-0 overflow-hidden">
+                        <div className='flex flex-row items-center min-w-0'>
                           <ProfileHoverCard
                             fid={cast.author.fid}
                             avatar={cast.author.pfp_url}
@@ -230,7 +230,7 @@ export default function CastDetailMainFeed({ castHash }: { castHash: string }) {
                             followerCount={cast.author.follower_count}
                             powerBadge={cast.author.power_badge}
                           >
-                            <Link href={`/${cast.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 flex flex-row gap-x-1 items-center max-w-[130px] xs:max-w-[145px] sm:max-w-[280px]'>
+                            <Link href={`/${cast.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 flex flex-row gap-x-1 items-center min-w-0 max-w-[130px] xs:max-w-[145px] sm:max-w-[280px]'>
                               <span className={`truncate`}>{cast.author.display_name}</span>
                               {cast.author.power_badge && <PowerBadge />}
                               {isSupercastMember(cast.author.fid) && <SupercastBadge />}
@@ -246,16 +246,16 @@ export default function CastDetailMainFeed({ castHash }: { castHash: string }) {
                             followerCount={cast.author.follower_count}
                             powerBadge={cast.author.power_badge}
                           >
-                            <div className='max-w-[90px] xs:max-w-[105px] sm:max-w-[200px] truncate'>
+                            <div className='min-w-0 max-w-[90px] xs:max-w-[105px] sm:max-w-[200px] truncate'>
                               <Link href={`/${cast.author.username}`} className='text-gray-500 dark:text-gray-400 hover:underline truncate'>@{cast.author.username}</Link>
                             </div>
                           </ProfileHoverCard>
-                          <span className='text-gray-500 dark:text-gray-400 ml-1'>·</span>
-                          <span className='text-gray-500 dark:text-gray-400 ml-1'>{getTimeSinceTimestamp(cast.timestamp, isMobile)}</span>
+                          <span className='text-gray-500 dark:text-gray-400 ml-1 flex-shrink-0'>·</span>
+                          <span className='text-gray-500 dark:text-gray-400 ml-1 flex-shrink-0'>{getTimeSinceTimestamp(cast.timestamp, isMobile)}</span>
                         </div>
                       </div>
                       <p
-                        className="text-sm sm:text-[15px] text-gray-900 dark:text-gray-100 mb-2 break-words max-w-[280px] xs:max-w-[310px] xl:max-w-[500px]"
+                        className="text-sm sm:text-[15px] text-gray-900 dark:text-gray-100 mb-2 break-words max-w-full"
                       >
                         <CastText text={cast.text} />
                       </p>

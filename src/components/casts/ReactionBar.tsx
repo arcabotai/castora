@@ -263,7 +263,7 @@ export default function ReactionBar({
           <span className={`text-sm text-gray-400 group-active:text-red-600 sm:group-hover:text-red-600 ${(overridden ? isLiked(castHash) : initialReactionStatus) && "text-red-600"}`}>{formatNumber(overridden ? getLikeCount(castHash) : initialReactionCount)}</span>
         </button>
       </div>
-      <div className='flex flex-row items-center justify-end max-w-[280px] xs:max-w-[310px]'>
+      <div className='flex flex-row items-center justify-end max-w-full'>
         <div className='w-8 max-h-5 flex flex-row items-center'>
           <button
             onClick={bookmarkStatus

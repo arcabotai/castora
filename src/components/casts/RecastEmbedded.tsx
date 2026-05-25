@@ -44,12 +44,12 @@ export default function RecastEmbedded({ cast, isColumn }: { cast: CastEmbedded,
     <>
       {cast ?
         <div
-          className='max-w-[280px] xs:max-w-[310px] sm:max-w-full'
+          className='max-w-full'
           onClick={(e) => navigateToCast(e, cast.hash)}
         >
           <div className='pt-2 px-4 border border-gray-200 dark:border-gray-700 rounded-xl sm:hover:bg-gray-100 sm:dark:hover:bg-gray-800 flex flex-col hover:cursor-pointer'>
-            <div className="flex flex-col">
-              <div className="flex flex-row text-sm mb-1 items-center">
+            <div className="flex flex-col min-w-0">
+              <div className="flex flex-row text-sm mb-1 items-center min-w-0 overflow-hidden">
                 <div className='flex-shrink-0'>
                   <Avatar className='h-4 w-4 mr-1'>
                     <AvatarImage
@@ -63,17 +63,17 @@ export default function RecastEmbedded({ cast, isColumn }: { cast: CastEmbedded,
                     </AvatarFallback>
                   </Avatar>
                 </div>
-                <Link href={`/${cast.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 max-w-[100px] xs:max-w-[115px] sm:max-w-[280px] flex flex-row items-center gap-x-1'>
+                <Link href={`/${cast.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 min-w-0 max-w-[100px] xs:max-w-[115px] sm:max-w-[280px] flex flex-row items-center gap-x-1'>
                   <span className={`truncate`}>{truncateLongWord(cast.author.display_name ? cast.author.display_name : "", 15)}</span>
                   {/* {cast.author.powerBadge && <PowerBadge />} */}
                   {isSupercastMember(cast.author.fid) && <SupercastBadge />}
                 </Link>
                 <Link href={`/${cast.author.username}`} className='text-gray-500 dark:text-gray-400 hover:underline truncate'>@{cast.author.username}</Link>
-                <span className='text-gray-500 dark:text-gray-400 ml-1'>·</span>
-                <span className='text-gray-500 dark:text-gray-400 ml-1'>{getTimeSinceTimestamp(cast.timestamp, true)}</span>
+                <span className='text-gray-500 dark:text-gray-400 ml-1 flex-shrink-0'>·</span>
+                <span className='text-gray-500 dark:text-gray-400 ml-1 flex-shrink-0'>{getTimeSinceTimestamp(cast.timestamp, true)}</span>
               </div>
               <div className=''>
-                <p className={`text-sm text-gray-900 mb-2 dark:text-gray-100 sm:max-w-none break-words ${isColumn ? 'max-w-[260px]' : ''}`}>
+                <p className="text-sm text-gray-900 mb-2 dark:text-gray-100 max-w-full break-words">
                   <CastText text={cast.text} />
                 </p>
                 <div className='mb-2'>

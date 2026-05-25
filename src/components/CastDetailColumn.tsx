@@ -225,8 +225,8 @@ export default function CastDetailColumn() {
                     </span>
                   }
                 </div>
-                <div className="flex flex-col flex-grow">
-                  <div className='text-sm flex flex-row items-center mb-1 max-w-[280px] xs:max-w-[310px] overflow-x-hidden'>
+                <div className="flex flex-col flex-grow min-w-0">
+                  <div className='text-sm flex flex-row items-center mb-1 max-w-full min-w-0 overflow-hidden'>
                     <ProfileHoverCard
                       fid={castQuery.data.currentCast.author.fid}
                       avatar={castQuery.data.currentCast.author.pfp_url}
@@ -237,7 +237,7 @@ export default function CastDetailColumn() {
                       followerCount={castQuery.data.currentCast.author.follower_count}
                       powerBadge={castQuery.data.currentCast.author.power_badge}
                     >
-                      <Link href={`/${castQuery.data.currentCast.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 truncate flex flex-row gap-x-1 items-center'>
+                      <Link href={`/${castQuery.data.currentCast.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 truncate flex flex-row gap-x-1 items-center min-w-0'>
                         <span className={`truncate`}>{castQuery.data.currentCast.author.display_name}</span>
                         {castQuery.data.currentCast.author.power_badge && <PowerBadge />}
                         {isSupercastMember(castQuery.data.currentCast.author.fid) && <SupercastBadge />}
@@ -255,10 +255,10 @@ export default function CastDetailColumn() {
                     >
                       <Link href={`/${castQuery.data.currentCast.author.username}`} className='text-gray-500 dark:text-gray-400 hover:underline truncate'>@{castQuery.data.currentCast.author.username}</Link>
                     </ProfileHoverCard>
-                    <span className='text-gray-500 dark:text-gray-400 ml-1'>·</span>
-                    <span className='text-gray-500 dark:text-gray-400 ml-1'>{getTimeSinceTimestamp(castQuery.data.currentCast.timestamp, true)}</span>
+                    <span className='text-gray-500 dark:text-gray-400 ml-1 flex-shrink-0'>·</span>
+                    <span className='text-gray-500 dark:text-gray-400 ml-1 flex-shrink-0'>{getTimeSinceTimestamp(castQuery.data.currentCast.timestamp, true)}</span>
                   </div>
-                  <p className="text-[15px] text-gray-900 dark:text-gray-100 mb-2 break-words">
+                  <p className="text-[15px] text-gray-900 dark:text-gray-100 mb-2 break-words max-w-full">
                     <CastText text={castQuery.data.currentCast.text} />
                   </p>
                   {castQuery.data.currentCast.embeds.length > 0 &&

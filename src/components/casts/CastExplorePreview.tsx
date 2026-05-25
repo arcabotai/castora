@@ -41,12 +41,12 @@ export default function CastExplorePreview({ cast }: { cast: any }) {
       className='w-full'
     >
       <div className='pt-2 px-4 border border-gray-200 dark:border-gray-700 rounded-xl sm:hover:bg-gray-50 sm:dark:hover:bg-gray-800 flex flex-col hover:cursor-pointer'>
-        <div className="flex flex-col">
-          <div className="flex flex-row text-sm mb-1 items-center">
+        <div className="flex flex-col min-w-0">
+          <div className="flex flex-row text-sm mb-1 items-center min-w-0 overflow-hidden">
             <div className='flex-shrink-0'>
               <img src={cast.author.pfp_url} className='h-4 w-4 mr-1 rounded-full'></img>
             </div>
-            <Link href={`/${cast.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 max-w-[100px] xs:max-w-[115px] sm:max-w-[280px] flex flex-row gap-x-1 items-center'>
+            <Link href={`/${cast.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 min-w-0 max-w-[100px] xs:max-w-[115px] sm:max-w-[280px] flex flex-row gap-x-1 items-center'>
               <span className={`truncate`}>{cast.author.display_name}</span>
               {cast.author.power_badge && <PowerBadge />}
               {isSupercastMember(cast.author.fid) && <SupercastBadge />}
@@ -54,10 +54,10 @@ export default function CastExplorePreview({ cast }: { cast: any }) {
             <div className='truncate'>
               <Link href={`/${cast.author.username}`} className='text-gray-500 dark:text-gray-400 hover:underline max-w-[90px] xs:max-w-[105px] sm:max-w-[200px] truncate'>@{cast.author.username}</Link>
             </div>
-            <span className='text-gray-500 dark:text-gray-400 ml-1'>·</span>
-            <span className='text-gray-500 dark:text-gray-400 ml-1'>{getTimeSinceTimestamp(cast.timestamp, true)}</span>
+            <span className='text-gray-500 dark:text-gray-400 ml-1 flex-shrink-0'>·</span>
+            <span className='text-gray-500 dark:text-gray-400 ml-1 flex-shrink-0'>{getTimeSinceTimestamp(cast.timestamp, true)}</span>
           </div>
-          <p className="text-sm text-gray-900 mb-2 dark:text-gray-100 max-w-[260px] sm:max-w-none break-words">
+          <p className="text-sm text-gray-900 mb-2 dark:text-gray-100 max-w-full break-words">
             <CastText text={cast.text} />
           </p>
           {cast.embeds.length > 0 &&
