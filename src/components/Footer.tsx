@@ -15,14 +15,24 @@ export default function Footer() {
   return (
     <div className="mx-auto max-w-7xl px-6 lg:px-8">
       <footer
-        className="relative border-t border-gray-900/10 py-8"
+        className="relative border-t border-gray-900/10 py-8 dark:border-white/10"
       >
         <div className="w-full flex flex-row flex-wrap gap-x-4 gap-y-2">
-          {footerLinks.map((link) => (
-            <Link key={link.name} href={link.href} target='_blank' className="text-xs sm:text-sm leading-6 text-gray-500 hover:text-gray-900">
-              {link.name}
-            </Link>
-          ))}
+          {footerLinks.map((link) => {
+            const isExternal = link.href.startsWith('http');
+
+            return (
+              <Link
+                key={link.name}
+                href={link.href}
+                target={isExternal ? '_blank' : undefined}
+                rel={isExternal ? 'noreferrer' : undefined}
+                className="text-xs sm:text-sm leading-6 text-gray-500 hover:text-gray-900 dark:text-white/50 dark:hover:text-white"
+              >
+                {link.name}
+              </Link>
+            )
+          })}
         </div>
       </footer>
     </div>
