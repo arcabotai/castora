@@ -46,7 +46,7 @@ export default function MobileNavbar(props: MobileNavbarProps) {
 
   const router = useRouter()
 
-  const navItemClass = `group w-1/5 h-full flex items-center justify-center transition-all duration-150 ease-in-out ${isIosPwa ? 'pb-6' : 'pb-0'} active:scale-90`;
+  const navItemClass = `group w-1/5 h-full flex items-center justify-center transition-all duration-150 ease-in-out active:scale-90`;
   const iconClass = 'h-7 w-7 dark:text-white';
 
   const unreadCount = notificationsQuery?.data?.pages[0]?.unread || 0;
@@ -84,7 +84,7 @@ export default function MobileNavbar(props: MobileNavbarProps) {
   }
 
   return (
-    <nav className={`lg:hidden ${isIosPwa ? 'h-20' : 'h-14'} w-full border-t bg-white dark:border-gray-800 dark:bg-gray-900 shrink-0 flex flex-row`}>
+    <nav className={`lg:hidden fixed bottom-0 left-0 right-0 z-30 ${isIosPwa ? 'h-20 pb-6' : 'h-14 pb-[env(safe-area-inset-bottom)]'} w-full border-t bg-white/95 backdrop-blur dark:border-gray-800 dark:bg-gray-900/95 shrink-0 flex flex-row`}>
       <Link
         href={"/"}
         className={navItemClass}

@@ -369,10 +369,10 @@ export default function ListDetail({ isColumn }: ListDetailProps) {
                       >
                         <img src={user.pfp_url} className="inline-block h-8 w-8 rounded-full bg-gray-100 object-cover"></img>
                         <div className="min-w-0 flex-1 flex flex-row items-center justify-between">
-                          <div className="flex flex-row items-center">
-                            <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate mr-1 max-w-[120px]">{user.display_name}</div>
+                          <div className="flex flex-row items-center min-w-0 overflow-hidden">
+                            <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate mr-1 max-w-full">{user.display_name}</div>
                             {user.power_badge && <span className="mr-1"><PowerBadge /></span>}
-                            <div className="text-sm text-gray-500 max-w-[110px] truncate">@{user.username}</div>
+                            <div className="text-sm text-gray-500 max-w-full truncate">@{user.username}</div>
                           </div>
                           {loadingAddMember === user.fid
                             ? <Spinner width='w-4' height='h-4' padding='p-0' margin='mr-0' />

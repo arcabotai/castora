@@ -164,7 +164,7 @@ export const SignerApprovalDialog: React.FC = (props) => {
           <DrawerHeader>
             <DrawerTitle>One more step</DrawerTitle>
             <DrawerDescription>
-              <p>Super currently doesn't have permissions to post on your behalf.</p>
+              <p>Castora currently doesn't have permissions to post on your behalf.</p>
               <p>Please approve a connection in Warpcast by scanning this QR code.</p>
             </DrawerDescription>
           </DrawerHeader>

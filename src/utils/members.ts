@@ -2,6 +2,7 @@ import { prisma } from "@/prisma/client";
 import { SupercastFarcasterAccount } from "@prisma/client";
 import axios from "axios";
 import { sendDirectCast } from "./direct-casts";
+import { HOST_URL } from "./hostURL";
 
 const warpcastAPIKey = process.env.WARPCAST_DM_API_KEY
 
@@ -159,11 +160,9 @@ export const sendWelcomeMessage = async (fid: number) => {
   console.log("Sending welcome message to", fid);
 
   const message = `
-Welcome to super! We are glad to have you.
+Welcome to Castora! We are glad to have you.
 
-I'm woj, the founder of super. I started building the app in October 2023 and we've been making progress on it every day since.
-
-The goal is to build the most fun experience on farcaster. We now have @superanon, friends map and we are working on adding a wallet and a mobile app.
+The goal is to build the sharpest Farcaster experience: fast feeds, serious compose, useful notifications, friends map, and better social workflows.
 
 All to make you feel like you are having a blast on farcaster.
 
@@ -171,16 +170,16 @@ If you are reading this message it means that you purchased the membership and a
 
 I'm forever grateful for your support and trust.
 
-Hope you will enjoy our app and the community.
+Hope you will enjoy Castora and the community.
 
-Please visit our community page (https://www.super.sc/community) to join our channel and access our groupchats.
+Please visit our community page (${HOST_URL}/community) to join the channel and access our groupchats.
 
 This is an automated welcome message but if you reply to it i will definitely read it and do my best to reply back or help you (but it will be much faster if you use the support groupchat first).
 
 Best,
-Woj
+Castora
 `
-  await sendDirectCast(fid, message, "woj")
+  await sendDirectCast(fid, message, "castora")
 }
 
 export const sendGoodbyeMessage = async (fid: number) => {
@@ -188,18 +187,18 @@ export const sendGoodbyeMessage = async (fid: number) => {
   console.log("Sending goodbye message to", fid);
 
   const message = `
-Your @super membership has ran out.
+Your Castora membership has ran out.
 
 We are sad to see you go.
 
-You can come back anytime, just visit https://www.super.sc/.
+You can come back anytime, just visit ${HOST_URL}.
 
 If you have any feedback feel free to reply to this message.
 
 Best,
-Super
+Castora
 `
-  await sendDirectCast(fid, message, "super")
+  await sendDirectCast(fid, message, "castora")
 }
 
 export const memberOffboarding = async (fid: number) => {

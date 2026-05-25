@@ -8,7 +8,7 @@ import CastText from './CastText';
 import ProfileHoverCard from '../profile/ProfileHoverCard';
 import PowerBadge from '../PowerBadge';
 import ReactionBar from './ReactionBar';
-import SupercastBadge from '../SupercastBadge';
+import CastoraBadge from '../CastoraBadge';
 import { useSupercastMember } from '@/providers/SupercastMemberProvider'
 import { useSupercastUserState } from '@/providers/SupercastUserStateProvider';
 
@@ -57,10 +57,10 @@ export default function BookmarkExplorePreview({ cast }: { cast: any }) {
               followerCount={cast.author.follower_count}
               powerBadge={cast.author.power_badge}
             >
-              <Link href={`/${cast.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 max-w-[100px] xs:max-w-[115px] sm:max-w-[280px] flex flex-row gap-x-1 items-center'>
+              <Link href={`/${cast.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 min-w-0 max-w-full flex flex-row gap-x-1 items-center'>
                 <span className={`truncate`}>{cast.author.display_name}</span>
                 {cast.author.power_badge && <PowerBadge />}
-                {isSupercastMember(cast.author.fid) && <SupercastBadge />}
+                {isSupercastMember(cast.author.fid) && <CastoraBadge />}
               </Link>
             </ProfileHoverCard>
             <div className='truncate'>
@@ -74,14 +74,14 @@ export default function BookmarkExplorePreview({ cast }: { cast: any }) {
                 followerCount={cast.author.follower_count}
                 powerBadge={cast.author.power_badge}
               >
-                <Link href={`/${cast.author.username}`} className='text-gray-500 dark:text-gray-400 hover:underline max-w-[90px] xs:max-w-[105px] sm:max-w-[200px] truncate'>@{cast.author.username}</Link>
+                <Link href={`/${cast.author.username}`} className='text-gray-500 dark:text-gray-400 hover:underline max-w-full truncate'>@{cast.author.username}</Link>
               </ProfileHoverCard>
             </div>
-            <span className='text-gray-500 dark:text-gray-400 ml-1'>·</span>
-            <span className='text-gray-500 dark:text-gray-400 ml-1'>{getTimeSinceTimestamp(cast.timestamp, true)}</span>
+            <span className='text-gray-500 dark:text-gray-400 ml-1 flex-shrink-0'>·</span>
+            <span className='text-gray-500 dark:text-gray-400 ml-1 flex-shrink-0'>{getTimeSinceTimestamp(cast.timestamp, true)}</span>
           </div>
           <div className=''>
-            <p className="text-sm text-gray-900 mb-2 dark:text-gray-100 max-w-[260px] sm:max-w-none break-words">
+            <p className="text-sm text-gray-900 mb-2 dark:text-gray-100 max-w-full break-words">
               <CastText text={cast.text} maxWords={20} firstLineOnly={true} />
             </p>
           </div>

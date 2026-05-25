@@ -8,9 +8,9 @@ import { sendDirectCast } from "@/utils/direct-casts"
 import { SUPERANON_ADMIN_FIDS } from "@/utils/anon/admin"
 
 const SUPERANON_WARNING_MESSAGE = `
-Your recent @superanon cast has been deleted and this is your first and final warning.
+Your recent anonymous community cast has been deleted and this is your first and final warning.
 
-If we delete your cast again, you will be permanently banned from using @superanon.
+If we delete your cast again, you will be permanently banned from anonymous community posting.
 
 Here is a reminder of the rules:
 
@@ -18,15 +18,15 @@ Here is a reminder of the rules:
 2. No personal attacks
 3. No nsfw, spam, or other inappropriate content
 4. English only
-5. If you break these rules, your account will be banned from superanon
+5. If you break these rules, your account will be banned from anonymous community posting
 
 The admin team doesn't know that what you posted and you are still anonymous. This is an automated message.
 `
 
 const SUPERANON_BANNED_MESSAGE = `
-Your account has been banned from superanon.
+Your account has been banned from anonymous community posting.
 
-You will not be able to post on superanon anymore.
+You will not be able to post anonymously anymore.
 
 If you believe this was a mistake, please reach out in the support chat.
 `

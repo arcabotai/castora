@@ -47,7 +47,7 @@ const WebsitePreview = ({ embed, isColumn }) => {
   const description = html.ogDescription || 'No description available';
 
   return (
-    <Card className={`w-full overflow-hidden ${isColumn ? 'max-w-[280px]' : ''}`}>
+    <Card className="w-full max-w-full overflow-hidden">
       <Link href={url} target="_blank">
         <div className='flex flex-row h-16 w-full'>
           <div className="relative w-24 shrink-0">

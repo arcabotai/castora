@@ -91,7 +91,7 @@ export default function SuperChannelTrendingPosts() {
       <Carousel setApi={setChannelTrendingCarouselAPI}>
         <div className="flex flex-col gap-y-2">
           <div className="flex flex-row items-center justify-between">
-            <h2 className="text-lg font-medium tracking-tight">Recent on <Link href="/superanon" className="font-semibold">@superanon</Link></h2>
+            <h2 className="text-lg font-medium tracking-tight">Recent anonymous posts</h2>
             <div className="flex flex-row items-center gap-x-2">
               <Button
                 variant="outline"
@@ -132,14 +132,14 @@ export default function SuperChannelTrendingPosts() {
                 openCheckout(PRODUCT_TYPE.MEMBERSHIP)
               }}
             >
-              Become a member to post from @superanon
+              Become a member to post anonymously
             </Button>
             :
             <Link href="/superanon">
               <Button
                 className="w-full"
               >
-                View @superanon profile
+                View anonymous profile
               </Button>
             </Link>
           }

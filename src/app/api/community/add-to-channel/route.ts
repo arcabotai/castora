@@ -23,7 +23,7 @@ export async function POST(req: Request) {
   }
 
   if (targetFid !== supercastUser.fid) {
-    return Response.json({ "error": "Only your main account can join the super channel" }, { status: 403 })
+    return Response.json({ "error": "Only your main account can join the community channel" }, { status: 403 })
   }
 
   try {

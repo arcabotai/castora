@@ -1,4 +1,4 @@
-export default function PulsingSupercastLogo() {
+export default function PulsingCastoraLogo() {
 
   return (
     <div className='flex justify-center items-center h-screen'>

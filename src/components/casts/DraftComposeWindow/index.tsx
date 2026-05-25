@@ -42,8 +42,8 @@ const ANON_ERROR_MESSAGES = {
   "ANON_INVALID_CONTENT_URL": "Token links are not allowed",
   "ANON_EMPTY_QUOTE": "Empty quotes not allowed",
   "ANON_RATE_LIMITED": "Max 1 anon post per hour",
-  "ANON_USER_BANNED": "You are banned from superanon",
-  "ANON_NO_PLAN": "You must be a member to post from @superanon"
+  "ANON_USER_BANNED": "You are banned from anonymous posting",
+  "ANON_NO_PLAN": "You must be a member to post anonymously"
 }
 
 export default function DraftComposeWindow() {

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 
-export const sendDirectCast = async (recipientFid: number, message: string, fromAccount: 'woj' | 'super') => {
+export const sendDirectCast = async (recipientFid: number, message: string, fromAccount: 'woj' | 'super' | 'castora') => {
   const apiKey = fromAccount === 'woj' ? process.env.WARPCAST_DM_WOJ_API_KEY : process.env.WARPCAST_DM_API_KEY
 
   const response = await axios.put("https://api.warpcast.com/v2/ext-send-direct-cast", {

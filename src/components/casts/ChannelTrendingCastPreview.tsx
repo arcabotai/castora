@@ -60,7 +60,7 @@ export default function ChannelTrendingCastPreview({ cast }: { cast: any }) {
               followerCount={cast.author.follower_count}
               powerBadge={cast.author.power_badge}
             >
-              <div className='font-semibold mr-1 hover:underline dark:text-gray-100 max-w-[100px] xs:max-w-[115px] sm:max-w-[280px] flex flex-row items-center'>
+              <div className='font-semibold mr-1 hover:underline dark:text-gray-100 min-w-0 max-w-full flex flex-row items-center'>
                 <span className={`${cast.author.power_badge && "mr-1"} truncate`}>{cast.author.display_name}</span> {cast.author.power_badge && <PowerBadge />}
               </div>
             </ProfileHoverCard>
@@ -75,13 +75,13 @@ export default function ChannelTrendingCastPreview({ cast }: { cast: any }) {
                 followerCount={cast.author.follower_count}
                 powerBadge={cast.author.power_badge}
               >
-                <div className='text-gray-500 dark:text-gray-400 hover:underline max-w-[90px] xs:max-w-[105px] sm:max-w-[200px] truncate'>@{cast.author.username}</div>
+                <div className='text-gray-500 dark:text-gray-400 hover:underline max-w-full truncate'>@{cast.author.username}</div>
               </ProfileHoverCard>
             </div>
-            <span className='text-gray-500 dark:text-gray-400 ml-1'>·</span>
-            <span className='text-gray-500 dark:text-gray-400 ml-1'>{getTimeSinceTimestamp(cast.timestamp, true)}</span>
+            <span className='text-gray-500 dark:text-gray-400 ml-1 flex-shrink-0'>·</span>
+            <span className='text-gray-500 dark:text-gray-400 ml-1 flex-shrink-0'>{getTimeSinceTimestamp(cast.timestamp, true)}</span>
           </div>
-          <p className="text-sm text-gray-900 mb-2 dark:text-gray-100 max-w-[260px] sm:max-w-none break-words">
+          <p className="text-sm text-gray-900 mb-2 dark:text-gray-100 max-w-full break-words">
             <CastText text={cast.text} maxWords={40} maxLines={3} />
           </p>
           {!!parentURLToChannelName(cast.parent_url) &&

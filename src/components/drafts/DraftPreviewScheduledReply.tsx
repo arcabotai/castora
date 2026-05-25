@@ -47,9 +47,9 @@ export default function DraftPreviewScheduledReply({ reply, author, isLast }: { 
             <div className='flex-grow w-0.5 bg-gray-200 dark:bg-gray-800 mt-1 -mb-2'></div>
           }
         </div>
-        <div className="flex flex-col flex-grow">
-          <div className="flex flex-row text-sm mb-1 items-center justify-between max-w-[280px] xs:max-w-[310px] sm:max-w-none">
-            <div className="flex flex-row text-sm mb-1">
+        <div className="flex flex-col flex-grow min-w-0">
+          <div className="flex flex-row text-sm mb-1 items-center justify-between max-w-full min-w-0 overflow-hidden">
+            <div className="flex flex-row text-sm mb-1 min-w-0">
               <ProfileHoverCard
                 fid={author.fid}
                 avatar={author.pfp_url}
@@ -60,7 +60,7 @@ export default function DraftPreviewScheduledReply({ reply, author, isLast }: { 
                 followerCount={author.followerCount}
                 powerBadge={author.powerBadge}
               >
-                <Link href={`/${author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 flex flex-row items-center max-w-[130px] xs:max-w-[145px] sm:max-w-[280px]'>
+                <Link href={`/${author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 flex flex-row items-center min-w-0 max-w-full'>
                   <span className={`${author.powerBadge && "mr-1"} truncate`}>{author.display_name}</span> {author.powerBadge && <PowerBadge />}
                 </Link>
               </ProfileHoverCard>
@@ -74,14 +74,14 @@ export default function DraftPreviewScheduledReply({ reply, author, isLast }: { 
                 followerCount={author.followerCount}
                 powerBadge={author.powerBadge}
               >
-                <div className='max-w-[90px] xs:max-w-[105px] sm:max-w-[200px] truncate'>
+                <div className='min-w-0 max-w-full truncate'>
                   <Link href={`/${author.username}`} className='text-gray-500 dark:text-gray-400 hover:underline truncate'>@{author.username}</Link>
                 </div>
               </ProfileHoverCard>
             </div>
           </div>
           <div className='mb-2'>
-            <p className="text-sm text-gray-900 dark:text-gray-100 mb-2 break-words">
+            <p className="text-sm text-gray-900 dark:text-gray-100 mb-2 break-words max-w-full">
               <CastText text={reply.text} />
             </p>
           </div>

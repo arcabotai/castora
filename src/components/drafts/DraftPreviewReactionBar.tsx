@@ -234,7 +234,7 @@ export default function DraftPreviewReactionBar({
           </button>
         </div>
       </div>
-      <div className='flex flex-row items-center justify-end max-w-[280px] xs:max-w-[310px]'>
+      <div className='flex flex-row items-center justify-end max-w-full'>
       </div>
     </div>
   )

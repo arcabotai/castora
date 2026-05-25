@@ -105,7 +105,7 @@ export const createFarcasterAccountForPet = async (ownerAccount: SupercastFarcas
     const updateData = {
       display_name: petOption.name,
       pfp_url: petOption.pfp_url,
-      bio: `i'm ${petOption.ownerUsername}'s best friend, powered by @supercast`,
+      bio: `i'm ${petOption.ownerUsername}'s best friend, powered by Castora`,
       signer_uuid: newNeynarSigner
     }
 

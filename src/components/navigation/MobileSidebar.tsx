@@ -22,7 +22,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { Skeleton } from '../ui/skeleton'
 import { useSupercastUserState } from '@/providers/SupercastUserStateProvider'
 import PowerBadge from '../PowerBadge'
-import SupercastBadge from '../SupercastBadge'
+import CastoraBadge from '../CastoraBadge'
 import { useSupercastMember } from '@/providers/SupercastMemberProvider'
 import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid'
 import { Button } from '../ui/button'
@@ -220,7 +220,7 @@ export default function MobileSidebar({
                         <div className="font-bold text-base dark:text-gray-100">{truncateLongWord(currentProfile?.displayName || '', 16)}</div>
                         <div className="flex flex-row items-center gap-x-1">
                           {currentProfile?.powerBadge && <PowerBadge />}
-                          {isSupercastMember(currentProfile?.fid || 0) && <SupercastBadge />}
+                          {isSupercastMember(currentProfile?.fid || 0) && <CastoraBadge />}
                         </div>
                       </div>
                       <div className="text-gray-400 text-sm">@{currentProfile?.username || ''}</div>

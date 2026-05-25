@@ -1,5 +1,6 @@
 import axios from "axios";
 import slugify from 'slugify';
+import { buildIpfsGatewayUrl } from "../upload";
 
 async function generatePinataJWT() {
   const keyRestrictions = {
@@ -67,7 +68,7 @@ export async function uploadImageToPinata(imageUrl: string, petName: string): Pr
 
     const pinataJson = await pinataRes.json();
     const { IpfsHash } = pinataJson;
-    return `https://supercast.mypinata.cloud/ipfs/${IpfsHash}?filename=${uploadedFilename}`;
+    return buildIpfsGatewayUrl(IpfsHash, uploadedFilename);
   } catch (error) {
     console.error("Failed to upload image to Pinata:", error);
     throw error;

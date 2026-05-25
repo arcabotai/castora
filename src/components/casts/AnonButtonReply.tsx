@@ -82,12 +82,12 @@ export default function AnonButtonReply({ isAnon, setIsAnon }: Props) {
                 }
               }}
             >
-              <Image src="/superanon.png" alt="superanon icon" width={20} height={20} className={`w-5 h-5 rounded-full object-cover ${isAnon ? 'border-black dark:border-white' : 'border-gray-500'}`} />
+              <Image src="/superanon.png" alt="Anonymous account icon" width={20} height={20} className={`w-5 h-5 rounded-full object-cover ${isAnon ? 'border-black dark:border-white' : 'border-gray-500'}`} />
             </Button>
           </DrawerTrigger>
           <DrawerContent className="p-0">
             <DrawerHeader>
-              <h2 className='text-lg font-semibold'>Post from @superanon</h2>
+              <h2 className='text-lg font-semibold'>Post anonymously</h2>
             </DrawerHeader>
             <ConfirmationDialog />
             <DrawerFooter>
@@ -114,11 +114,11 @@ export default function AnonButtonReply({ isAnon, setIsAnon }: Props) {
                 }
               }}
             >
-              <Image src="/superanon.png" alt="superanon icon" width={20} height={20} className={`w-5 h-5 rounded-full object-cover ${isAnon ? 'border-black dark:border-white' : 'border-gray-500'}`} />
+              <Image src="/superanon.png" alt="Anonymous account icon" width={20} height={20} className={`w-5 h-5 rounded-full object-cover ${isAnon ? 'border-black dark:border-white' : 'border-gray-500'}`} />
             </Button>
           </PopoverTrigger>
           <PopoverContent className="py-2 px-0" align="center">
-            <h2 className='text-lg font-semibold text-center'>Post from @superanon</h2>
+            <h2 className='text-lg font-semibold text-center'>Post anonymously</h2>
             <ConfirmationDialog />
           </PopoverContent>
         </Popover>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function SupercastBadge() {
+export default function CastoraBadge() {
   const uniqueId = React.useId();
 
   return (

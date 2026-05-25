@@ -22,6 +22,7 @@ import MentionAutocomplete from "../MentionAutocomplete";
 import TextareaAutosize from 'react-textarea-autosize';
 import URLPreviewCard from "../URLPreview";
 import Recast from "../Recast";
+import { getCastHashFromAppUrl } from "@/utils/castLinks";
 
 interface DraftComposeReplyProps {
   parentDraftId: string;
@@ -196,12 +197,11 @@ export default function DraftComposeReply(props: DraftComposeReplyProps) {
       const existingEmbeds = draftState.embeds.map((embed) => embed.url)
       if (existingEmbeds.includes(urlMatch[1])) return
 
-      const supercastPattern = /https?:\/\/(www\.)?super\.sc\/c\/(0x[0-9a-fA-F]+)/;
-      const supercastMatches = urlMatch[1].match(supercastPattern);
+      const appCastHash = getCastHashFromAppUrl(urlMatch[1])
 
-      if (supercastMatches) {
+      if (appCastHash) {
         // api call required to get the fid
-        axios.get(`${HOST_URL}/api/cast/single?hash=${supercastMatches[2]}`).then(res => {
+        axios.get(`${HOST_URL}/api/cast/single?hash=${appCastHash}`).then(res => {
           setDraftState({
             text: text,
             embeds: [...draftState.embeds, { "cast_id": { hash: res.data.currentCast.hash, fid: res.data.currentCast.author.fid } }]

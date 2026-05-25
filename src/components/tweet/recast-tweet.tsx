@@ -1,9 +1,5 @@
 import { type EnrichedTweet } from 'react-tweet'
-import { nFormatter } from './utils'
-import { TweetHeader } from './tweet-header'
 import { TweetMedia } from './tweet-media'
-import { HeartIcon, MessageCircle } from 'lucide-react'
-import Link from 'next/link'
 import { getTimeSinceTimestamp } from '@/utils/textUtils'
 import TweetText from './TweetText'
 import { Skeleton } from '../ui/skeleton'
@@ -13,26 +9,41 @@ export const RecastTweet = ({
 }: {
   tweet: EnrichedTweet
 }) => {
+  const tweetUrl = `https://x.com/${tweet.user.screen_name}/status/${tweet.id_str}`
+  const openTweet = () => {
+    window.open(tweetUrl, '_blank', 'noopener,noreferrer')
+  }
+
   return (
     <>
       {!!tweet ?
-        <Link
-          href={`https://x.com/${tweet.user.screen_name}/status/${tweet.id_str}`}
-          target='_blank'
-          className='max-w-[280px] xs:max-w-[310px] sm:max-w-none'
-          onClick={(e) => e.stopPropagation()}
+        <div
+          role="link"
+          tabIndex={0}
+          className='block w-full max-w-full'
+          onClick={(e) => {
+            e.stopPropagation()
+            openTweet()
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              e.stopPropagation()
+              openTweet()
+            }
+          }}
         >
           <div>
-            <div className='pt-2 px-4 border border-gray-200 dark:border-gray-700 rounded-xl sm:hover:bg-gray-100 sm:dark:hover:bg-gray-800 flex flex-col hover:cursor-pointer'>
-              <div className="flex flex-col">
-                <div className="flex flex-row text-sm mb-1 items-center justify-between w-full overflow-hidden">
-                  <div className='flex flex-row items-center'>
-                    <img src={tweet.user.profile_image_url_https} className='h-4 w-4 mr-1 rounded-full'></img>
-                    <Link href={`https://x.com/${tweet.user.screen_name}`} className='font-medium mr-0.5 hover:underline dark:text-gray-100 max-w-[100px] xs:max-w-[115px] sm:max-w-[280px] truncate'>{tweet.user.name}</Link>
+            <div className='pt-2 px-4 border border-gray-200 dark:border-gray-700 rounded-xl sm:hover:bg-gray-100 sm:dark:hover:bg-gray-800 flex flex-col hover:cursor-pointer max-w-full'>
+              <div className="flex flex-col min-w-0">
+                <div className="flex flex-row text-sm mb-1 items-center justify-between w-full overflow-hidden gap-x-2">
+                  <div className='flex flex-row items-center min-w-0'>
+                    <img src={tweet.user.profile_image_url_https} alt="" className='h-4 w-4 mr-1 rounded-full flex-shrink-0'></img>
+                    <a onClick={(e) => e.stopPropagation()} href={`https://x.com/${tweet.user.screen_name}`} target="_blank" rel="noopener noreferrer" className='font-medium mr-0.5 hover:underline dark:text-gray-100 max-w-full truncate'>{tweet.user.name}</a>
                     {tweet.user.verified || tweet.user.is_blue_verified ? (
                       <svg
                         aria-label="Verified Account"
-                        className="inline h-4 w-4 text-blue-500 mr-1"
+                        className="inline h-4 w-4 text-blue-500 mr-1 flex-shrink-0"
                         viewBox="0 0 24 24"
                       >
                         <g fill="currentColor">
@@ -40,15 +51,16 @@ export const RecastTweet = ({
                         </g>
                       </svg>
                     ) : null}
-                    <Link href={`https://x.com/${tweet.user.screen_name}`} className='text-gray-500 dark:text-gray-400 hover:underline max-w-[90px] xs:max-w-[105px] sm:max-w-[200px] truncate'>@{tweet.user.screen_name}</Link>
-                    <span className='text-gray-500 dark:text-gray-400 ml-1'>·</span>
-                    <span className='text-gray-500 dark:text-gray-400 ml-1'>{getTimeSinceTimestamp(new Date(tweet.created_at).getTime(), true)}</span>
+                    <a onClick={(e) => e.stopPropagation()} href={`https://x.com/${tweet.user.screen_name}`} target="_blank" rel="noopener noreferrer" className='text-gray-500 dark:text-gray-400 hover:underline max-w-full truncate'>@{tweet.user.screen_name}</a>
+                    <span className='text-gray-500 dark:text-gray-400 ml-1 flex-shrink-0'>·</span>
+                    <span className='text-gray-500 dark:text-gray-400 ml-1 flex-shrink-0'>{getTimeSinceTimestamp(new Date(tweet.created_at).getTime(), true)}</span>
                   </div>
                   <a
                     href={tweet.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="View on Twitter"
+                    onClick={(e) => e.stopPropagation()}
                   >
                     <svg viewBox="0 0 24 24" aria-hidden="true" className='w-4 h-4 fill-current text-black dark:text-white'>
                       <g>
@@ -58,7 +70,7 @@ export const RecastTweet = ({
                   </a>
                 </div>
                 <div className=''>
-                  <p className="text-sm text-gray-900 mb-2 dark:text-gray-100 max-w-[260px] sm:max-w-none break-words">
+                  <p className="text-sm text-gray-900 mb-2 dark:text-gray-100 max-w-full break-words">
                     <TweetText text={tweet.text} />
                   </p>
                 </div>
@@ -72,7 +84,7 @@ export const RecastTweet = ({
                       }
                     >
                       {tweet.mediaDetails?.map((media) => (
-                        <a key={media.media_url_https} href={tweet.url} target="_blank">
+                        <a key={media.media_url_https} href={tweet.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
                           <TweetMedia tweet={tweet} media={media} />
                         </a>
                       ))}
@@ -82,7 +94,7 @@ export const RecastTweet = ({
               </div>
             </div>
           </div >
-        </Link>
+        </div>
         :
         <div className='pt-2 px-4 border border-gray-200 dark:border-gray-700 rounded-xl flex flex-col'>
           <div className="flex flex-row text-sm mb-3 items-center">

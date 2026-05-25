@@ -17,7 +17,7 @@ import ProfileHoverCard from './profile/ProfileHoverCard'
 import PowerBadge from './PowerBadge'
 import FarcasterFrame from './casts/FarcasterFrame'
 import { useSupercastUserState } from '@/providers/SupercastUserStateProvider'
-import SupercastBadge from './SupercastBadge'
+import CastoraBadge from './CastoraBadge'
 import { useSupercastMember } from '@/providers/SupercastMemberProvider'
 import CastEmbeds from './casts/CastEmbeds'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
@@ -88,22 +88,22 @@ export default function ReplyPreview({ cast, isLast, isColumn = false }: { cast:
           </div>
           {/* this is hard coded to work in the mainfeed, but can grow out of the column view */}
           {/* also fails on mobile */}
-          <div className="flex flex-col flex-grow">
-            <div className="flex flex-row text-sm mb-1 items-center justify-between max-w-[280px] xs:max-w-[310px] overflow-x-hidden">
-              <div className="flex flex-row text-sm mb-1">
-                <Link href={`/${cast.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 flex flex-row gap-x-1 items-center max-w-[130px] xs:max-w-[145px] sm:max-w-[280px]'>
+          <div className="flex flex-col flex-grow min-w-0">
+            <div className="flex flex-row text-sm mb-1 items-center justify-between max-w-full overflow-hidden">
+              <div className="flex flex-row text-sm mb-1 min-w-0">
+                <Link href={`/${cast.author.username}`} className='font-semibold mr-1 hover:underline dark:text-gray-100 flex flex-row gap-x-1 items-center min-w-0 max-w-full'>
                   <span className={`truncate`}>{cast.author.display_name}</span>
                   {cast.author.power_badge && <PowerBadge />}
-                  {isSupercastMember(cast.author.fid) && <SupercastBadge />}
+                  {isSupercastMember(cast.author.fid) && <CastoraBadge />}
                 </Link>
-                <div className='max-w-[90px] xs:max-w-[105px] sm:max-w-[200px] truncate'>
+                <div className='min-w-0 max-w-full truncate'>
                   <Link href={`/${cast.author.username}`} className='text-gray-500 dark:text-gray-400 hover:underline truncate'>@{cast.author.username}</Link>
                 </div>
-                <span className='text-gray-500 dark:text-gray-400 ml-1'>·</span>
-                <span className='text-gray-500 dark:text-gray-400 ml-1'>{getTimeSinceTimestamp(!!cast.timestamp ? cast.timestamp : Date.now(), true)}</span>
+                <span className='text-gray-500 dark:text-gray-400 ml-1 flex-shrink-0'>·</span>
+                <span className='text-gray-500 dark:text-gray-400 ml-1 flex-shrink-0'>{getTimeSinceTimestamp(!!cast.timestamp ? cast.timestamp : Date.now(), true)}</span>
               </div>
             </div>
-            <p className="text-sm text-gray-900 dark:text-gray-100 mb-2 break-words">
+            <p className="text-sm text-gray-900 dark:text-gray-100 mb-2 break-words max-w-full">
               <CastText text={cast.text} />
             </p>
             {(!!cast.embeds && cast.embeds.length > 0) &&

@@ -1,12 +1,12 @@
 # Castora
 
-A sharper Farcaster client by Arca, bootstrapped by Cad from the Supercast codebase.
+A sharper Farcaster client by Arca.
 
 Castora is a PWA + web client for people who want a better Farcaster surface: fast feeds, serious compose, cleaner profiles, useful notifications, and eventually agent-native context tools without turning the timeline into sludge.
 
 ## Status
 
-Early launch fork. The initial goal is to stabilize the Supercast-derived app, deploy it cleanly, and then replace fragile inherited assumptions with an Arca-owned product spine.
+Early launch app. The current goal is to stabilize the client, keep deploys clean, and replace fragile inherited assumptions with an Arca-owned product spine.
 
 ## Stack
 
@@ -19,9 +19,7 @@ Early launch fork. The initial goal is to stabilize the Supercast-derived app, d
 - Vercel web app
 - Railway database / worker services
 
-## Cad bootstrap notes
-
-This repo was prepared by Cad for Arca from `felirami/supercast-dump`, using the `supercast/` directory as the product base.
+## Product hardening notes
 
 Immediate hardening targets:
 

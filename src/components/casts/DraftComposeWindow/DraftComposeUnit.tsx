@@ -32,8 +32,9 @@ import URLPreviewCard from "../URLPreview";
 import Recast from "../Recast";
 import { ScheduleButton } from "./ScheduleButton";
 import AnonButton from "../AnonButton";
-import SupercastBadge from "@/components/SupercastBadge";
+import CastoraBadge from "@/components/CastoraBadge";
 import { useSupercastMember } from "@/providers/SupercastMemberProvider";
+import { getCastHashFromAppUrl } from "@/utils/castLinks";
 
 interface DraftComposeUnitProps {
   draftId: string;
@@ -272,12 +273,11 @@ export default function DraftComposeUnit(props: DraftComposeUnitProps) {
       const existingEmbeds = draftState.embeds.map((embed) => embed.url)
       if (existingEmbeds.includes(urlMatch[1])) return
 
-      const supercastPattern = /https?:\/\/(www\.)?super\.sc\/c\/(0x[0-9a-fA-F]+)/;
-      const supercastMatches = urlMatch[1].match(supercastPattern);
+      const appCastHash = getCastHashFromAppUrl(urlMatch[1])
 
-      if (supercastMatches) {
+      if (appCastHash) {
         // api call required to get the fid
-        axios.get(`${HOST_URL}/api/cast/single?hash=${supercastMatches[2]}`).then(res => {
+        axios.get(`${HOST_URL}/api/cast/single?hash=${appCastHash}`).then(res => {
           setDraftState({
             text: text,
             embeds: [...draftState.embeds, { "cast_id": { hash: res.data.currentCast.hash, fid: res.data.currentCast.author.fid } }]
@@ -446,7 +446,7 @@ export default function DraftComposeUnit(props: DraftComposeUnitProps) {
             <div className="flex flex-row gap-x-1 items-center">
               <span className="text-gray-900 dark:text-gray-100 font-semibold -mb-0.5 truncate">{currentDraft?.isAnon ? 'anon' : truncateLongWord(currentAccount?.displayName, 16)}</span>
               {(!currentDraft?.isAnon && currentAccount.powerBadge) && <PowerBadge />}
-              {isSupercastMember(currentAccount.fid) && <SupercastBadge />}
+              {isSupercastMember(currentAccount.fid) && <CastoraBadge />}
               <span className="text-gray-500 text-sm font-light">@{currentDraft?.isAnon ? 'superanon' : currentAccount?.username}</span>
               <div className='flex lg:hidden flex-row-reverse justify-end sm:flex-row sm:justify-normal items-center gap-x-2'>
                 <div className="w-4 flex justify-center">

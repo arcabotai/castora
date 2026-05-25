@@ -52,7 +52,7 @@ export default function ShareAccountModal({ open, setOpen, shareFid, shareUserna
     }).catch((error) => {
       console.log(error)
       if (error.response.data.error === "NOT_SUPERCAST_USER") {
-        toast.error('Not a supercast user')
+        toast.error('Not a Castora user')
         return
       }
       if (error.response.data.error === "CANNOT_DELEGATE_TO_SELF") {
@@ -190,7 +190,7 @@ export default function ShareAccountModal({ open, setOpen, shareFid, shareUserna
                     </Dialog.Title>
                     <div className="">
                       <p className="text-sm text-gray-500">
-                        Select users that should have access to @{shareUsername}. They need to have an active supercast account.
+                        Select users that should have access to @{shareUsername}. They need to have an active Castora account.
                       </p>
                     </div>
                     <div className="flex flex-col items-center">
@@ -212,15 +212,15 @@ export default function ShareAccountModal({ open, setOpen, shareFid, shareUserna
                         >
                           <img src={user.pfp_url} className="inline-block h-8 w-8 rounded-full bg-gray-100 object-cover"></img>
                           <div className="min-w-0 flex-1 flex flex-row items-center justify-between">
-                            <div className="flex flex-row items-center">
-                              <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate mr-1 max-w-[120px]">{user.display_name}</div>
+                            <div className="flex flex-row items-center min-w-0 overflow-hidden">
+                              <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate mr-1 max-w-full">{user.display_name}</div>
                               {user.power_badge && <span className="mr-1"><PowerBadge /></span>}
-                              <div className="text-sm text-gray-500 max-w-[110px] truncate">@{user.username}</div>
+                              <div className="text-sm text-gray-500 max-w-full truncate">@{user.username}</div>
                             </div>
                             {loadingShareFid === user.fid
                               ?
                               <Spinner width='w-4' height='h-4' padding='p-0' margin='mr-2' />
-                              : <div className="text-xs text-gray-500 truncate">{new Intl.NumberFormat('en-US', {
+                              : <div className="text-xs text-gray-500 truncate flex-shrink-0">{new Intl.NumberFormat('en-US', {
                                 notation: 'compact',
                                 compactDisplay: 'short',
                               }).format(user.follower_count)} followers</div>
@@ -241,10 +241,10 @@ export default function ShareAccountModal({ open, setOpen, shareFid, shareUserna
                           <div className='flex flex-row items-center flex-grow px-2'>
                             <img src={user.pfp_url} className="inline-block h-8 w-8 rounded-full bg-gray-100 object-cover mr-2"></img>
                             <div className="min-w-0 flex-1 flex flex-row items-center">
-                              <div className="flex flex-row items-center">
-                                <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate mr-1 max-w-[120px]">{user.display_name}</div>
+                              <div className="flex flex-row items-center min-w-0 overflow-hidden">
+                                <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate mr-1 max-w-full">{user.display_name}</div>
                                 {user.power_badge && <span className="mr-1"><PowerBadge /></span>}
-                                <div className="text-sm text-gray-500 max-w-[110px] truncate">@{user.username}</div>
+                                <div className="text-sm text-gray-500 max-w-full truncate">@{user.username}</div>
                               </div>
                             </div>
                           </div>

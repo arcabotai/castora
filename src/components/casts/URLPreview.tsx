@@ -166,7 +166,7 @@ export default function URLPreviewCard({ url, small, castHash, ignoreList }: URL
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
-          className='rounded-md w-[280px] sm:w-[360px] h-[210px]'
+          className='rounded-md w-full max-w-[360px] h-[210px]'
           onClick={(e) => e.stopPropagation()}
         >
         </iframe>
