@@ -193,7 +193,7 @@ export default function CommunityDashboard() {
             <Image src="/superanon.png" alt="Castora mark" width={400} height={400} className='w-16 h-16 rounded-lg shrink-0 shadow-sm object-cover' />
             <div className='flex flex-col gap-y-1'>
               <h3 className='text-xl font-semibold'>anon</h3>
-              <p className='text-sm text-gray-500'>First community artifact, created on Nov 14th, 2024 to celebrate @superanon</p>
+              <p className='text-sm text-gray-500'>First community artifact, created on Nov 14th, 2024 to celebrate anonymous community posting.</p>
             </div>
           </div>
         </Link>

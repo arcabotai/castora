@@ -16,7 +16,7 @@ export async function generateMetadata(
   const cast = await axios.get(`${HOST_URL}/api/cast/single?hash=${slug}`)
 
   return {
-    title: `${cast.data.currentCast.author.display_name} on super`,
+    title: `${cast.data.currentCast.author.display_name} on Castora`,
     description: cast.data.currentCast.text,
     openGraph: {
       images: [
@@ -26,7 +26,7 @@ export async function generateMetadata(
           height: 630,
         }
       ],
-      title: `${cast.data.currentCast.author.display_name} on super`,
+      title: `${cast.data.currentCast.author.display_name} on Castora`,
       description: cast.data.currentCast.text,
     },
   }

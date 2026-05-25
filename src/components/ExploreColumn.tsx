@@ -52,8 +52,8 @@ export default function ExploreColumn() {
         }
         {(SHOW_LEGACY_SUPERCAST_FEATURES && isRegularUser() && !isSuperMember()) &&
           <div className="flex flex-col gap-y-2 py-2 px-4 focus:outline-none dark:border-gray-700 rounded-xl border">
-            <div className="text-sm font-semibold">Become a super member</div>
-            <div className="text-xs text-gray-500">Get access to our community, @superanon, qualify for our $DEGEN rewards and for the future airdrops</div>
+            <div className="text-sm font-semibold">Become a Castora member</div>
+            <div className="text-xs text-gray-500">Get access to member tools, community rewards, and future Castora drops.</div>
             <Button
               onClick={handleBecomeMember}
               className="w-full my-2">
@@ -66,27 +66,27 @@ export default function ExploreColumn() {
         {(SHOW_LEGACY_SUPERCAST_FEATURES && isSuperMember()) &&
           <div className="flex flex-col gap-y-4">
             <div className="flex flex-col gap-y-2 py-2 px-4 focus:outline-none dark:border-gray-700 rounded-xl border">
-              <div className="text-sm font-semibold">Post in super channel</div>
-              <div className="text-xs text-gray-500">Post in /super to qualify for our daily 10k $DEGEN rewards</div>
+              <div className="text-sm font-semibold">Post in the community channel</div>
+              <div className="text-xs text-gray-500">Post in the member channel to qualify for daily $DEGEN rewards.</div>
               <Link href={`/channel/super`}>
                 <Button
                   className="w-full my-2"
                   variant="secondary"
                 >
-                  Go to super channel
+                  Go to community channel
                   <ChevronRight className="h-5 w-5 ml-1" />
                 </Button>
               </Link>
             </div>
             <div className="flex flex-col gap-y-2 py-2 px-4 focus:outline-none dark:border-gray-700 rounded-xl border">
-              <div className="text-sm font-semibold">Post on superanon</div>
-              <div className="text-xs text-gray-500">Post on our community account to climb the leaderboard and win the weekly 20k $DEGEN rewards</div>
+              <div className="text-sm font-semibold">Post anonymously</div>
+              <div className="text-xs text-gray-500">Post from the shared community account to climb the leaderboard and win weekly $DEGEN rewards.</div>
               <Button
                 className="w-full my-2"
                 variant="secondary"
                 onClick={handlePostOnSuperanon}
               >
-                Post on superanon
+                Post anonymously
                 <ChevronRight className="h-5 w-5 ml-1" />
               </Button>
             </div>
