@@ -13,8 +13,8 @@ export const metadata: Metadata = {
     apple: "/castora-mark.png",
   },
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#111827" },
+    { media: "(prefers-color-scheme: light)", color: "#f7f8f6" },
+    { media: "(prefers-color-scheme: dark)", color: "#070807" },
   ],
   openGraph: {
     title: "Castora",

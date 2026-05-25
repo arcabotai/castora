@@ -38,7 +38,7 @@ export default function LandingPage() {
   const { login } = useSuperLogin();
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#f7f8f6] text-[#111210] dark:bg-[#070807] dark:text-white">
+    <div className="min-h-svh overflow-x-hidden bg-[#f7f8f6] text-[#111210] dark:bg-[#070807] dark:text-white">
       <DebugState />
       <main>
         <section className="relative isolate flex min-h-[88svh] flex-col overflow-hidden border-b border-black/10 bg-[#f7f8f6] dark:border-white/10 dark:bg-[#070807]">
@@ -54,7 +54,6 @@ export default function LandingPage() {
             src="/landing-page-ss-mobile.png"
             alt=""
             fill
-            priority
             sizes="100vw"
             className="object-cover object-top opacity-[0.14] saturate-[0.86] dark:opacity-[0.2] md:hidden"
           />
@@ -123,6 +122,20 @@ export default function LandingPage() {
                     </li>
                   ))}
                 </ul>
+
+                <div className="mt-9 lg:hidden">
+                  <div className="mx-auto max-w-[19rem] overflow-hidden rounded-[2rem] border-[6px] border-[#111210] bg-[#111210] shadow-[0_24px_70px_rgba(17,18,16,0.3)] dark:border-white dark:bg-white">
+                    <div className="relative aspect-[9/16]">
+                      <Image
+                        src="/landing-page-ss-mobile.png"
+                        alt="Castora mobile feed preview"
+                        fill
+                        sizes="304px"
+                        className="object-cover object-top"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div className="relative hidden min-h-[520px] lg:block">
