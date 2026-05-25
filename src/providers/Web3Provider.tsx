@@ -3,9 +3,7 @@
 import { WagmiProvider, createConfig, http } from "wagmi";
 import { arbitrum, base, degen, linea, bsc, mainnet, polygon, optimism, sepolia, baseSepolia, worldchain, blast } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ConnectKitProvider } from "connectkit";
-
-import { getDefaultConfig } from '@daimo/pay'
+import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 
 export const config = createConfig(
   getDefaultConfig({
@@ -67,12 +65,12 @@ export const config = createConfig(
     walletConnectProjectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID,
 
     // Required App Info
-    appName: "Supercast",
+    appName: "Castora",
 
     // Optional App Info
-    appDescription: "Farcaster client for high performers",
-    appUrl: "https://super.sc", // your app's url
-    appIcon: "https://www.super.sc/supercast-logo-black.png", // your app's icon, no bigger than 1024x1024px (max. 1MB)
+    appDescription: "Arca Farcaster client",
+    appUrl: "https://castora.arcabot.ai",
+    appIcon: "https://castora.arcabot.ai/supercast-logo-black.png",
   }),
 );
 

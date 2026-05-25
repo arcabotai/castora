@@ -18,8 +18,13 @@ import { useConfetti } from '@/contexts/ConfettiContext'
 import ListDetail from './lists/ListDetail'
 import NavigationHotkeys from './navigation/NavigationHotkeys'
 import HotkeyShortcutWindow from './navigation/HotkeyShortcutWindow'
-import { CheckoutDialog } from './checkout/CheckoutDialog';
+import dynamic from 'next/dynamic'
 import DebugState from './debug/DebugState'
+
+const CheckoutDialog = dynamic(
+  () => import('./checkout/CheckoutDialog').then((mod) => mod.CheckoutDialog),
+  { ssr: false }
+)
 import GuestMobileBanner from './GuestMobileBanner'
 
 const ALWAYS_ACCESSIBLE_PAGES = ["Cast", "Profile", "Channel"];

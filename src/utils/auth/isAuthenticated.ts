@@ -12,7 +12,10 @@ export const isAuthenticated = async (req: Request): Promise<AuthenticationRespo
 
   const privy = new PrivyClient(process.env.NEXT_PUBLIC_PRIVY_APP_ID, process.env.PRIVY_SECRET_KEY);
 
-  const authToken = req.headers.get("Authorization").split("Bearer ")[1];
+  const authorization = req.headers.get("Authorization") || "";
+  const authToken = authorization.startsWith("Bearer ")
+    ? authorization.slice("Bearer ".length).trim()
+    : "";
 
   if (authToken === 'null' || authToken === 'undefined' || !authToken) {
     return {
