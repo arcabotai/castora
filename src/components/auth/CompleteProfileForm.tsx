@@ -8,7 +8,7 @@ import axios from 'axios'
 import { HOST_URL } from '@/utils/hostURL'
 import { Toaster, toast } from 'sonner'
 
-import { uploadFileClientSide } from '@/utils/upload'
+import { buildIpfsGatewayUrl, uploadFileClientSide } from '@/utils/upload'
 import { UploadIcon } from 'lucide-react'
 import { usePrivy } from '@privy-io/react-auth'
 import { useRouter } from 'next/navigation'
@@ -43,7 +43,7 @@ export default function CompleteProfileForm(props: CompleteProfileFormProps) {
     const accessToken = await getAccessToken();
     uploadFileClientSide(e.target.files[0], { accessToken, asFid: props.fid })
       .then((res) => {
-        setAvatar(`https://supercast.mypinata.cloud/ipfs/${res.IpfsHash}?filename=${res.uploadedFilename}`)
+        setAvatar(buildIpfsGatewayUrl(res.IpfsHash, res.uploadedFilename))
         toast.success('File uploaded successfully');
       })
       .catch((e) => {

@@ -52,7 +52,7 @@ export default function ShareAccountModal({ open, setOpen, shareFid, shareUserna
     }).catch((error) => {
       console.log(error)
       if (error.response.data.error === "NOT_SUPERCAST_USER") {
-        toast.error('Not a supercast user')
+        toast.error('Not a Castora user')
         return
       }
       if (error.response.data.error === "CANNOT_DELEGATE_TO_SELF") {
@@ -190,7 +190,7 @@ export default function ShareAccountModal({ open, setOpen, shareFid, shareUserna
                     </Dialog.Title>
                     <div className="">
                       <p className="text-sm text-gray-500">
-                        Select users that should have access to @{shareUsername}. They need to have an active supercast account.
+                        Select users that should have access to @{shareUsername}. They need to have an active Castora account.
                       </p>
                     </div>
                     <div className="flex flex-col items-center">

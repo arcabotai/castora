@@ -7,7 +7,7 @@ import axios from 'axios'
 import { HOST_URL } from '@/utils/hostURL'
 import { toast } from 'sonner'
 
-import { uploadFileClientSide } from '@/utils/upload'
+import { buildIpfsGatewayUrl, uploadFileClientSide } from '@/utils/upload'
 import { usePrivy } from '@privy-io/react-auth'
 import { useSupercastUserState } from '@/providers/SupercastUserStateProvider'
 import { useOpenSignerApproval } from '@/providers/OpenSignerApprovalProvider'
@@ -164,7 +164,7 @@ export default function EditProfileButton(props: EditProfileButtonProps) {
     const accessToken = await getAccessToken();
     uploadFileClientSide(e.target.files[0], { accessToken, asFid: supercastUserState.currentFid })
       .then((res) => {
-        setAvatar(`https://supercast.mypinata.cloud/ipfs/${res.IpfsHash}?filename=${res.uploadedFilename}`)
+        setAvatar(buildIpfsGatewayUrl(res.IpfsHash, res.uploadedFilename))
         toast.success('File uploaded successfully');
       })
       .catch((e) => {
@@ -409,7 +409,7 @@ export default function EditProfileButton(props: EditProfileButtonProps) {
                         type='text'
                         value={bio}
                         className='w-full border rounded-md px-3 py-2 focus:outline-none text-sm dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700'
-                        placeholder='@supercast'
+                        placeholder='Building with Castora'
                         onChange={(e) => setBio(e.target.value)}
                         data-1p-ignore
                       />

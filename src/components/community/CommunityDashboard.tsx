@@ -85,7 +85,7 @@ export default function CommunityDashboard() {
         communityDataQuery.refetch()
       })
       .catch((error) => {
-        toast.error("Error following @super", error)
+        toast.error("Error following the community account", error)
       })
       .finally(() => {
         setLoadingSupercastFollow(false)
@@ -153,7 +153,7 @@ export default function CommunityDashboard() {
     })
       .then(() => {
         communityDataQuery.refetch()
-        window.open(`https://www.super.sc/channel/super`, "_blank")
+        window.open(`https://warpcast.com/~/channel/super`, "_blank")
       })
       .catch((error) => {
         if (error.response.data.error === "NO_PLAN") {
@@ -171,9 +171,9 @@ export default function CommunityDashboard() {
     <div className="pt-12 lg:pt-0">
       <FeedHeader title="Community" />
       <div className='mb-6 mt-2'>
-        <h3 className='text-2xl  font-semibold tracking-tight px-4 sm:px-6 lg:px-8 mb-1'>Welcome to super! ツ</h3>
-        <p className='text-sm text-gray-500  px-4 sm:px-6 lg:px-8'>Super is more than an app.</p>
-        <p className='text-sm text-gray-500  px-4 sm:px-6 lg:px-8 '>It's a community of people who love farcaster and have fun growing it together.</p>
+        <h3 className='text-2xl  font-semibold tracking-tight px-4 sm:px-6 lg:px-8 mb-1'>Welcome to Castora</h3>
+        <p className='text-sm text-gray-500  px-4 sm:px-6 lg:px-8'>Castora is more than an app.</p>
+        <p className='text-sm text-gray-500  px-4 sm:px-6 lg:px-8 '>It's a community of people who love Farcaster and have fun growing it together.</p>
       </div>
 
       <div className='px-4 sm:px-6 lg:px-8 pb-8'>
@@ -183,8 +183,8 @@ export default function CommunityDashboard() {
       <div className='border-b border-gray-200 dark:border-gray-800 mx-4 sm:mx-6 lg:mx-8 mb-4'></div>
 
       <div className='mb-4 px-4 sm:px-6 lg:px-8'>
-        <h2 className='text-xl font-semibold'>Super artifacts</h2>
-        <p className='text-sm text-gray-500'>Series of zora drops, airdropped for free to all supercasters.</p>
+        <h2 className='text-xl font-semibold'>Castora artifacts</h2>
+        <p className='text-sm text-gray-500'>Series of Zora drops, airdropped for free to community members.</p>
       </div>
 
       <div className='flex flex-col gap-y-4 mb-6 px-4 sm:px-6 lg:px-8'>
@@ -193,13 +193,13 @@ export default function CommunityDashboard() {
             <Image src="/superanon.png" alt="Castora mark" width={400} height={400} className='w-16 h-16 rounded-lg shrink-0 shadow-sm object-cover' />
             <div className='flex flex-col gap-y-1'>
               <h3 className='text-xl font-semibold'>anon</h3>
-              <p className='text-sm text-gray-500'>First super artifact, created on Nov 14th, 2024 to celebrate @superanon</p>
+              <p className='text-sm text-gray-500'>First community artifact, created on Nov 14th, 2024 to celebrate @superanon</p>
             </div>
           </div>
         </Link>
         <div className='relative'>
           <div className="absolute inset-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm z-10 flex items-center justify-center">
-            <p className='text-sm'>More super artifacts are coming. Become a member to get them.</p>
+            <p className='text-sm'>More Castora artifacts are coming. Become a member to get them.</p>
           </div>
           <div className="w-full flex flex-row gap-x-2 py-2 px-4 border border-gray-200 dark:border-gray-700 rounded-xl items-center sm:hover:bg-gray-50 sm:dark:hover:bg-gray-800">
             <Image src="/castora-mark.svg" alt="Castora mark" width={400} height={400} className='w-16 h-16 rounded-lg shrink-0 shadow-sm object-cover' />
@@ -242,7 +242,7 @@ export default function CommunityDashboard() {
         <ul className='flex flex-col gap-y-4 lg:gap-y-2 px-4 sm:px-6 lg:px-8 pb-6'>
           <li className='flex flex-col lg:flex-row justify-between items-center gap-y-2 lg:gap-x-2'>
             <div className='flex flex-col'>
-              <p className='font-medium'>Follow @super</p>
+              <p className='font-medium'>Follow the community account</p>
               <p className='text-sm text-gray-500 w-full lg:max-w-sm'>Follow our account so we can add you to the channel and the groupchats.</p>
             </div>
             <Button
@@ -250,13 +250,13 @@ export default function CommunityDashboard() {
               disabled={loadingSupercastFollow || communityDataQuery.data?.following}
               onClick={handleFollowSupercast}
             >
-              {loadingSupercastFollow ? <Loader2 className='animate-spin' /> : communityDataQuery.data?.following ? "Following" : "Follow @super"}
+              {loadingSupercastFollow ? <Loader2 className='animate-spin' /> : communityDataQuery.data?.following ? "Following" : "Follow"}
             </Button>
           </li>
           <li className='flex flex-col lg:flex-row justify-between items-center gap-y-2 lg:gap-x-2'>
             <div className='flex flex-col'>
               <p className='font-medium'>Legacy community channel</p>
-              <p className='text-sm text-gray-500 w-full lg:max-w-sm'>Legacy Supercast community features are disabled for Castora beta.</p>
+              <p className='text-sm text-gray-500 w-full lg:max-w-sm'>Legacy community features are disabled for Castora beta.</p>
             </div>
             <Button
               className='w-full lg:w-40'
@@ -277,7 +277,7 @@ export default function CommunityDashboard() {
                 disabled={loadingGeneralGroupchatInvite || !communityDataQuery.data?.following || communityDataQuery.data?.groupchatMember || generalGroupchatInviteSent}
                 onClick={() => handleRequestGroupchatInvite("supercasters")}
               >
-                {loadingGeneralGroupchatInvite ? <Loader2 className='animate-spin' /> : generalGroupchatInviteSent ? "Added to supercasters" : "Join general chat"}
+                {loadingGeneralGroupchatInvite ? <Loader2 className='animate-spin' /> : generalGroupchatInviteSent ? "Added to general chat" : "Join general chat"}
               </Button>
               <Button
                 className='w-full'

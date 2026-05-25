@@ -5,6 +5,20 @@ type UploadOptions = {
   asFid?: number;
 }
 
+const DEFAULT_IPFS_GATEWAY = "https://gateway.pinata.cloud";
+
+export function buildIpfsGatewayUrl(cid: string, filename?: string) {
+  const gateway = (
+    process.env.NEXT_PUBLIC_PINATA_GATEWAY ||
+    process.env.PINATA_GATEWAY ||
+    DEFAULT_IPFS_GATEWAY
+  ).replace(/\/$/, "");
+  const baseUrl = gateway.endsWith("/ipfs") ? gateway : `${gateway}/ipfs`;
+  const filenameQuery = filename ? `?filename=${encodeURIComponent(filename)}` : "";
+
+  return `${baseUrl}/${cid}${filenameQuery}`;
+}
+
 export const uploadFileClientSide = async (fileToUpload: File, options: UploadOptions) => {
   try {
     if (fileToUpload.size > 10 * 1024 * 1024) {

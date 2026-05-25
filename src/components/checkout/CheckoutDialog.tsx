@@ -303,7 +303,7 @@ function CheckoutDialogContent() {
       >
         <div className="flex items-center gap-2">
           <Wallet className="h-4 w-4" />
-          <span>Super Wallet</span>
+          <span>Castora Wallet</span>
         </div>
         <span className="text-xs text-gray-500">Coming soon</span>
       </Button>
@@ -474,4 +474,4 @@ function CheckoutDialogContent() {
       </DrawerContent>
     </Drawer>
   )
-} 
+}

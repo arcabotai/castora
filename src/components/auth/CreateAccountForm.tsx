@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
-import { uploadFileClientSide } from '@/utils/upload';
+import { buildIpfsGatewayUrl, uploadFileClientSide } from '@/utils/upload';
 import { AlertCircle, CheckCircle, Loader2, UploadIcon } from "lucide-react";
 import { toast, Toaster } from "sonner";
 import { usePrivy, useWallets } from '@privy-io/react-auth';
@@ -209,7 +209,7 @@ export default function CreateAccountForm({
     const accessToken = await getAccessToken();
     uploadFileClientSide(e.target.files[0], { accessToken, asFid: newAccountFid || undefined })
       .then((res) => {
-        setAvatar(`https://supercast.mypinata.cloud/ipfs/${res.IpfsHash}?filename=${res.uploadedFilename}`)
+        setAvatar(buildIpfsGatewayUrl(res.IpfsHash, res.uploadedFilename))
         toast.success('File uploaded successfully');
       })
       .catch((e) => {
@@ -368,4 +368,4 @@ export default function CreateAccountForm({
       </div>
     </div>
   );
-} 
+}

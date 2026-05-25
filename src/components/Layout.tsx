@@ -96,7 +96,7 @@ export default function Layout({ currentTab, main, rightColumn }: { currentTab: 
             isRefreshing={isRefreshing}
           />
 
-          <main className="lg:w-3/6 w-full min-w-0">
+          <main className="lg:w-3/6 w-full min-w-0 pb-16 lg:pb-0">
             <div className="sm:border-x border-gray-200 dark:border-gray-800 max-w-full lg:min-h-screen">
               {main}
             </div>

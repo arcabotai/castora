@@ -16,7 +16,7 @@ import { useSupercastUserState } from '@/providers/SupercastUserStateProvider';
 import { Overlay } from 'ol';
 import { ArrowsPointingInIcon, ArrowsPointingOutIcon, ArrowUpOnSquareIcon, ShareIcon } from '@heroicons/react/24/outline';
 import { useDraftComposeWindow } from '@/providers/DraftComposeWindowProvider';
-import { uploadFileClientSide } from '@/utils/upload';
+import { buildIpfsGatewayUrl, uploadFileClientSide } from '@/utils/upload';
 import { toast } from 'sonner';
 import { useDraftId } from '@/providers/DraftIdProvider';
 import { Loader2 } from 'lucide-react';
@@ -384,9 +384,9 @@ export default function MapComponent() {
 
       // Open draft composer with the uploaded image
       setDraftId(null)
-      setInitialText("my farcaster family on @supercast map");
+      setInitialText("my farcaster family on Castora map");
       setInitialEmbeds([{
-        url: `https://supercast.mypinata.cloud/ipfs/${result.IpfsHash}?filename=${result.uploadedFilename}`
+        url: buildIpfsGatewayUrl(result.IpfsHash, result.uploadedFilename)
       }]);
       setOpenDraftComposeWindow(true);
       toast.success('Screenshot uploaded successfully');

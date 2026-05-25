@@ -41,7 +41,7 @@ export default function DegenWidget() {
 
   const [timeToUnlock, setTimeToUnlock] = useState(null);
 
-  const DEGEN_LOCK_EXPLANATION = `Degen tokens are live on Base and Degen. You will be able to bridge between them in supercast soon.`;
+  const DEGEN_LOCK_EXPLANATION = `Degen tokens are live on Base and Degen. You will be able to bridge between them in Castora soon.`;
   const DEGEN_UNLOCK_EXPLANATION = `Lock your DEGEN for 90 days to get tip allowance. Minimum 10k tokens required to lock. Time remaining to unlock: ${(timeToUnlock / 1000 / 60 / 60 / 24).toPrecision(2)} days.`;
 
   const { supercastUserState } = useSupercastUserState();

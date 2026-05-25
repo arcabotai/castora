@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { PhotoIcon } from '@heroicons/react/24/outline'
 
-import { uploadFileClientSide } from '@/utils/upload'
+import { buildIpfsGatewayUrl, uploadFileClientSide } from '@/utils/upload'
 import { toast } from 'sonner';
 import { DRAFT_SEND_STATUS, Draft } from '@prisma/client';
 import { Button } from '../ui/button';
@@ -131,7 +131,7 @@ export default function UploadButton(props: Props) {
     if (uploadedCid.length > 0 && filename.length > 0) {
       if (castEmbeds.length == 2) return
 
-      setCastEmbeds([...castEmbeds, { "url": `https://supercast.mypinata.cloud/ipfs/${uploadedCid}?filename=${filename}` }])
+      setCastEmbeds([...castEmbeds, { "url": buildIpfsGatewayUrl(uploadedCid, filename) }])
 
       setCid("");
       setFilename("");

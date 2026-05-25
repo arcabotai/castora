@@ -182,15 +182,15 @@ export default function PetCreation({ petOptions }: { petOptions: PetOption[] })
                     </p>
                     <Recast hash="0x6a46bab820c205879c65afec2e61fb2056a80076" /> */}
                     <img
-                      src="https://supercast.mypinata.cloud/ipfs/Qmb1pwEkNRA5sqgFawCf49GeEn1ySALdBXvp82Ycyiu7aU"
+                      src="https://gateway.pinata.cloud/ipfs/Qmb1pwEkNRA5sqgFawCf49GeEn1ySALdBXvp82Ycyiu7aU"
                       className="w-1/4 h-auto rounded-full object-cover shrink-0"
                     />
                     <img
-                      src="https://supercast.mypinata.cloud/ipfs/QmYeqUwen3HnY9JxwpzUPNir8Z7qL5xs2oTB1iPhB8BVBo"
+                      src="https://gateway.pinata.cloud/ipfs/QmYeqUwen3HnY9JxwpzUPNir8Z7qL5xs2oTB1iPhB8BVBo"
                       className="w-1/4 h-auto rounded-full object-cover shrink-0"
                     />
                     <img
-                      src="https://supercast.mypinata.cloud/ipfs/QmdSsUUcvsGk3JV6V263Yt2G4NwdkTMJMqvTwkwfRvxt7G"
+                      src="https://gateway.pinata.cloud/ipfs/QmdSsUUcvsGk3JV6V263Yt2G4NwdkTMJMqvTwkwfRvxt7G"
                       className="w-1/4 h-auto rounded-full object-cover shrink-0"
                     />
                   </div>
