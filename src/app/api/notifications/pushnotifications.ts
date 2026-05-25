@@ -4,11 +4,27 @@ import webpush from 'web-push'
 import { prisma } from '@/prisma/client'
 import { Prisma } from '@prisma/client';
 
-webpush.setVapidDetails(
-  'mailto:test@super.sc',
-  process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
-  process.env.VAPID_PRIVATE_KEY!
-)
+let vapidConfigured = false;
+
+const ensureVapidDetails = () => {
+  if (vapidConfigured) return true;
+
+  const publicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
+  const privateKey = process.env.VAPID_PRIVATE_KEY;
+
+  if (!publicKey || !privateKey) {
+    console.warn('Push notifications disabled: VAPID keys are not configured');
+    return false;
+  }
+
+  webpush.setVapidDetails(
+    'mailto:hello@castora.arcabot.ai',
+    publicKey,
+    privateKey
+  );
+  vapidConfigured = true;
+  return true;
+}
 
 // sends notification to all subscriptions, no validation on settings
 // @dev the caller is expected to verify notification settings before calling
@@ -19,6 +35,10 @@ export async function sendNotification(
   pushUrl: string = "https://castora.arcabot.ai",
 ) {
   try {
+    if (!ensureVapidDetails()) {
+      return { success: false, error: 'Push notifications are not configured' }
+    }
+
     if (!subscriptions) {
       throw new Error('No subscription available')
     }
@@ -52,6 +72,10 @@ export async function sendNotification(
 // send arbitrary notification to all PushNotification enabled subscriptions for that FID
 export async function sendNotificationForFid(fid: number, title: string, message: string, pushUrl: string) {
   try {
+    if (!ensureVapidDetails()) {
+      return { success: false, error: 'Push notifications are not configured' }
+    }
+
     let subscriptions = await prisma.notificationSubscription.findMany({
       where: {
         SupercastPrivyUser: {

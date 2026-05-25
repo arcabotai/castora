@@ -108,7 +108,7 @@ export default function PWAPrompt() {
           </div>
         )}
         {platform === 'other' && (
-          <p>Install supercast as a Progressive Web App for the best experience on your device</p>
+          <p>Install Castora as a Progressive Web App for the best experience on your device</p>
         )}
       </div>
       <div className="flex justify-end space-x-2">
@@ -131,8 +131,8 @@ export default function PWAPrompt() {
         <Drawer open={isOpenPWAPrompt} onOpenChange={setIsOpenPWAPrompt}>
           <DrawerContent>
             <DrawerHeader>
-              <DrawerTitle>Add supercast to your homescreen</DrawerTitle>
-              <DrawerDescription>Supercast works the best as a mobile app installed on your device.</DrawerDescription>
+              <DrawerTitle>Add Castora to your homescreen</DrawerTitle>
+              <DrawerDescription>Castora works best as a mobile app installed on your device.</DrawerDescription>
             </DrawerHeader>
             <div className="p-4">
               {renderContent()}
@@ -149,7 +149,7 @@ export default function PWAPrompt() {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Add to your dock</DialogTitle>
-              <DialogDescription>Supercast works the best as a desktop app installed on your device.</DialogDescription>
+              <DialogDescription>Castora works best as a desktop app installed on your device.</DialogDescription>
             </DialogHeader>
             {renderContent()}
           </DialogContent>

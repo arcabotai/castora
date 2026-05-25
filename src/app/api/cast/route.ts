@@ -154,11 +154,14 @@ export async function POST(req: Request) {
 
   } catch (error) {
 
-    if (error.response.data.code === "SignerNotApproved") {
+    const status = axios.isAxiosError(error) ? error.response?.status || 500 : 500;
+    const code = axios.isAxiosError(error) ? error.response?.data?.code : undefined;
+
+    if (code === "SignerNotApproved") {
       return Response.json({ "error": "NO_SIGNER_APPROVED" }, { status: 403 })
     }
 
-    return Response.json({ "error": error }, { status: error.response.status })
+    return Response.json({ "error": "Failed to send cast" }, { status })
   }
 }
 

@@ -61,7 +61,6 @@ export const createFarcasterAccountForPet = async (ownerAccount: SupercastFarcas
   const randomNumber = Math.floor(Math.random() * 900) + 100;
 
   // @ts-ignore value works
-  console.log('signature', bytesToHex(requestedUserSignature.value))
   console.log('deadline', deadline)
   console.log('randomNumber', randomNumber)
   // remove spaces and make lowercase
