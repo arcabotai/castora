@@ -1,9 +1,11 @@
-import { type TweetCoreProps, enrichTweet } from 'react-tweet'
+import { enrichTweet } from 'react-tweet'
+import type { Tweet as ReactTweet } from 'react-tweet/api'
 import axios from 'axios'
 
 import { useQuery } from 'react-query'
 import { RecastTweet } from './recast-tweet'
 import { Skeleton } from '../ui/skeleton'
+import { sanitizeTweetForReactTweet } from '../../utils/tweets'
 
 export default function Tweet({ id }: { id: string }) {
 
@@ -35,5 +37,11 @@ export default function Tweet({ id }: { id: string }) {
   if (!tweet.user) {
     return null
   }
-  return <RecastTweet tweet={enrichTweet(tweet)} />
+
+  try {
+    return <RecastTweet tweet={enrichTweet(sanitizeTweetForReactTweet(tweet as ReactTweet))} />
+  } catch (error) {
+    console.warn('Skipping malformed tweet embed', { id, error })
+    return null
+  }
 }

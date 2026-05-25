@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getTweet } from "react-tweet/api";
+import { sanitizeTweetForReactTweet } from "../../../utils/tweets";
 
 async function getFullTweetId(shortCode: string): Promise<string | null> {
   try {
@@ -53,5 +54,5 @@ export async function GET(req: Request) {
     return Response.json("Can't fetch the tweet", { status: 400 });
   }
 
-  return Response.json({ "tweet": tweet });
+  return Response.json({ tweet: sanitizeTweetForReactTweet(tweet) });
 }
