@@ -16,16 +16,18 @@ export const fetchRecentCastsByFid = async (fid: number, limit: number): Promise
   let cursor = undefined;
 
   while (allPosts.length < limit) {
-    const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed/user/casts`, {
+    const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed/`, {
       params: {
-        fid: fid,
+        feed_type: "filter",
+        filter_type: "fids",
+        fids: fid,
         limit: 100,
         cursor: cursor,
-        include_replies: true,
+        with_recasts: false,
       },
       headers: {
         accept: "application/json",
-        api_key: process.env.NEYNAR_API_KEY,
+        "x-api-key": process.env.NEYNAR_API_KEY,
       },
     });
 
@@ -59,7 +61,7 @@ const fetchPopularCastsByFid = async (fid: number, limit: number): Promise<Post[
   let cursor = undefined;
 
   while (allPosts.length < limit) {
-    const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed/user/popular`, {
+    const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed/user/popular/`, {
       params: {
         fid: fid,
         limit: 10,
@@ -67,7 +69,7 @@ const fetchPopularCastsByFid = async (fid: number, limit: number): Promise<Post[
       },
       headers: {
         accept: "application/json",
-        api_key: process.env.NEYNAR_API_KEY,
+        "x-api-key": process.env.NEYNAR_API_KEY,
       },
     });
 
@@ -99,12 +101,12 @@ export const fetchProfileInfoByFid = async (userFid: number) => {
   const startTime = performance.now();
 
   const userProfileResponse = await axios.get(
-    "https://api.neynar.com/v2/farcaster/user/bulk",
+    "https://api.neynar.com/v2/farcaster/user/bulk/",
     {
       params: { fids: userFid },
       headers: {
         accept: "application/json",
-        api_key: process.env.NEYNAR_API_KEY,
+        "x-api-key": process.env.NEYNAR_API_KEY,
       },
     },
   );

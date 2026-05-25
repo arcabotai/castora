@@ -41,7 +41,7 @@ export async function GET(req: Request) {
 
   const hash = url.searchParams.get("hash")
 
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/cast/conversation?identifier=${hash}&type=hash&reply_depth=5&sort_type=algorithmic&fold=below&include_chronological_parent_casts=true${!!targetFid ? `&viewer_fid=${targetFid}` : ""}&limit=50`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const response = await axios.get(`https://api.neynar.com/v2/farcaster/cast/conversation/?identifier=${hash}&type=hash&reply_depth=5&sort_type=algorithmic&fold=below&include_chronological_parent_casts=true${!!targetFid ? `&viewer_fid=${targetFid}` : ""}&limit=50`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   if (response.status !== 200) {
     return Response.json(response.data, { status: response.status })

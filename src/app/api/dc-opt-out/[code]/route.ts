@@ -117,7 +117,7 @@ export async function GET(
   }
 
   // get user data about target fid
-  const targetUserDataResponse = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk?fids=${targetFid}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const targetUserDataResponse = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk/?fids=${targetFid}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   const targetUsername = targetUserDataResponse.status === 200 ? targetUserDataResponse.data.users[0].username : targetFid
 

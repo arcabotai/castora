@@ -21,7 +21,7 @@ export async function GET(req: Request) {
   const url = new URL(req.url)
   const cursor = url.searchParams.get('cursor')
 
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/followers?fid=${targetFid}&viewer_fid=${targetFid}&sort_type=algorithmic&cursor=${cursor}&limit=20`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const response = await axios.get(`https://api.neynar.com/v2/farcaster/followers/?fid=${targetFid}&viewer_fid=${targetFid}&sort_type=algorithmic&cursor=${cursor}&limit=20`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   if (response.status !== 200) {
     return Response.json(response.data, { status: response.status })

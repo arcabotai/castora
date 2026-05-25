@@ -53,7 +53,7 @@ export async function POST(
   const memberFids = listMembers.map((member: any) => (member.memberFid)).join(",")
 
   // fetch data for each member
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk?fids=${memberFids}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk/?fids=${memberFids}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   if (response.status !== 200) {
     return Response.json(response.data, { status: response.status })

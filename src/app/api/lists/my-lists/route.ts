@@ -62,7 +62,7 @@ export async function GET(req: Request) {
 
   const authorFid = targetFid
 
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk?fids=${authorFid}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk/?fids=${authorFid}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   const authorProfile = response.data.users.find((user: any) => user.fid === authorFid)
 

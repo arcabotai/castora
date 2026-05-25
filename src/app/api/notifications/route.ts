@@ -30,9 +30,9 @@ export async function GET(req: Request) {
   let response;
 
   if (mode === "all") {
-    response = await axios.get(`https://api.neynar.com/v2/farcaster/notifications?fid=${targetFid}&priority_mode=${priority}&cursor=${cursor}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+    response = await axios.get(`https://api.neynar.com/v2/farcaster/notifications/?fid=${targetFid}&priority_mode=${priority}&cursor=${cursor}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
   } else if (mode === "mentions") {
-    response = await axios.get(`https://api.neynar.com/v2/farcaster/notifications?fid=${targetFid}&type=mentions,replies&priority_mode=${priority}&cursor=${cursor}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+    response = await axios.get(`https://api.neynar.com/v2/farcaster/notifications/?fid=${targetFid}&type=mentions,replies&priority_mode=${priority}&cursor=${cursor}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
   }
 
   return Response.json({ "unread": response.data.unseen_notifications_count, "notifications": response.data.notifications, "cursor": response.data.next.cursor })

@@ -128,7 +128,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const response = await axios.post(`https://api.neynar.com/v2/farcaster/cast`, castData, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+    const response = await axios.post(`https://api.neynar.com/v2/farcaster/cast/`, castData, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
     trackPosthogEvent(supercastUser.fid, "cast_sent", {
       "parent_url": parentURL,
@@ -170,7 +170,7 @@ export async function GET(req: Request) {
 
   const targetFid = Number(req.headers.get("asFid")) || 0
 
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/cast/conversation?identifier=${hash}&type=hash&reply_depth=5&sort_type=algorithmic&fold=above&include_chronological_parent_casts=true${!!targetFid ? `&viewer_fid=${targetFid}` : ""}&limit=50`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const response = await axios.get(`https://api.neynar.com/v2/farcaster/cast/conversation/?identifier=${hash}&type=hash&reply_depth=5&sort_type=algorithmic&fold=above&include_chronological_parent_casts=true${!!targetFid ? `&viewer_fid=${targetFid}` : ""}&limit=50`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   if (response.status !== 200) {
     return Response.json(response.data, { status: response.status })

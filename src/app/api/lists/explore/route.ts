@@ -90,7 +90,7 @@ export async function GET(req: NextRequest) {
 
   const authorFids = listsPrisma.map(list => list.authorFid).join(",")
 
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk?fids=${authorFids}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk/?fids=${authorFids}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   const authorProfiles = response.data.users
 

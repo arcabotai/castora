@@ -49,7 +49,7 @@ export async function GET(req: Request) {
     return Response.json({ "pet": null, "petOptions": petOptions }, { status: 200 })
   }
 
-  const petProfileResponse = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk?fids=${pet.farcasterAccount.fid}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const petProfileResponse = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk/?fids=${pet.farcasterAccount.fid}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   const petFarcasterData = petProfileResponse.data.users[0]
   const petStats = {

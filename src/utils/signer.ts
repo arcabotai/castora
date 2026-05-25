@@ -19,7 +19,7 @@ const SIGNED_KEY_REQUEST_TYPE = [
 
 export const getSignerFromNeynar = async (): Promise<{ publicKey: `0x${string}`; signerUUID: string } | null> => {
 
-  const res = await axios.post("https://api.neynar.com/v2/farcaster/signer", {}, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const res = await axios.post("https://api.neynar.com/v2/farcaster/signer/", {}, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   if (res.status === 200) {
     return {
@@ -72,13 +72,13 @@ export const sendSignedToNeynar = async (signature: string, sponsor: { signature
     "sponsor": sponsor,
   }
 
-  const res = await axios.post("https://api.neynar.com/v2/farcaster/signer/signed_key", data, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const res = await axios.post("https://api.neynar.com/v2/farcaster/signer/signed_key/", data, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   return res.data.signer_approval_url
 }
 
 export const checkSignerApproval = async (signerUUID: string) => {
-  const res = await axios.get(`https://api.neynar.com/v2/farcaster/signer?signer_uuid=${signerUUID}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const res = await axios.get(`https://api.neynar.com/v2/farcaster/signer/?signer_uuid=${signerUUID}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   return res.data
 }

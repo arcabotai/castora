@@ -20,7 +20,7 @@ export async function GET(req: Request) {
   if (!!profileFid) {
 
     try {
-      const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk?fids=${profileFid}${targetFid ? `&viewer_fid=${targetFid}` : ""}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+      const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk/?fids=${profileFid}${targetFid ? `&viewer_fid=${targetFid}` : ""}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
       if (response.status !== 200) {
         return Response.json(response.data, { status: response.status })
@@ -35,7 +35,7 @@ export async function GET(req: Request) {
   if (!!username) {
 
     try {
-      const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/by_username?username=${username}${targetFid ? `&viewer_fid=${targetFid}` : ""}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+      const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/by_username/?username=${username}${targetFid ? `&viewer_fid=${targetFid}` : ""}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
       if (response.status !== 200) {
         return Response.json(response.data, { status: response.status })

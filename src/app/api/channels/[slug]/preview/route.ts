@@ -40,11 +40,11 @@ export async function GET(
   }
 
   const [trendingCastsResponse, channelInfoResponse] = await Promise.all([
-    axios.get(`https://api.neynar.com/v2/farcaster/feed/trending?limit=10&viewer_fid=${targetFid}&time_window=7d&channel_id=${channel_id}`, {
-      headers: { "api_key": process.env.NEYNAR_API_KEY }
+    axios.get(`https://api.neynar.com/v2/farcaster/feed/trending/?limit=10&viewer_fid=${targetFid}&time_window=7d&channel_id=${channel_id}`, {
+      headers: { "x-api-key": process.env.NEYNAR_API_KEY }
     }),
-    axios.get(`https://api.neynar.com/v2/farcaster/channel?id=${channel_id}&type=id&viewer_fid=${targetFid}`, {
-      headers: { "api_key": process.env.NEYNAR_API_KEY }
+    axios.get(`https://api.neynar.com/v2/farcaster/channel/?id=${channel_id}&type=id&viewer_fid=${targetFid}`, {
+      headers: { "x-api-key": process.env.NEYNAR_API_KEY }
     })
   ])
 

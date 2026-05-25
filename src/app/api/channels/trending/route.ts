@@ -22,7 +22,7 @@ export async function GET(req: Request) {
 
   const cursor = url.searchParams.get("cursor")
 
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/channel/trending?time_window=1d&limit=6&cursor=${cursor}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const response = await axios.get(`https://api.neynar.com/v2/farcaster/channel/trending/?time_window=1d&limit=6&cursor=${cursor}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   if (response.status !== 200) {
     return Response.json(response.data, { status: response.status })

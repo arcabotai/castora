@@ -34,13 +34,13 @@ export async function GET(req: Request) {
     take: 10
   })
 
-  const trendingCastsResponse = await axios.get(`https://api.neynar.com/v2/farcaster/feed?feed_type=filter&filter_type=global_trending&limit=10&viewer_fid=${targetFid}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const trendingCastsResponse = await axios.get(`https://api.neynar.com/v2/farcaster/feed/?feed_type=filter&filter_type=global_trending&limit=10&viewer_fid=${targetFid}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   if (trendingCastsResponse.status === 200) {
     trendingCasts = trendingCastsResponse.data.casts
   }
 
-  const trendingChannelsResponse = await axios.get(`https://api.neynar.com/v2/farcaster/channel/trending?time_window=1d&limit=10`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const trendingChannelsResponse = await axios.get(`https://api.neynar.com/v2/farcaster/channel/trending/?time_window=1d&limit=10`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   if (trendingChannelsResponse.status === 200) {
     trendingChannels = trendingChannelsResponse.data.channels
@@ -54,7 +54,7 @@ export async function GET(req: Request) {
 
     const bookmarkHashes = firstBookmarks.map((bookmark: any) => bookmark.castHash)
 
-    const response = await axios.get(`https://api.neynar.com/v2/farcaster/casts?viewer_fid=${targetFid}&casts=${castHashes}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+    const response = await axios.get(`https://api.neynar.com/v2/farcaster/casts/?viewer_fid=${targetFid}&casts=${castHashes}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
     if (response.status === 200 || response.status === 206) {
       bookmarkedCasts = response.data.result.casts

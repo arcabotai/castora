@@ -43,10 +43,10 @@ export async function POST(req: Request) {
 
   try {
     const response = await axios.post(
-      `https://api.neynar.com/v2/farcaster/frame/action`,
+      `https://api.neynar.com/v2/farcaster/frame/action/`,
       frameData,
       {
-        "headers": { "api_key": process.env.NEYNAR_API_KEY }, maxRedirects: 0, validateStatus: function (status) {
+        "headers": { "x-api-key": process.env.NEYNAR_API_KEY }, maxRedirects: 0, validateStatus: function (status) {
           return status >= 200 && status < 303; // Resolve only if status code is less than 303
         }
       },

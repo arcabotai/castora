@@ -37,7 +37,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const response = await axios.post(`https://api.neynar.com/v2/farcaster/user/verification`, verificationData, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+    const response = await axios.post(`https://api.neynar.com/v2/farcaster/user/verification/`, verificationData, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
     return Response.json({ "result": response.data })
 

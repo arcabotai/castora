@@ -87,7 +87,7 @@ const handleSuccessfulPayment = async (paymentSession: PaymentSession) => {
       "idem": paymentSession.id
     }
 
-    axios.post(`https://api.neynar.com/v2/farcaster/storage/buy`, neynarData, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+    axios.post(`https://api.neynar.com/v2/farcaster/storage/buy/`, neynarData, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
       .then((response) => {
         console.log("neynarStorageResponse", response)
       })

@@ -39,7 +39,7 @@ export async function GET(req: Request) {
     })
   })
 
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed/user/replies_and_recasts?limit=10&viewer_fid=${targetFid}&cursor=${nextCursor}&fid=${profileFid}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed/user/replies_and_recasts/?limit=10&viewer_fid=${targetFid}&cursor=${nextCursor}&fid=${profileFid}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   if (response.status !== 200) {
     return Response.json(response.data, { status: response.status })

@@ -68,8 +68,8 @@ export const calculateLeaderboard = async (days: number | "lifetime"): Promise<L
 
   const allFids = leaderboard.map(user => user.fid).join(",");
 
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk?fids=${allFids}`, {
-    "headers": { "api_key": process.env.NEYNAR_API_KEY }
+  const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk/?fids=${allFids}`, {
+    "headers": { "x-api-key": process.env.NEYNAR_API_KEY }
   })
 
   if (response.status !== 200) {

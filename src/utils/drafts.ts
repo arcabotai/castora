@@ -58,7 +58,7 @@ const sendReactionToFarcaster = async (reaction: ScheduledReactionWithDraftAndAu
       "signer_uuid": reaction.reactionAuthor.signerUUID,
     }
 
-    await axios.post(`https://api.neynar.com/v2/farcaster/reaction`, reactionData, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+    await axios.post(`https://api.neynar.com/v2/farcaster/reaction/`, reactionData, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
       .then(async (response) => {
 
         const updatedReaction = await prisma.scheduledReaction.update({
@@ -88,7 +88,7 @@ const sendReactionToFarcaster = async (reaction: ScheduledReactionWithDraftAndAu
       "signer_uuid": reaction.reactionAuthor.signerUUID,
     }
 
-    await axios.post(`https://api.neynar.com/v2/farcaster/reaction`, reactionData, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+    await axios.post(`https://api.neynar.com/v2/farcaster/reaction/`, reactionData, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
       .then(async (response) => {
 
         const updatedReaction = await prisma.scheduledReaction.update({
@@ -119,7 +119,7 @@ const sendReactionToFarcaster = async (reaction: ScheduledReactionWithDraftAndAu
       "idem": reaction.id.slice(0, 16),
     }
 
-    await axios.post(`https://api.neynar.com/v2/farcaster/cast`, castData, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+    await axios.post(`https://api.neynar.com/v2/farcaster/cast/`, castData, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
       .then(async (response) => {
 
         const updatedReaction = await prisma.scheduledReaction.update({
@@ -188,7 +188,7 @@ export async function sendDraftToFarcaster(draft: DraftFull): Promise<DraftFull 
   let updatedDraft;
 
   try {
-    const response = await axios.post(`https://api.neynar.com/v2/farcaster/cast`, castData, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+    const response = await axios.post(`https://api.neynar.com/v2/farcaster/cast/`, castData, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
     let nextScheduledAt = draft.nextScheduledAt;
 

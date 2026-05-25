@@ -25,7 +25,7 @@ async function subscribeFIDToNeynarWebhookCastCreated(
     };
 
     const response = await axios.put(
-      'https://api.neynar.com/v2/farcaster/webhook',
+      'https://api.neynar.com/v2/farcaster/webhook/',
       {
         subscription,
         name: `${process.env.NEYNAR_NOTIFICATION_WEBHOOK_NAME}`,

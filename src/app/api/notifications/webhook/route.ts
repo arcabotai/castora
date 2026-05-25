@@ -64,8 +64,8 @@ export async function POST(req: NextRequest) {
         // Continue with sending notifications if any subscriptions remain
         if (subscriptions.length > 0) {
           const res = await axios.get(
-            `https://api.neynar.com/v2/farcaster/user/bulk?fids=${fid}`,
-            { "headers": { "api_key": process.env.NEYNAR_API_KEY } }
+            `https://api.neynar.com/v2/farcaster/user/bulk/?fids=${fid}`,
+            { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } }
           );
           const username = res.data.users[0].username;
           const message = `${cast.author.display_name} (@${cast.author.username}) replied: ${cast.text}`;

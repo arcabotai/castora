@@ -22,7 +22,7 @@ export async function GET(
     })
   }
 
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed?feed_type=filter&filter_type=channel_id&channel_id=${channel_id}&limit=10${targetFid ? `&viewer_fid=${targetFid}` : ''}&cursor=${cursor}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed/?feed_type=filter&filter_type=channel_id&channel_id=${channel_id}&limit=10${targetFid ? `&viewer_fid=${targetFid}` : ''}&cursor=${cursor}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   if (response.status !== 200) {
     return Response.json(response.data, { status: response.status })

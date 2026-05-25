@@ -35,7 +35,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const response = await axios.delete(`https://api.neynar.com/v2/farcaster/user/follow`, { "data": followData, "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+    const response = await axios.delete(`https://api.neynar.com/v2/farcaster/user/follow/`, { "data": followData, "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
     return Response.json({ "result": response.data })
 
   } catch (error) {

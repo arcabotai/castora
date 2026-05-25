@@ -29,7 +29,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const response = await axios.post(`https://api.neynar.com/v2/farcaster/notifications/seen`, data, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+    const response = await axios.post(`https://api.neynar.com/v2/farcaster/notifications/seen/`, data, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
     return Response.json({ "casts": response.data.casts })
 
   } catch (error) {

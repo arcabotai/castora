@@ -20,7 +20,7 @@ export async function POST(
     "message_bytes_in_hex": voteData.trustedData.messageBytes
   }
 
-  const validatedDataResponse = await axios.post(`https://api.neynar.com/v2/farcaster/frame/validate`, neynarData, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const validatedDataResponse = await axios.post(`https://api.neynar.com/v2/farcaster/frame/validate/`, neynarData, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   if (validatedDataResponse.status !== 200) {
     return Response.json(validatedDataResponse.data, { status: validatedDataResponse.status })

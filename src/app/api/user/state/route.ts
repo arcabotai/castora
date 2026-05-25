@@ -50,7 +50,7 @@ export async function GET(req: Request) {
 
   const allFids = connectedFids.concat(sharedWithFids).join(",");
 
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk?fids=${allFids}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk/?fids=${allFids}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   if (response.status !== 200) {
     return Response.json(response.data, { status: response.status })

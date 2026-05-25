@@ -23,8 +23,8 @@ export async function GET(req: Request) {
   const query = url.searchParams.get("query").replace("@", "").replace("/", "")
 
   const [channelResponse, profileResponse] = await Promise.all([
-    axios.get(`https://api.neynar.com/v2/farcaster/channel/search?q=${query}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } }),
-    axios.get(`https://api.neynar.com/v2/farcaster/user/search?viewer_fid=${targetFid}&q=${query}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+    axios.get(`https://api.neynar.com/v2/farcaster/channel/search/?q=${query}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } }),
+    axios.get(`https://api.neynar.com/v2/farcaster/user/search/?viewer_fid=${targetFid}&q=${query}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
   ]);
 
   if (channelResponse.status !== 200 || profileResponse.status !== 200) {

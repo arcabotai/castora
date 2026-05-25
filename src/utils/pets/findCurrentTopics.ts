@@ -23,19 +23,20 @@ export const fetchRecentPostsFromFavoriteChannels = async (ownerFid: number, use
   let cursor = undefined;
 
   while (allPosts.length < limit) {
-    const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed/channels`, {
+    const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed/`, {
       params: {
-        channel_ids: userPersonality.channels.join(","),
+        feed_type: "filter",
+        filter_type: "channel_id",
+        channel_id: userPersonality.channels.join(","),
         viewer_fid: ownerFid,
         with_recasts: false,
         with_replies: false,
-        members_only: true,
         limit: 100,
         cursor: cursor,
       },
       headers: {
         accept: "application/json",
-        api_key: process.env.NEYNAR_API_KEY,
+        "x-api-key": process.env.NEYNAR_API_KEY,
       },
     });
 
@@ -73,7 +74,7 @@ export const fetchForYouFeed = async (ownerFid: number, limit: number): Promise<
   let cursor = undefined;
 
   while (allPosts.length < limit) {
-    const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed/for_you`, {
+    const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed/for_you/`, {
       params: {
         fid: ownerFid,
         viewer_fid: ownerFid,
@@ -83,7 +84,7 @@ export const fetchForYouFeed = async (ownerFid: number, limit: number): Promise<
       },
       headers: {
         accept: "application/json",
-        api_key: process.env.NEYNAR_API_KEY,
+        "x-api-key": process.env.NEYNAR_API_KEY,
       },
     });
 
@@ -119,7 +120,7 @@ export const fetchTrendingFeed = async (ownerFid: number, limit: number): Promis
   let cursor = undefined;
 
   while (allPosts.length < limit) {
-    const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed`, {
+    const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed/`, {
       params: {
         feed_type: 'filter',
         filter_type: 'global_trending',
@@ -129,7 +130,7 @@ export const fetchTrendingFeed = async (ownerFid: number, limit: number): Promis
       },
       headers: {
         accept: "application/json",
-        api_key: process.env.NEYNAR_API_KEY,
+        "x-api-key": process.env.NEYNAR_API_KEY,
       },
     });
 

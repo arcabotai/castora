@@ -43,7 +43,7 @@ export async function PATCH(req: Request) {
   }
 
   try {
-    const response = await axios.patch(`https://api.neynar.com/v2/farcaster/user`, updateData, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+    const response = await axios.patch(`https://api.neynar.com/v2/farcaster/user/`, updateData, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
     return Response.json({ "user": response.data })
 
   } catch (error) {

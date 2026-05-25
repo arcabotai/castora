@@ -75,7 +75,7 @@ export async function GET(
   try {
     const fids = [draft.author.fid, ...scheduledReplies.map(reaction => reaction.reactionAuthor.fid)].join(',')
 
-    const profilesResponse = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk?fids=${fids}&viewer_fid=${targetFid}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+    const profilesResponse = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk/?fids=${fids}&viewer_fid=${targetFid}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
     profiles = profilesResponse.data.users
   } catch (error) {

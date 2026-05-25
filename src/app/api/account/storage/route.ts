@@ -19,7 +19,7 @@ export async function GET(request: Request) {
     return Response.json({ 'error': 'Not authenticated' }, { status: 401 })
   }
 
-  const neynarUsageResponse = await axios.get(`https://api.neynar.com/v2/farcaster/storage/usage?fid=${supercastUser.fid}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const neynarUsageResponse = await axios.get(`https://api.neynar.com/v2/farcaster/storage/usage/?fid=${supercastUser.fid}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   const neynarUsageData = neynarUsageResponse.data
 

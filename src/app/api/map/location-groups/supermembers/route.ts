@@ -72,10 +72,10 @@ async function fetchAllSuperUsers() {
     const chunk = memberFids.slice(i, i + 100);
     try {
       const response = await axios.get(
-        `https://api.neynar.com/v2/farcaster/user/bulk?fids=${chunk.join(',')}`,
+        `https://api.neynar.com/v2/farcaster/user/bulk/?fids=${chunk.join(',')}`,
         {
           headers: {
-            "api_key": process.env.NEYNAR_API_KEY
+            "x-api-key": process.env.NEYNAR_API_KEY
           }
         }
       );

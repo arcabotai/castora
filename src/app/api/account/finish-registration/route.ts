@@ -52,7 +52,7 @@ export async function POST(req: Request) {
     let response;
 
     try {
-      response = await axios.post(`https://api.neynar.com/v2/farcaster/user`, neynarRegistrationData, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+      response = await axios.post(`https://api.neynar.com/v2/farcaster/user/`, neynarRegistrationData, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
     } catch (error) {
       console.log(`Neynar fail with error: ${error}.`);
       return Response.json({ "error": "Neynar failed to register user" }, { status: 500 })
@@ -104,7 +104,7 @@ export async function POST(req: Request) {
       signer_uuid: newNeynarSigner,
     }
 
-    const updateDataResponse = await axios.patch(`https://api.neynar.com/v2/farcaster/user`, updateData, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+    const updateDataResponse = await axios.patch(`https://api.neynar.com/v2/farcaster/user/`, updateData, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
     // TODO return the updated user data and set the supercast user state on client side
 

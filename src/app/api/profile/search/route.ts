@@ -22,7 +22,7 @@ export async function GET(req: Request) {
 
   const query = url.searchParams.get("query").replace("@", "")
 
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/search?viewer_fid=${targetFid}&q=${query}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/search/?viewer_fid=${targetFid}&q=${query}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   if (response.status !== 200) {
     return Response.json(response.data, { status: response.status })

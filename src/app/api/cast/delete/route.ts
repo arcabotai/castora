@@ -34,7 +34,7 @@ export async function DELETE(req: Request) {
   }
 
   try {
-    const response = await axios.delete(`https://api.neynar.com/v2/farcaster/cast`, { "headers": { "api_key": process.env.NEYNAR_API_KEY }, data: deleteData })
+    const response = await axios.delete(`https://api.neynar.com/v2/farcaster/cast/`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY }, data: deleteData })
 
     trackPosthogEvent(supercastUser.fid, "cast_deleted", {
       hash: hash,

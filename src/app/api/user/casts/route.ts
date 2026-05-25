@@ -9,7 +9,7 @@ export async function GET(req: Request) {
   const targetFid = url.searchParams.get("ownerFid")
   const nextCursor = url.searchParams.get("cursor")
 
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed?feed_type=filter&with_recasts=false&filter_type=fids${targetFid != "0" ? "&viewer_fid=" + targetFid : ""}&fids=${profileFid}&limit=10&cursor=${nextCursor}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed/?feed_type=filter&with_recasts=false&filter_type=fids${targetFid != "0" ? "&viewer_fid=" + targetFid : ""}&fids=${profileFid}&limit=10&cursor=${nextCursor}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   if (response.status !== 200) {
     return Response.json(response.data, { status: response.status })

@@ -30,7 +30,7 @@ export async function GET(req: Request) {
     "asFid": targetFid,
   })
 
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/cast/search?q=${searchQuery}&viewer_fid=${targetFid}&cursor=${cursor}&limit=15`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const response = await axios.get(`https://api.neynar.com/v2/farcaster/cast/search/?q=${searchQuery}&viewer_fid=${targetFid}&cursor=${cursor}&limit=15`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   if (response.status !== 200) {
     return Response.json(response.data.casts, { status: response.status })

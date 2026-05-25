@@ -115,25 +115,25 @@ export const addToChannel = async (farcasterAccount: SupercastFarcasterAccount, 
 
   const supercastSignerUUID = process.env.SUPERCAST_SIGNER_UUID
 
-  const inviteResponse = await axios.post(`https://api.neynar.com/v2/farcaster/channel/member/invite`, {
+  const inviteResponse = await axios.post(`https://api.neynar.com/v2/farcaster/channel/member/invite/`, {
     "role": "member",
     "signer_uuid": supercastSignerUUID,
     "channel_id": channelId,
     "fid": farcasterAccount.fid
   }, {
     headers: {
-      "api_key": process.env.NEYNAR_API_KEY
+      "x-api-key": process.env.NEYNAR_API_KEY
     }
   })
 
-  const acceptResponse = await axios.put(`https://api.neynar.com/v2/farcaster/channel/member/invite`, {
+  const acceptResponse = await axios.put(`https://api.neynar.com/v2/farcaster/channel/member/invite/`, {
     "role": "member",
     "accept": true,
     "signer_uuid": farcasterAccount.signerUUID,
     "channel_id": channelId
   }, {
     headers: {
-      "api_key": process.env.NEYNAR_API_KEY
+      "x-api-key": process.env.NEYNAR_API_KEY
     }
   })
 }
@@ -141,9 +141,9 @@ export const addToChannel = async (farcasterAccount: SupercastFarcasterAccount, 
 export const removeFromChannel = async (fid: number, channelId: string) => {
   const supercastSignerUUID = process.env.SUPERCAST_SIGNER_UUID
 
-  const response = await axios.delete(`https://api.neynar.com/v2/farcaster/channel/member`, {
+  const response = await axios.delete(`https://api.neynar.com/v2/farcaster/channel/member/`, {
     headers: {
-      "api_key": process.env.NEYNAR_API_KEY
+      "x-api-key": process.env.NEYNAR_API_KEY
     },
     data: {
       "channel_id": channelId,

@@ -19,7 +19,7 @@ export async function GET(req: Request) {
     })
   })
 
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/reactions/user?fid=${profileFid}&viewer_fid=${ownerFid}&type=likes&limit=25&cursor=${nextCursor}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const response = await axios.get(`https://api.neynar.com/v2/farcaster/reactions/user/?fid=${profileFid}&viewer_fid=${ownerFid}&type=likes&limit=25&cursor=${nextCursor}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   if (response.status !== 200) {
     return Response.json(response.data, { status: response.status })

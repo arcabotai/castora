@@ -40,7 +40,7 @@ export async function POST(req: Request) {
 
   const fidsLookupString = [targetFid, ...recipientFids].join(',')
 
-  const userDataResponse = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk?fids=${fidsLookupString}&viewer_fid=${targetFid}`, { "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+  const userDataResponse = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk/?fids=${fidsLookupString}&viewer_fid=${targetFid}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   const username = userDataResponse.data.users[0].username
 

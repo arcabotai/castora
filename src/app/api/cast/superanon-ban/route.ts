@@ -102,7 +102,7 @@ export async function POST(req: Request) {
       "signer_uuid": process.env.SUPERANON_SIGNER_UUID,
     }
 
-    const response = await axios.delete(`https://api.neynar.com/v2/farcaster/cast`, { "headers": { "api_key": process.env.NEYNAR_API_KEY }, data: deleteData })
+    const response = await axios.delete(`https://api.neynar.com/v2/farcaster/cast/`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY }, data: deleteData })
 
     // TODO: add event for superanon ban
 

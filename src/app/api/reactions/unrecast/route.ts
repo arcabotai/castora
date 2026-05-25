@@ -34,7 +34,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const response = await axios.delete(`https://api.neynar.com/v2/farcaster/reaction`, { "data": reactionData, "headers": { "api_key": process.env.NEYNAR_API_KEY } })
+    const response = await axios.delete(`https://api.neynar.com/v2/farcaster/reaction/`, { "data": reactionData, "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
     return Response.json({ "casts": response.data.casts })
 
   } catch (error) {
