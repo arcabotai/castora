@@ -25,7 +25,7 @@ export function IosPwaProvider({ children }: { children: React.ReactNode }) {
       setIsIosPwa(cachedValue === 'true');
     } else {
       const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
-      const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone;
+      const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || Boolean((window.navigator as any).standalone);
       const detectedIsIosPwa = isIos && isInStandaloneMode;
 
       setIsIosPwa(detectedIsIosPwa);
