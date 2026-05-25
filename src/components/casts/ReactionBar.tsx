@@ -285,7 +285,7 @@ export default function ReactionBar({
               e.preventDefault()
               e.stopPropagation()
               navigator.clipboard.writeText(`${HOST_URL}/c/${castHash}`)
-              toast.success('Supercast link copied to clipboard')
+              toast.success('Castora link copied to clipboard')
             }}
             className={buttonClass}
           >

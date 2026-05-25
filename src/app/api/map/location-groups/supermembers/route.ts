@@ -5,10 +5,9 @@ import { isAuthorized } from '@/utils/auth/isAuthorized';
 import { getAllMemberFids } from '@/utils/members';
 import { LocationGroups } from '../types';
 
-import Redis from 'ioredis'
+import { redis } from '@/utils/redis'
 
 const CACHE_TTL = 86400 // 24 hours in seconds
-const redis = new Redis(process.env.REDIS_URL!)
 
 export async function GET(req: NextRequest) {
   try {

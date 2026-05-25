@@ -5,7 +5,7 @@ import AppProviders from "./AppProviders";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://castora-tan.vercel.app"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://castora.arcabot.ai"),
   title: "Castora",
   description: "Castora is an Arca-built Farcaster client for sharper social workflows.",
   manifest: "/manifest.json",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Castora",
     description: "Castora is an Arca-built Farcaster client for sharper social workflows.",
-    url: process.env.NEXT_PUBLIC_APP_URL || "https://castora-tan.vercel.app",
+    url: process.env.NEXT_PUBLIC_APP_URL || "https://castora.arcabot.ai",
     siteName: "Castora",
     images: [
       {

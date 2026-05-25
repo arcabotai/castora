@@ -3,10 +3,9 @@ import axios from "axios"
 import { isAuthenticated } from "@/utils/auth/isAuthenticated";
 import { isAuthorized } from "@/utils/auth/isAuthorized";
 
-import Redis from 'ioredis'
+import { redis } from '@/utils/redis'
 
 const CACHE_TTL = 24 * 60 * 60 // 24 hours in seconds
-const redis = new Redis(process.env.REDIS_URL!)
 
 export async function GET(
   req: Request,

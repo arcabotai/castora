@@ -26,7 +26,6 @@ export async function POST(
     return Response.json(validatedDataResponse.data, { status: validatedDataResponse.status })
   }
 
-  console.log('validatedDataResponse', validatedDataResponse.data)
   // check if there is already a vote with the same fid
 
   const existingVote = await prisma.pollVote.findFirst({
@@ -56,7 +55,7 @@ export async function POST(
       <meta name="fc:frame:post_url" content="${HOST_URL}/api/polls/redirect">
       <meta name="fc:frame:image:aspect_ratio" content="1.91:1">
       <meta name="fc:frame:button:1:action" content="post_redirect">
-      <meta name="fc:frame:button:1" content="Create your own poll on Supercast">
+      <meta name="fc:frame:button:1" content="Create your own poll on Castora">
     </head>
   </html>
   `;
@@ -105,7 +104,7 @@ export async function POST(
       <meta name="fc:frame:post_url" content="${HOST_URL}/api/polls/redirect">
       <meta name="fc:frame:image:aspect_ratio" content="1.91:1">
       <meta name="fc:frame:button:1:action" content="post_redirect">
-      <meta name="fc:frame:button:1" content="Create your own poll on Supercast">
+      <meta name="fc:frame:button:1" content="Create your own poll on Castora">
     </head>
   </html>
   `;

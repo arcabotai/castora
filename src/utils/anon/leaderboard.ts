@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { prisma } from '../../prisma/client'
-import Redis from 'ioredis'
+import { redis } from '@/utils/redis'
 
 const CACHE_TTL = 24 * 60 * 60 // 24 hours in seconds
-const redis = new Redis(process.env.REDIS_URL!)
 
 type LeaderboardEntry = {
   fid: number

@@ -20,7 +20,7 @@ export async function generateMetadata(
   }
 
   return {
-    title: `${profile.display_name ? profile.display_name : "New user"} (@${profile.username}) on Super`,
+    title: `${profile.display_name ? profile.display_name : "New user"} (@${profile.username}) on Castora`,
     description: profile.bio,
     openGraph: {
       images: [
@@ -28,7 +28,7 @@ export async function generateMetadata(
           url: profile.pfp_url,
         }
       ],
-      title: `${profile.display_name ? profile.display_name : "New user"} (@${profile.username}) on Super`,
+      title: `${profile.display_name ? profile.display_name : "New user"} (@${profile.username}) on Castora`,
       description: profile.profile.bio.text,
     },
   }
