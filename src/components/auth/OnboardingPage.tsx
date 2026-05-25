@@ -73,7 +73,7 @@ const OnboardingPage = () => {
     <div className="flex flex-col items-center justify-center pt-20">
       <h1 className="font-semibold text-2xl tracking-tight mb-2 text-center max-w-xs">Create or connect a Farcaster account</h1>
       <p className="text-sm text-gray-600 dark:text-gray-400 mb-6 max-w-xs text-center leading">
-        Super runs on Farcaster.<br />If you already have a Farcaster account, you can use it on super too
+        Castora runs on Farcaster.<br />If you already have a Farcaster account, you can use it here too.
       </p>
       <div className="flex flex-col gap-y-2 w-full max-w-xs">
         <Button
