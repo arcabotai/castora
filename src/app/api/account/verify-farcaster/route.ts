@@ -5,13 +5,17 @@ import {
   signSigner,
 } from "@/utils/signer";
 import { PrivyClient } from "@privy-io/server-auth";
+import { getBearerToken } from "@/utils/auth/getBearerToken";
 
 export async function POST(req: Request) {
   const privy = new PrivyClient(
     process.env.NEXT_PUBLIC_PRIVY_APP_ID,
     process.env.PRIVY_SECRET_KEY
   );
-  const authToken = req.headers.get("Authorization").split("Bearer ")[1];
+  const authToken = getBearerToken(req);
+  if (!authToken) {
+    return Response.json({ error: "Invalid auth" }, { status: 401 });
+  }
 
   try {
     const verifiedClaims = await privy.verifyAuthToken(authToken);

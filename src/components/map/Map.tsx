@@ -376,7 +376,11 @@ export default function MapComponent() {
 
       setUploading(true);
       // Upload the file
-      const result = await uploadFileClientSide(file);
+      const uploadToken = await getAccessToken();
+      const result = await uploadFileClientSide(file, {
+        accessToken: uploadToken,
+        asFid: supercastUserState.currentFid,
+      });
 
       // Open draft composer with the uploaded image
       setDraftId(null)

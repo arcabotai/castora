@@ -161,7 +161,8 @@ export default function EditProfileButton(props: EditProfileButtonProps) {
   const handleUploadAvatar = async (e) => {
 
     setUploading(true);
-    uploadFileClientSide(e.target.files[0])
+    const accessToken = await getAccessToken();
+    uploadFileClientSide(e.target.files[0], { accessToken, asFid: supercastUserState.currentFid })
       .then((res) => {
         setAvatar(`https://supercast.mypinata.cloud/ipfs/${res.IpfsHash}?filename=${res.uploadedFilename}`)
         toast.success('File uploaded successfully');

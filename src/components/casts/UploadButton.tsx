@@ -5,6 +5,8 @@ import { uploadFileClientSide } from '@/utils/upload'
 import { toast } from 'sonner';
 import { DRAFT_SEND_STATUS, Draft } from '@prisma/client';
 import { Button } from '../ui/button';
+import { usePrivy } from '@privy-io/react-auth';
+import { useSupercastUserState } from '@/providers/SupercastUserStateProvider';
 
 interface Props {
   currentDraft?: Draft;
@@ -23,6 +25,8 @@ export default function UploadButton(props: Props) {
 
   const [uploading, setUploading] = useState(false);
   const [file, setFile] = useState("");
+  const { getAccessToken } = usePrivy();
+  const { supercastUserState } = useSupercastUserState();
 
   const inputFile = useRef(null);
 
@@ -60,13 +64,29 @@ export default function UploadButton(props: Props) {
     return true;
   };
 
+  const getUploadOptions = async () => {
+    const accessToken = await getAccessToken();
+    const asFid = supercastUserState?.currentFid;
+
+    if (!accessToken || !asFid) {
+      throw new Error('Please sign in before uploading.');
+    }
+
+    return { accessToken, asFid };
+  };
+
+  const uploadSelectedFile = async (file: File) => {
+    const uploadOptions = await getUploadOptions();
+    return uploadFileClientSide(file, uploadOptions);
+  };
+
   const handleChange = async (e) => {
     const file = e.target.files[0];
     if (!validateFileType(file)) return;
 
     setFile(file);
     setUploading(true);
-    uploadFileClientSide(file)
+    uploadSelectedFile(file)
       .then((res) => {
         setCid(res.IpfsHash);
         setFilename(res.uploadedFilename);
@@ -90,7 +110,7 @@ export default function UploadButton(props: Props) {
         if (!validateFileType(file)) return;
 
         setUploading(true);
-        uploadFileClientSide(file)
+        uploadSelectedFile(file)
           .then((res) => {
             setCid(res.IpfsHash);
             setFilename(res.uploadedFilename);
@@ -157,7 +177,7 @@ export default function UploadButton(props: Props) {
             }
 
             setUploading(true);
-            uploadFileClientSide(file)
+            uploadSelectedFile(file)
               .then((res) => {
                 setCid(res.IpfsHash);
                 setFilename(res.uploadedFilename);

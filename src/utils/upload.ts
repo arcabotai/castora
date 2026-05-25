@@ -1,19 +1,42 @@
 import slugify from 'slugify'
 
-export const uploadFileClientSide = async (fileToUpload) => {
-  try {
+type UploadOptions = {
+  accessToken: string | null;
+  asFid?: number;
+}
 
-    if (fileToUpload.size > 100 * 1000 * 1000) {
-      throw new Error("File size too large. Max 100MB");
+export const uploadFileClientSide = async (fileToUpload: File, options: UploadOptions) => {
+  try {
+    if (fileToUpload.size > 10 * 1024 * 1024) {
+      throw new Error("File size too large. Max 10MB");
     }
 
+    if (!options.accessToken) {
+      throw new Error("Please sign in before uploading.");
+    }
 
     const formData = new FormData();
     const uploadedFilename = slugify(fileToUpload.name);
     formData.append("file", fileToUpload, uploadedFilename);
 
-    const jwtRes = await fetch("/api/cast/upload", { method: "POST" });
+    const jwtRes = await fetch("/api/cast/upload", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${options.accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        asFid: options.asFid,
+        fileName: uploadedFilename,
+        fileType: fileToUpload.type,
+        fileSize: fileToUpload.size,
+      }),
+    });
+
     const data = await jwtRes.json();
+    if (!jwtRes.ok) {
+      throw new Error(data?.error || "Failed to create upload token");
+    }
 
     const { JWT } = data;
 
@@ -29,6 +52,10 @@ export const uploadFileClientSide = async (fileToUpload) => {
     );
 
     const json = await res.json();
+    if (!res.ok) {
+      throw new Error(json?.error || "Failed to upload file");
+    }
+
     const { IpfsHash } = json;
     return {
       IpfsHash,
@@ -36,6 +63,6 @@ export const uploadFileClientSide = async (fileToUpload) => {
     };
 
   } catch (e) {
-    throw new Error(e);
+    throw e instanceof Error ? e : new Error(String(e));
   }
 };

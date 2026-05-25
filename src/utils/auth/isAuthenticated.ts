@@ -2,6 +2,7 @@ import { prisma } from '@/prisma/client'
 import { SupercastPrivyUser } from '@prisma/client';
 import { PrivyClient } from '@privy-io/server-auth';
 import { trackPosthogEvent } from '../posthogAnalytics';
+import { getBearerToken } from './getBearerToken';
 
 type AuthenticationResponseData = {
   authenticated: boolean,
@@ -12,12 +13,9 @@ export const isAuthenticated = async (req: Request): Promise<AuthenticationRespo
 
   const privy = new PrivyClient(process.env.NEXT_PUBLIC_PRIVY_APP_ID, process.env.PRIVY_SECRET_KEY);
 
-  const authorization = req.headers.get("Authorization") || "";
-  const authToken = authorization.startsWith("Bearer ")
-    ? authorization.slice("Bearer ".length).trim()
-    : "";
+  const authToken = getBearerToken(req);
 
-  if (authToken === 'null' || authToken === 'undefined' || !authToken) {
+  if (!authToken) {
     return {
       authenticated: false,
       supercastUser: null

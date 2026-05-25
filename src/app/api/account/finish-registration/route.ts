@@ -2,12 +2,16 @@ import { prisma } from "@/prisma/client";
 import { trackPosthogEvent } from "@/utils/posthogAnalytics";
 import { PrivyClient } from "@privy-io/server-auth";
 import axios from "axios";
+import { getBearerToken } from "@/utils/auth/getBearerToken";
 
 export async function POST(req: Request) {
 
   const privy = new PrivyClient(process.env.NEXT_PUBLIC_PRIVY_APP_ID, process.env.PRIVY_SECRET_KEY);
 
-  const authToken = req.headers.get("Authorization").split("Bearer ")[1];
+  const authToken = getBearerToken(req);
+  if (!authToken) {
+    return Response.json({ "error": "Invalid auth" }, { status: 401 })
+  }
 
   const {
     username,
@@ -47,8 +51,6 @@ export async function POST(req: Request) {
       fname: username,
     };
 
-    console.log(neynarRegistrationData);
-
     let response;
 
     try {
@@ -59,7 +61,6 @@ export async function POST(req: Request) {
     }
 
     if (response.status !== 200) {
-      console.log(response);
       return Response.json(response.data, { status: response.status })
     }
 

@@ -5,6 +5,42 @@ import { sendNotification } from "../pushnotifications";
 import { prisma } from "@/prisma/client";
 import { HOST_URL } from "@/utils/hostURL";
 import axios from "axios";
+import Redis from 'ioredis';
+
+let redis: Redis | null = null;
+const WEBHOOK_DEDUPE_TTL_SECONDS = 60 * 60 * 24;
+
+const getRedis = () => {
+  if (!process.env.REDIS_URL) return null;
+  if (!redis) {
+    redis = new Redis(process.env.REDIS_URL, { lazyConnect: true });
+  }
+  return redis;
+}
+
+const webhookIdempotencyKey = (data: any) => {
+  const eventType = data?.type || 'unknown';
+  const eventId = data?.event_id || data?.id;
+  const castHash = data?.data?.hash;
+  const timestamp = data?.data?.event_timestamp || data?.created_at;
+
+  return `neynar:webhook:${eventType}:${eventId || castHash || timestamp || JSON.stringify(data).slice(0, 128)}`;
+}
+
+const claimWebhookEvent = async (data: any): Promise<boolean> => {
+  const redisClient = getRedis();
+  if (!redisClient) return true;
+
+  const result = await redisClient.set(
+    webhookIdempotencyKey(data),
+    '1',
+    'EX',
+    WEBHOOK_DEDUPE_TTL_SECONDS,
+    'NX'
+  );
+
+  return result === 'OK';
+}
 
 export async function POST(req: NextRequest) {
   try{
@@ -12,6 +48,11 @@ export async function POST(req: NextRequest) {
     const { success, data } = await isNeynarWebhook(req);
     if(!success) { 
       return NextResponse.json({ error: 'Failed to validate webhook signature' }, { status: 401 });
+    }
+
+    const shouldProcess = await claimWebhookEvent(data);
+    if (!shouldProcess) {
+      return NextResponse.json({ success: true, duplicate: true });
     }
 
     // debug output all neynar data including unrolling objects

@@ -206,7 +206,8 @@ export default function CreateAccountForm({
 
   const handleUploadAvatar = async (e) => {
     setUploading(true);
-    uploadFileClientSide(e.target.files[0])
+    const accessToken = await getAccessToken();
+    uploadFileClientSide(e.target.files[0], { accessToken, asFid: newAccountFid || undefined })
       .then((res) => {
         setAvatar(`https://supercast.mypinata.cloud/ipfs/${res.IpfsHash}?filename=${res.uploadedFilename}`)
         toast.success('File uploaded successfully');
