@@ -13,7 +13,6 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer"
 import { useOpenSignerApproval } from "@/providers/OpenSignerApprovalProvider"
-import { HOST_URL } from "@/utils/hostURL"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { isMobile } from "react-device-detect"
@@ -41,38 +40,16 @@ export const SignerApprovalDialog: React.FC = (props) => {
       return
     }
 
-    try {
-      const accessToken = await getAccessToken()
-      const res = await axios.post(`${HOST_URL}/api/account/create-signer`, {}, {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`
-        }
-      })
-
-      if (!res.data.signerUUID || !res.data.signerApprovalUrl) {
-        toast.error('Invalid response from server')
-        return
-      }
-
-      localStorage.setItem('unapproved-signerUUID', res.data.signerUUID)
-      localStorage.setItem('unapproved-approvalURL', res.data.signerApprovalUrl)
-      setProposedSignerUUID(res.data.signerUUID)
-      setSignerApprovalUrl(res.data.signerApprovalUrl)
-    } catch (error) {
-      console.error(error)
-      toast.error('Error initiating Farcaster verification')
-    }
+    toast.error('Please connect your Farcaster account with Sign in with Neynar from onboarding/settings.')
+    setOpenSignerApproval(false)
   }
 
   const waitForSignerApproval = async (signerUUID: string) => {
     let retries = 0;
-    console.log('waiting for signer approval')
 
     // give up after 180 seconds
     while (retries < 180) {
       retries++;
-
-      console.log("attempt ", retries, " signerUUID", signerUUID)
 
       const accessToken = await getAccessToken()
 
@@ -153,7 +130,7 @@ export const SignerApprovalDialog: React.FC = (props) => {
     if (isMobile && signerApprovalUrl) {
       window.location.href = signerApprovalUrl
     } else if (isMobile && !signerApprovalUrl) {
-      toast.error('Error forwarding you to Warpcast')
+      toast.error('Connect your Farcaster account with Sign in with Neynar from onboarding/settings.')
       setOpenSignerApproval(false)
     }
   }, [signerApprovalUrl, isMobile])
@@ -163,8 +140,8 @@ export const SignerApprovalDialog: React.FC = (props) => {
       <DialogHeader>
         <DialogTitle>One more step</DialogTitle>
         <DialogDescription>
-          <p>Super currently doesn't have permissions to post on your behalf.</p>
-          <p>Please approve a connection in Warpcast by scanning this QR code.</p>
+          <p>Castora needs an approved Farcaster signer before it can post on your behalf.</p>
+          <p>Connect your account with Sign in with Neynar from onboarding or settings.</p>
         </DialogDescription>
       </DialogHeader>
       {signerApprovalUrl ? (

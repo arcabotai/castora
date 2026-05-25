@@ -5,6 +5,8 @@ import { HOST_URL } from '@/utils/hostURL'
 import { usePrivy } from '@privy-io/react-auth';
 import { useSupercastUserState } from '@/providers/SupercastUserStateProvider';
 
+const PAYMENTS_ENABLED = process.env.NEXT_PUBLIC_PAYMENTS_ENABLED === 'true';
+
 const PremiumOnlyPaywall: React.FC = () => {
 
   const [checkoutLoadingMonthly, setCheckoutLoadingMonthly] = useState(false)
@@ -12,8 +14,10 @@ const PremiumOnlyPaywall: React.FC = () => {
   const { supercastUserState } = useSupercastUserState()
   const { getAccessToken } = usePrivy()
 
-  const handleGoToCheckout = (period: "monthly" | "yearly") => {
-    const accessToken = getAccessToken()
+  const handleGoToCheckout = async (period: "monthly" | "yearly") => {
+    if (!PAYMENTS_ENABLED) return;
+
+    const accessToken = await getAccessToken()
 
     if (period === "monthly") {
       setCheckoutLoadingMonthly(true)
@@ -40,9 +44,9 @@ const PremiumOnlyPaywall: React.FC = () => {
     <div className='flex flex-row justify-center'>
       <div className='flex flex-row justify-center pt-12 max-w-[400px]'>
         <div className='flex flex-col dark:text-gray-200 border dark:border-gray-700 rounded-md px-6 py-3'>
-          <p className='mb-4 text-4xl font-semibold'>Supercast</p>
-          <p className='text-sm mb-3'>To ensure undisrupted service for the premium subscribers, Supercast free plan is temporarily disabled.</p>
-          <p className='text-sm mb-3'>Supercast premium subscribers have access to:</p>
+          <p className='mb-4 text-4xl font-semibold'>Castora</p>
+          <p className='text-sm mb-3'>This inherited premium screen is disabled for the Castora beta.</p>
+          <p className='text-sm mb-3'>Core beta features are focused on Farcaster login, signer connection, posting, and reading.</p>
           <ul className='flex flex-col gap-y-2 mb-6'>
             <li className='flex flex-row items-center gap-x-2 text-sm'>
               <div className="flex h-5 w-5 items-center justify-center rounded-full bg-yellow-100">
@@ -73,6 +77,7 @@ const PremiumOnlyPaywall: React.FC = () => {
             type="button"
             className="flex flex-row items-center w-full justify-center rounded-md bg-white border border-black dark:border-gray-700 dark:bg-gray-900 mb-1 px-3 py-2 text-sm font-semibold text-black dark:text-gray-100 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-800"
             onClick={() => handleGoToCheckout("monthly")}
+            disabled={!PAYMENTS_ENABLED || checkoutLoadingMonthly || checkoutLoadingYearly}
           >
             {checkoutLoadingMonthly
               &&
@@ -84,12 +89,13 @@ const PremiumOnlyPaywall: React.FC = () => {
                 <span className="sr-only">Loading...</span>
               </div>
             }
-            $10/mo · Checkout monthly
+            {PAYMENTS_ENABLED ? '$10/mo · Checkout monthly' : 'Payments disabled for beta'}
           </button>
           <button
             type="button"
             className="flex flex-row items-center w-full justify-center rounded-md bg-gray-900 dark:bg-gray-200 px-3 py-2 text-sm font-semibold text-white dark:text-gray-900 shadow-sm hover:bg-gray-800 dark:hover:bg-gray-300"
             onClick={() => handleGoToCheckout("yearly")}
+            disabled={!PAYMENTS_ENABLED || checkoutLoadingMonthly || checkoutLoadingYearly}
           >
             {checkoutLoadingYearly
               &&
@@ -101,7 +107,7 @@ const PremiumOnlyPaywall: React.FC = () => {
                 <span className="sr-only">Loading...</span>
               </div>
             }
-            $100/yr · Checkout yearly
+            {PAYMENTS_ENABLED ? '$100/yr · Checkout yearly' : 'Beta access only'}
           </button>
         </div>
       </div>

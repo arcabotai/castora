@@ -113,9 +113,6 @@ export async function POST(req: Request) {
     return Response.json({ "error": "Signer not approved" }, { status: 400 })
   }
 
-  console.log('supercastUser', supercastUser)
-  console.log('neynarData', neynarData)
-
   const approvedSignerFid = neynarData.fid
   const approvedSignerUUID = neynarData.signer_uuid
 
