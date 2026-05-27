@@ -39,23 +39,31 @@ type POSTHOG_EVENT_TYPE =
 
 export const trackPosthogEvent = async (fid: Number, eventType: POSTHOG_EVENT_TYPE, eventProperties: Object) => {
 
-  const posthog_client = new PostHog(
-    process.env.NEXT_PUBLIC_POSTHOG_KEY as string,
-    {
-      host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
-      flushAt: 1,
-      flushInterval: 0,
-    }
-  )
+  if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) {
+    return
+  }
 
-  posthog_client.capture({
-    distinctId: fid.toString(),
-    event: eventType,
-    properties: {
-      ...eventProperties,
-      "supercast_secret": "ilovesupercast", // leaving this here in case someone tries to spam our posthog
-    },
-  })
+  try {
+    const posthog_client = new PostHog(
+      process.env.NEXT_PUBLIC_POSTHOG_KEY,
+      {
+        host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+        flushAt: 1,
+        flushInterval: 0,
+      }
+    )
 
-  await posthog_client.shutdown() // On program exit, call shutdown to stop pending pollers and flush any remaining events
+    posthog_client.capture({
+      distinctId: fid.toString(),
+      event: eventType,
+      properties: {
+        ...eventProperties,
+        "supercast_secret": "ilovesupercast", // leaving this here in case someone tries to spam our posthog
+      },
+    })
+
+    await posthog_client.shutdown() // On program exit, call shutdown to stop pending pollers and flush any remaining events
+  } catch (error) {
+    console.error("PostHog tracking failed", error)
+  }
 }
