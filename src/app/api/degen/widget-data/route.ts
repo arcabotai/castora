@@ -2,6 +2,23 @@ import { isAuthenticated } from "@/utils/auth/isAuthenticated"
 import { isAuthorized } from "@/utils/auth/isAuthorized"
 import axios from "axios"
 
+type DegenResponse = { status: number, data: any }
+
+const fetchDegen = async (url: string): Promise<DegenResponse> => {
+  try {
+    return await axios.get(url, {
+      timeout: 5000,
+      validateStatus: () => true,
+    })
+  } catch (error) {
+    console.warn('/api/degen/widget-data upstream request failed', {
+      code: axios.isAxiosError(error) ? error.code : undefined,
+      url: url.replace(/wallet=[^&]+/, 'wallet=<redacted>'),
+    })
+    return { status: 0, data: [] }
+  }
+}
+
 export async function GET(req: Request) {
   const { authenticated, supercastUser } = await isAuthenticated(req)
 
@@ -10,6 +27,10 @@ export async function GET(req: Request) {
   }
 
   const targetFid = Number(req.headers.get("asFid"))
+
+  if (!Number.isInteger(targetFid) || targetFid <= 0) {
+    return Response.json({ 'error': 'Invalid target fid' }, { status: 400 })
+  }
 
   const { authorized } = await isAuthorized(supercastUser, targetFid)
 
@@ -31,6 +52,7 @@ export async function GET(req: Request) {
   }
 
   const lastSeason = Number(season) - 1 == 10 ? "x" : Number(season) - 1;
+  const encodedAddress = encodeURIComponent(address)
 
   const [
     responseCurrentSeasonPoints,
@@ -38,13 +60,27 @@ export async function GET(req: Request) {
     responseAllowance,
     responseAirdropData
   ] = await Promise.all([
-    axios.get(`https://api.degen.tips/airdrop2/current/points?wallet=${address}`),
-    axios.get(`https://api.degen.tips/airdrop2/season${lastSeason}/points?wallet=${address}`),
-    axios.get(`https://api.degen.tips/airdrop2/allowances?fid=${targetFid}`),
-    axios.get(`https://api.degen.tips/airdrop2/season${lastSeason}/merkleproofs?wallet=${address}`)
+    fetchDegen(`https://api.degen.tips/airdrop2/current/points?wallet=${encodedAddress}`),
+    fetchDegen(`https://api.degen.tips/airdrop2/season${lastSeason}/points?wallet=${encodedAddress}`),
+    fetchDegen(`https://api.degen.tips/airdrop2/allowances?fid=${targetFid}`),
+    fetchDegen(`https://api.degen.tips/airdrop2/season${lastSeason}/merkleproofs?wallet=${encodedAddress}`)
   ]);
 
-  console.log("Responses received", responseCurrentSeasonPoints.data, responseLastSeasonPoints.data, responseAllowance.data, responseAirdropData.data)
+  const degenResponses = [
+    ['currentPoints', responseCurrentSeasonPoints],
+    ['lastSeasonPoints', responseLastSeasonPoints],
+    ['allowance', responseAllowance],
+    ['airdropData', responseAirdropData],
+  ] as Array<[string, DegenResponse]>
+
+  const failedResponses = degenResponses.filter(([, response]) => response.status !== 200)
+
+  if (failedResponses.length > 0) {
+    console.warn('/api/degen/widget-data upstream partial failure', {
+      targetFid,
+      failures: failedResponses.map(([name, response]) => ({ name, status: response.status })),
+    })
+  }
 
   let currentSeasonPoints = 0;
   let lastSeasonPoints = 0;
@@ -74,6 +110,6 @@ export async function GET(req: Request) {
     "lastSeasonPoints": lastSeasonPoints,
     "remainingAllowance": remainingAllowance,
     "dailyAllowance": dailyAllowance,
-    "airdropData": airdropData[0]
+    "airdropData": Array.isArray(airdropData) ? airdropData[0] : null
   })
 }

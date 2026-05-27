@@ -1,5 +1,4 @@
 import { prisma } from '@/prisma/client'
-import { isAuthorized } from '@/utils/auth/isAuthorized'
 import { isAuthenticated } from '@/utils/auth/isAuthenticated'
 import { PLAN } from '@prisma/client'
 import axios from 'axios'
@@ -47,7 +46,15 @@ export async function GET(req: Request) {
 
     const allFids = users.map(user => user.fid).join(",");
 
-    const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk/?fids=${allFids}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+    if (!allFids) {
+      await redis.setex(cacheKey, CACHE_TTL, JSON.stringify([]))
+      return Response.json([])
+    }
+
+    const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk/?fids=${allFids}`, {
+      "headers": { "x-api-key": process.env.NEYNAR_API_KEY },
+      timeout: 5000,
+    })
 
     if (response.status !== 200) {
       return Response.json(response.data, { status: response.status })
@@ -65,7 +72,15 @@ export async function GET(req: Request) {
 
     return Response.json(leaderboard)
   } catch (error) {
-    console.error('Error fetching membership leaderboard:', error)
+    if (axios.isAxiosError(error)) {
+      console.error('Error fetching membership leaderboard:', {
+        status: error.response?.status,
+        code: error.code,
+        message: error.message,
+      })
+    } else {
+      console.error('Error fetching membership leaderboard:', error)
+    }
     return Response.json({ "error": "Internal Server Error" }, { status: 500 })
   }
 } 
