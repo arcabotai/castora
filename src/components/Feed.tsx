@@ -29,7 +29,7 @@ import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 export default function Feed() {
-  const { supercastUserState, isAuthenticated, isGuest } = useSupercastUserState()
+  const { supercastUserState, isAuthenticated, isGuest, isRegularUser } = useSupercastUserState()
   const { setHash, navigateToCast } = useSelectedCast()
   const { setOpenDraftComposeWindow, setInitialText, setInitialEmbeds, setInitialRecastId } = useDraftComposeWindow()
   const { draftId, setDraftId } = useDraftId()
@@ -47,6 +47,7 @@ export default function Feed() {
   const router = useRouter();
 
   const listId = selectedList?.id || "foryou"
+  const regularUser = isRegularUser()
 
   const fetchCasts = async ({ pageParam = '' }) => {
 
@@ -86,8 +87,10 @@ export default function Feed() {
   }, [])
 
   useEffect(() => {
-    notificationsQuery.refetch()
-  }, [])
+    if (regularUser) {
+      notificationsQuery.refetch()
+    }
+  }, [regularUser])
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {

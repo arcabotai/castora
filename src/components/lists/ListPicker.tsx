@@ -99,7 +99,7 @@ export default function ListPicker() {
     ['lists', supercastUserState.currentFid],
     fetchLists,
     {
-      enabled: !!supercastUserState,
+      enabled: readyPrivy && (isGuest() || isRegularUser()),
       staleTime: 120000, // 2 minutes
     }
   )

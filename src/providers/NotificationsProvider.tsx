@@ -11,7 +11,7 @@ const NotificationsContext = createContext(null);
 
 export const NotificationsProvider = ({ children }) => {
   const { supercastUserState, isRegularUser } = useSupercastUserState();
-  const { getAccessToken } = usePrivy();
+  const { ready: privyReady, authenticated, getAccessToken } = usePrivy();
   const queryClient = useQueryClient();
   const [selectedMode, setSelectedMode] = useState<'all' | 'mentions'>(() => {
     if (typeof window !== 'undefined') {
@@ -90,7 +90,7 @@ export const NotificationsProvider = ({ children }) => {
     fetchNotifications,
     {
       getNextPageParam: (lastPage) => lastPage.cursor || undefined,
-      enabled: isRegularUser(),
+      enabled: privyReady && authenticated && isRegularUser() && !!supercastUserState?.currentFid,
       staleTime: 180000, // 3 minutes
       cacheTime: 180000, // 3 minutes
     }
