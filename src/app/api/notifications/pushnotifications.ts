@@ -18,7 +18,7 @@ const ensureVapidDetails = () => {
   }
 
   webpush.setVapidDetails(
-    'mailto:hello@castora.arcabot.ai',
+    'mailto:hello@castora.social',
     publicKey,
     privateKey
   );
@@ -32,7 +32,7 @@ export async function sendNotification(
   subscriptions: { subscriptionObject: Prisma.JsonValue; }[],
   title: string,
   message: string,
-  pushUrl: string = "https://castora.arcabot.ai",
+  pushUrl: string = "https://castora.social",
 ) {
   try {
     if (!ensureVapidDetails()) {

@@ -5,8 +5,8 @@ import { FC, PropsWithChildren } from 'react'
 
 const config = {
   rpcUrl: process.env.NEXT_PUBLIC_OPTIMISM_RPC_ENDPOINT,
-  domain: 'castora.arcabot.ai',
-  siweUri: 'https://castora.arcabot.ai',
+  domain: 'castora.social',
+  siweUri: 'https://castora.social',
 };
 
 export const SIWFProvider: FC<PropsWithChildren<{}>> = ({ children }) => (

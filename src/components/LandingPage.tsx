@@ -201,7 +201,7 @@ export default function LandingPage() {
                 Fast enough for the daily feed, restrained enough for actual work.
               </h2>
               <p className="mt-4 text-base font-medium leading-7 text-[#555a51] dark:text-white/62">
-                Castora keeps the Supercast-style power-user base while cleaning up the public entry point, branding, embeds, and phone layout for the arcabot.ai deployment.
+                Castora keeps the Supercast-style power-user base while cleaning up the public entry point, branding, embeds, and phone layout for the castora.social deployment.
               </p>
             </div>
             <div className="relative overflow-hidden border border-black/10 bg-white shadow-[0_24px_70px_rgba(17,18,16,0.12)] dark:border-white/10 dark:bg-[#10120f]">

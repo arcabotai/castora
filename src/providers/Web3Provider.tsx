@@ -69,8 +69,8 @@ export const config = createConfig(
 
     // Optional App Info
     appDescription: "Arca Farcaster client",
-    appUrl: "https://castora.arcabot.ai",
-    appIcon: "https://castora.arcabot.ai/castora-mark.png",
+    appUrl: "https://castora.social",
+    appIcon: "https://castora.social/castora-mark.png",
   }),
 );
 

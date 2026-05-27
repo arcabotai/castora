@@ -2,6 +2,8 @@
 
 A sharper Farcaster client by Arca.
 
+Live: https://castora.social
+
 Castora is a PWA + web client for people who want a better Farcaster surface: fast feeds, serious compose, cleaner profiles, useful notifications, and eventually agent-native context tools without turning the timeline into sludge.
 
 ## Status

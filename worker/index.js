@@ -23,7 +23,7 @@ self.addEventListener('push', function (event) {
 self.addEventListener('notificationclick', function (event) {
   event.notification.close()
 
-  const urlToOpen = event.notification.data.url || "https://castora.arcabot.ai"
+  const urlToOpen = event.notification.data.url || "https://castora.social"
   console.log('Opening URL:', urlToOpen)
 
   event.waitUntil(

@@ -32,7 +32,7 @@ const CastText: React.FC<CastTextProps> = (props) => {
     if (isURL(segment, { require_tld: true, require_protocol: false })) {
       if (segment.endsWith('.eth')) {
         // separate treatment for ENS domains
-        // todo fix app links like castora.arcabot.ai/woj.eth which are not ens domains
+        // todo fix app links like castora.social/woj.eth which are not ens domains
         return false
       }
 

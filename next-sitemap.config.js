@@ -1,4 +1,4 @@
 module.exports = {
-  siteUrl: process.env.NEXT_PUBLIC_APP_URL || 'https://castora.arcabot.ai',
+  siteUrl: process.env.NEXT_PUBLIC_APP_URL || 'https://castora.social',
   generateRobotsTxt: true,
 }

@@ -1,4 +1,4 @@
-const DEFAULT_APP_URL = 'https://castora.arcabot.ai';
+const DEFAULT_APP_URL = 'https://castora.social';
 
 const VERCEL_ENV_AUTH_URLS: Record<string, string> = {
   production: process.env.NEXT_PUBLIC_APP_URL || DEFAULT_APP_URL,

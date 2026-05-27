@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 
-const DEFAULT_APP_URL = 'https://castora.arcabot.ai';
+const DEFAULT_APP_URL = 'https://castora.social';
 
 const VERCEL_ENV_ALLOWED_ORIGINS: Record<string, string> = {
   production: process.env.NEXT_PUBLIC_APP_URL || DEFAULT_APP_URL,

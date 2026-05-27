@@ -11,7 +11,7 @@ export async function GET(req: Request) {
       return Response.json({ error: "query is required" })
     }
 
-    const response = await axios.get(query, { headers: { 'User-Agent': 'CastoraBot/1.0 (https://castora.arcabot.ai)' } });
+    const response = await axios.get(query, { headers: { 'User-Agent': 'CastoraBot/1.0 (https://castora.social)' } });
     const html = response.data;
     const $ = cheerio.load(html);
 
