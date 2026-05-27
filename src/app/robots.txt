@@ -1,1 +1,5 @@
-Allow: /api/og/*
+User-agent: *
+Allow: /
+
+Host: https://castora.social
+Sitemap: https://castora.social/sitemap.xml
