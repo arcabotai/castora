@@ -7,6 +7,9 @@ export default function PrivyProviderProxy({ children }: { children: React.React
     <PrivyProvider
       appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID}
       config={{
+        embeddedWallets: {
+          createOnLogin: 'users-without-wallets',
+        },
         appearance: {
           landingHeader: 'Use an email to sign up or log in',
         }

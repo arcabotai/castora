@@ -1,7 +1,7 @@
 'use client'
 
 import { useSupercastUserState } from '@/providers/SupercastUserStateProvider'
-import { usePrivy } from '@privy-io/react-auth'
+import { useCreateWallet, usePrivy } from '@privy-io/react-auth'
 import FeedHeader from '../FeedHeader'
 import { truncateEthAddress } from '@/utils/textUtils'
 import { Button } from '../ui/button'
@@ -10,22 +10,39 @@ import { toast } from 'sonner'
 import { useDraftComposeWindow } from '@/providers/DraftComposeWindowProvider'
 import { useDraftId } from '@/providers/DraftIdProvider'
 import { useRouter } from 'next/navigation'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useSolanaWallets } from '@privy-io/react-auth/solana';
 
 
 export default function WalletPlaceholder() {
   const { isRegularUser, isGuest } = useSupercastUserState()
-  const { user } = usePrivy()
+  const { user, ready: privyReady, authenticated } = usePrivy()
+  const { createWallet: createEthereumWallet } = useCreateWallet()
   const router = useRouter()
 
-  const { wallets: solanaWallets, createWallet, ready: solanaReady } = useSolanaWallets();
+  const { wallets: solanaWallets, createWallet: createSolanaWallet, ready: solanaReady } = useSolanaWallets();
 
   const { setOpenDraftComposeWindow, setInitialText, setInitialEmbeds, setInitialRecastId } = useDraftComposeWindow()
-  const { draftId, setDraftId } = useDraftId()
+  const { setDraftId } = useDraftId()
 
   const cardRef = useRef<HTMLDivElement>(null)
+  const triedEthereumWalletCreation = useRef(false)
+  const triedSolanaWalletCreation = useRef(false)
+  const [walletSetupError, setWalletSetupError] = useState<string | null>(null)
+
+  const ethereumAddress = user?.wallet?.address
+  const solanaAddress = solanaWallets[0]?.address
+
+  const copyAddress = async (address?: string) => {
+    if (!address) {
+      toast.error("Wallet address is still being created")
+      return
+    }
+
+    await navigator.clipboard.writeText(address)
+    toast.success("Full address copied to clipboard")
+  }
 
   useEffect(() => {
     const card = cardRef.current
@@ -61,10 +78,28 @@ export default function WalletPlaceholder() {
   }, [])
 
   useEffect(() => {
-    if (solanaWallets.length === 0 && solanaReady) {
-      createWallet();
+    if (privyReady && authenticated && !ethereumAddress && !triedEthereumWalletCreation.current) {
+      triedEthereumWalletCreation.current = true
+      createEthereumWallet()
+        .then(() => setWalletSetupError(null))
+        .catch((error) => {
+          console.error('Error creating embedded Ethereum wallet:', error)
+          setWalletSetupError('Wallet setup is still pending. Refresh in a moment if the address does not appear.')
+        })
     }
-  }, [solanaWallets, solanaReady]);
+  }, [privyReady, authenticated, ethereumAddress, createEthereumWallet])
+
+  useEffect(() => {
+    if (privyReady && authenticated && solanaReady && !solanaAddress && !triedSolanaWalletCreation.current) {
+      triedSolanaWalletCreation.current = true
+      createSolanaWallet()
+        .then(() => setWalletSetupError(null))
+        .catch((error) => {
+          console.error('Error creating embedded Solana wallet:', error)
+          setWalletSetupError('Wallet setup is still pending. Refresh in a moment if the address does not appear.')
+        })
+    }
+  }, [privyReady, authenticated, solanaReady, solanaAddress, createSolanaWallet])
 
   return (
     <div className="pt-12 lg:pt-0 min-h-[calc(100vh-100px)]">
@@ -79,23 +114,22 @@ export default function WalletPlaceholder() {
               <h2 className="text-5xl font-semibold">$0.00</h2>
               <div
                 className="flex flex-row items-center gap-1 cursor-pointer"
-                onClick={() => {
-                  navigator.clipboard.writeText(user?.wallet?.address)
-                  toast.success("Full address copied to clipboard")
-                }}>
-                <p className="text-sm text-white/80">{truncateEthAddress(user?.wallet?.address)}</p>
-                <CopyIcon className="w-4 h-4 text-white/80" />
+                onClick={() => copyAddress(ethereumAddress)}>
+                <p className="text-sm text-white/80">
+                  {ethereumAddress ? truncateEthAddress(ethereumAddress) : "Creating EVM wallet..."}
+                </p>
+                {ethereumAddress && <CopyIcon className="w-4 h-4 text-white/80" />}
               </div>
-              {solanaWallets.length > 0 && (
+              {solanaAddress ? (
                 <div className="flex flex-row items-center gap-1 cursor-pointer"
-                  onClick={() => {
-                    navigator.clipboard.writeText(solanaWallets[0].address)
-                    toast.success("Full address copied to clipboard")
-                  }}>
-                  <p className="text-sm text-white/80">{truncateEthAddress(solanaWallets[0].address)}</p>
+                  onClick={() => copyAddress(solanaAddress)}>
+                  <p className="text-sm text-white/80">{truncateEthAddress(solanaAddress)}</p>
                   <CopyIcon className="w-4 h-4 text-white/80" />
                 </div>
+              ) : (
+                <p className="text-sm text-white/80">Creating Solana wallet...</p>
               )}
+              {walletSetupError && <p className="text-xs text-white/75">{walletSetupError}</p>}
 
             </div>
 
