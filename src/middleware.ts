@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 
 const DEFAULT_APP_URL = 'https://castora.social';
+const LEGACY_HOSTS = new Set(['castora.arcabot.ai']);
 
 const VERCEL_ENV_ALLOWED_ORIGINS: Record<string, string> = {
   production: process.env.NEXT_PUBLIC_APP_URL || DEFAULT_APP_URL,
@@ -9,6 +10,14 @@ const VERCEL_ENV_ALLOWED_ORIGINS: Record<string, string> = {
 };
 
 export async function middleware(request: NextRequest) {
+  const requestHost = request.nextUrl.hostname.toLowerCase();
+
+  if (LEGACY_HOSTS.has(requestHost)) {
+    const canonicalUrl = new URL(request.nextUrl.pathname + request.nextUrl.search, DEFAULT_APP_URL);
+
+    return NextResponse.redirect(canonicalUrl, 308);
+  }
+
   const response = NextResponse.next();
   const environment =
     process.env.NEXT_PUBLIC_VERCEL_ENV ||
