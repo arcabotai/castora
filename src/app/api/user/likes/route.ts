@@ -1,5 +1,5 @@
 import axios from "axios"
-import { prisma } from '@/prisma/client'
+import { privateCacheHeaders, publicCacheHeaders } from "@/utils/cacheHeaders"
 
 export async function GET(req: Request) {
 
@@ -8,18 +8,12 @@ export async function GET(req: Request) {
   const profileFid = url.searchParams.get("profileFid")
   const ownerFid = url.searchParams.get("ownerFid")
   const nextCursor = url.searchParams.get("cursor")
+  const viewerFidParam = ownerFid && ownerFid !== "0" ? `&viewer_fid=${ownerFid}` : ""
+  const responseHeaders = ownerFid && ownerFid !== "0"
+    ? privateCacheHeaders
+    : publicCacheHeaders({ browserMaxAge: 60, cdnMaxAge: 300, staleWhileRevalidate: 1800 })
 
-  const ownerBookmarks = await prisma.bookmark.findMany({
-    where: {
-      ownerFid: Number(ownerFid),
-    }
-  }).then((bookmarks) => {
-    return bookmarks.map((bookmark: any) => {
-      return bookmark.castHash
-    })
-  })
-
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/reactions/user/?fid=${profileFid}&viewer_fid=${ownerFid}&type=likes&limit=25&cursor=${nextCursor}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+  const response = await axios.get(`https://api.neynar.com/v2/farcaster/reactions/user/?fid=${profileFid}${viewerFidParam}&type=likes&limit=25&cursor=${nextCursor}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
   if (response.status !== 200) {
     return Response.json(response.data, { status: response.status })
@@ -27,5 +21,5 @@ export async function GET(req: Request) {
 
   const casts = response.data.reactions.map((reaction: any) => reaction.cast)
 
-  return Response.json({ "casts": casts, "cursor": response.data.cursor })
+  return Response.json({ "casts": casts, "cursor": response.data.cursor }, { headers: responseHeaders })
 }

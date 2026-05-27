@@ -7,6 +7,7 @@ import { prisma } from "@/prisma/client"
 import { isValidAnonPost } from "@/utils/anon/moderation"
 import { sendDraftToFarcaster } from "@/utils/drafts"
 import { DRAFT_SEND_STATUS } from "@prisma/client"
+import { privateCacheHeaders, publicCacheHeaders } from "@/utils/cacheHeaders"
 
 const getReplies = (currentCast) => {
   let replies = []
@@ -172,6 +173,9 @@ export async function GET(req: Request) {
   const hash = url.searchParams.get("hash")
 
   const targetFid = Number(req.headers.get("asFid")) || 0
+  const responseHeaders = targetFid
+    ? privateCacheHeaders
+    : publicCacheHeaders({ browserMaxAge: 60, cdnMaxAge: 300, staleWhileRevalidate: 1800 })
 
   const response = await axios.get(`https://api.neynar.com/v2/farcaster/cast/conversation/?identifier=${hash}&type=hash&reply_depth=5&sort_type=algorithmic&fold=above&include_chronological_parent_casts=true${!!targetFid ? `&viewer_fid=${targetFid}` : ""}&limit=50`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
 
@@ -192,5 +196,5 @@ export async function GET(req: Request) {
     replies = replies.filter((reply: any[]) => reply[0].hash !== threadChildren[0].hash)
   }
 
-  return Response.json({ "currentCast": currentCast, "replies": replies, "ancestorCasts": ancestors, "threadChildren": threadChildren })
+  return Response.json({ "currentCast": currentCast, "replies": replies, "ancestorCasts": ancestors, "threadChildren": threadChildren }, { headers: responseHeaders })
 }

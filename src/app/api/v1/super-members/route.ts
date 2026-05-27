@@ -1,6 +1,7 @@
 import { prisma } from "@/prisma/client"
 import { PLAN } from "@prisma/client"
 import { NextResponse } from "next/server"
+import { publicCacheHeaders } from "@/utils/cacheHeaders"
 
 export const dynamic = "force-dynamic";
 
@@ -37,5 +38,7 @@ export async function GET(req: Request) {
     members: publicSuperMembers,
   }
 
-  return NextResponse.json(response)
+  return NextResponse.json(response, {
+    headers: publicCacheHeaders({ browserMaxAge: 60, cdnMaxAge: 300, staleWhileRevalidate: 3600 }),
+  })
 }

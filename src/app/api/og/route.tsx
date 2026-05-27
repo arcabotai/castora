@@ -2,6 +2,7 @@ import { truncateLongWord } from "@/utils/textUtils";
 import { ImageResponse } from "@vercel/og";
 import { NextRequest } from "next/server";
 import { formatNumber } from "@/utils/textUtils";
+import { publicCacheHeaders } from "@/utils/cacheHeaders";
 // App router includes @vercel/og.
 // No need to install it.
 
@@ -117,6 +118,7 @@ export async function GET(req: NextRequest) {
         {
           width: 1200,
           height: 630,
+          headers: publicCacheHeaders({ browserMaxAge: 3600, cdnMaxAge: 86400, staleWhileRevalidate: 604800 }),
           fonts: [
             {
               name: "Inter",
@@ -165,6 +167,7 @@ export async function GET(req: NextRequest) {
         {
           width: 1200,
           height: 630,
+          headers: publicCacheHeaders({ browserMaxAge: 3600, cdnMaxAge: 86400, staleWhileRevalidate: 604800 }),
           fonts: [
             {
               name: "Inter",

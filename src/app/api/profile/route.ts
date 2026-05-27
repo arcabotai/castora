@@ -1,4 +1,5 @@
 import axios from "axios"
+import { privateCacheHeaders, publicCacheHeaders } from "@/utils/cacheHeaders"
 
 export async function GET(req: Request) {
 
@@ -8,8 +9,11 @@ export async function GET(req: Request) {
   let profileFid = url.searchParams.get("fid")
 
   const targetFid = Number(req.headers.get("asFid"))
+  const responseHeaders = targetFid
+    ? privateCacheHeaders
+    : publicCacheHeaders({ browserMaxAge: 60, cdnMaxAge: 300, staleWhileRevalidate: 1800 })
 
-  if (!profileFid && username.startsWith("!")) {
+  if (!profileFid && username?.startsWith("!")) {
     profileFid = username.slice(1)
   }
 
@@ -26,7 +30,7 @@ export async function GET(req: Request) {
         return Response.json(response.data, { status: response.status })
       }
 
-      return Response.json({ "user": response.data.users[0] })
+      return Response.json({ "user": response.data.users[0] }, { headers: responseHeaders })
     } catch (error) {
       return Response.json({ "error": "User not found" }, { status: 404 })
     }
@@ -41,7 +45,7 @@ export async function GET(req: Request) {
         return Response.json(response.data, { status: response.status })
       }
 
-      return Response.json({ "user": response.data.user })
+      return Response.json({ "user": response.data.user }, { headers: responseHeaders })
     } catch (error) {
       return Response.json({ "error": "User not found" }, { status: 404 })
     }

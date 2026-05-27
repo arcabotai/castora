@@ -6,6 +6,8 @@ import { HOST_URL } from '@/utils/hostURL'
 import { Metadata, ResolvingMetadata } from 'next'
 import axios from 'axios'
 
+export const revalidate = 300
+
 export async function generateMetadata(
   { params }: { params: { slug: string } },
   parent: ResolvingMetadata

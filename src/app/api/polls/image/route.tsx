@@ -1,6 +1,7 @@
 import { prisma } from "@/prisma/client";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { ImageResponse } from "@vercel/og";
+import { publicCacheHeaders } from "@/utils/cacheHeaders";
 // App router includes @vercel/og.
 // No need to install it.
 
@@ -94,6 +95,7 @@ export async function GET(request: Request) {
         {
           width: 1200,
           height: 630,
+          headers: publicCacheHeaders({ browserMaxAge: 300, cdnMaxAge: 3600, staleWhileRevalidate: 86400 }),
           fonts: [
             {
               name: "Inter",
@@ -123,6 +125,7 @@ export async function GET(request: Request) {
         {
           width: 1200,
           height: 630,
+          headers: publicCacheHeaders({ browserMaxAge: 300, cdnMaxAge: 3600, staleWhileRevalidate: 86400 }),
           fonts: [
             {
               name: "Inter",

@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import AppProviders from "./AppProviders";
-
-export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://castora.social"),
@@ -40,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <body className="bg-white text-gray-950 dark:bg-gray-950 dark:text-gray-50 font-sans">
         <AppProviders>{children}</AppProviders>
+        <Analytics />
       </body>
     </html>
   );

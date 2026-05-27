@@ -4,6 +4,8 @@ import { Metadata, ResolvingMetadata } from 'next'
 import axios from 'axios'
 import { notFound } from 'next/navigation'
 
+export const revalidate = 300
+
 export async function generateMetadata(
   { params }: { params: { username: string } },
   parent: ResolvingMetadata

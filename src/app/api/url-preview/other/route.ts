@@ -1,5 +1,6 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
+import { publicCacheHeaders } from '@/utils/cacheHeaders';
 
 export async function GET(req: Request) {
   try {
@@ -8,10 +9,20 @@ export async function GET(req: Request) {
     const query = url.searchParams.get("query")
 
     if (!query) {
-      return Response.json({ error: "query is required" })
+      return Response.json({ error: "query is required" }, { status: 400 })
     }
 
-    const response = await axios.get(query, { headers: { 'User-Agent': 'CastoraBot/1.0 (https://castora.social)' } });
+    const targetUrl = new URL(query)
+
+    if (targetUrl.protocol !== "http:" && targetUrl.protocol !== "https:") {
+      return Response.json({ error: "Unsupported URL protocol" }, { status: 400 })
+    }
+
+    const response = await axios.get(targetUrl.toString(), {
+      headers: { 'User-Agent': 'CastoraBot/1.0 (https://castora.social)' },
+      maxContentLength: 2_000_000,
+      timeout: 5000,
+    });
     const html = response.data;
     const $ = cheerio.load(html);
 
@@ -48,7 +59,9 @@ export async function GET(req: Request) {
       }
     });
 
-    return Response.json({ tags })
+    return Response.json({ tags }, {
+      headers: publicCacheHeaders({ browserMaxAge: 120, cdnMaxAge: 3600, staleWhileRevalidate: 86400 }),
+    })
   } catch (error) {
     console.log(`error fetching og tags from ${req.url}`)
     return Response.json({ "status": `error fetching og tags from ${req.url}` }, { status: 400 })
