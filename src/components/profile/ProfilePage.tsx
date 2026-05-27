@@ -21,7 +21,7 @@ interface ProfilePageProps {
 export default function ProfilePage({ params, defaultRightColumnStatus = 'cast' }: ProfilePageProps) {
 
   const { supercastUserState } = useSupercastUserState()
-  const { getAccessToken, ready: privyReady } = usePrivy()
+  const { getAccessToken, ready: privyReady, authenticated } = usePrivy()
 
   const [rightColumnStatus, setRightColumnStatus] = useState<
     'lists' |
@@ -33,16 +33,20 @@ export default function ProfilePage({ params, defaultRightColumnStatus = 'cast' 
   >(defaultRightColumnStatus)
 
   const fetchProfile = async () => {
-    const accessToken = await getAccessToken()
+    const accessToken = authenticated ? await getAccessToken() : null
+    const headers: Record<string, string> = {}
+
+    if (accessToken) {
+      headers.Authorization = `Bearer ${accessToken}`
+    }
+
+    if (supercastUserState?.currentFid) {
+      headers.asFid = String(supercastUserState.currentFid)
+    }
 
     const response = await axios.get(
       `${HOST_URL}/api/profile?username=${params.username}`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          asFid: supercastUserState.currentFid
-        }
-      }
+      { headers }
     )
 
     if (response.status !== 200) {
@@ -53,10 +57,10 @@ export default function ProfilePage({ params, defaultRightColumnStatus = 'cast' 
   }
 
   const profileQuery = useQuery(
-    ['profilePage', params.username],
+    ['profilePage', params.username, supercastUserState?.currentFid || 0, authenticated],
     fetchProfile,
     {
-      enabled: privyReady,
+      enabled: privyReady && (!authenticated || !!supercastUserState),
       refetchOnWindowFocus: false
     }
   )

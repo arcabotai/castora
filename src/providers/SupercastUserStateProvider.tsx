@@ -10,6 +10,13 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { useQuery } from 'react-query';
 import { SUPERANON_ADMIN_FIDS } from '@/utils/anon/admin'
 
+const guestSupercastUserState: SupercastUserState = {
+  accounts: [],
+  userFid: 0,
+  currentFid: 0,
+  plan: '',
+};
+
 type SupercastUserStateType = {
   supercastUserState: SupercastUserState | null;
   setSuperCastUserState: React.Dispatch<React.SetStateAction<SupercastUserState | null>>;
@@ -37,7 +44,7 @@ export const SupercastUserStateProvider: React.FC<{ children: ReactNode }> = ({ 
   const { ready: privyUserReady, authenticated, getAccessToken } = usePrivy();
 
   const getCurrentProfile = () => {
-    return supercastUserState.accounts.find(account => account.fid === supercastUserState.currentFid) || null;
+    return supercastUserState?.accounts.find(account => account.fid === supercastUserState.currentFid) || null;
   };
 
   const isAuthenticated = () => privyUserReady && authenticated
@@ -45,7 +52,7 @@ export const SupercastUserStateProvider: React.FC<{ children: ReactNode }> = ({ 
   const isRegularUser = () => isAuthenticated() && !!supercastUserState && supercastUserState.userFid !== 0;
   const isSuperMember = () => isRegularUser() && supercastUserState.plan === PLAN.PERSONAL;
   const isSuperanon = () => isSuperMember() && supercastUserState.currentFid === Number(process.env.NEXT_PUBLIC_SUPERANON_FID);
-  const isAdmin = () => SUPERANON_ADMIN_FIDS.includes(supercastUserState.userFid);
+  const isAdmin = () => !!supercastUserState && SUPERANON_ADMIN_FIDS.includes(supercastUserState.userFid);
 
   const switchAccount = (fid: number) => {
     setSuperCastUserState({ ...supercastUserState, currentFid: fid });
@@ -90,6 +97,12 @@ export const SupercastUserStateProvider: React.FC<{ children: ReactNode }> = ({ 
       staleTime: 10 * 60 * 1000, // 10 minutes
       cacheTime: 10 * 60 * 1000, // 10 minutes
     });
+
+  useEffect(() => {
+    if (privyUserReady && !authenticated) {
+      setSuperCastUserState(guestSupercastUserState);
+    }
+  }, [privyUserReady, authenticated]);
 
   useEffect(() => {
     if (supercastUserStateQuery.data) {
