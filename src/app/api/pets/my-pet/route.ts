@@ -1,4 +1,5 @@
 import axios from "axios"
+import { neynar } from '@/lib/neynar'
 
 import { prisma } from '@/prisma/client'
 import { isAuthenticated } from "@/utils/auth/isAuthenticated"
@@ -49,7 +50,7 @@ export async function GET(req: Request) {
     return Response.json({ "pet": null, "petOptions": petOptions }, { status: 200 })
   }
 
-  const petProfileResponse = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk/?fids=${pet.farcasterAccount.fid}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+  const petProfileResponse = await neynar.get(`/v2/farcaster/user/bulk/?fids=${pet.farcasterAccount.fid}`)
 
   const petFarcasterData = petProfileResponse.data.users[0]
   const petStats = {

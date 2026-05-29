@@ -3,6 +3,7 @@ import { prisma } from '@/prisma/client'
 import { isAuthenticated } from "@/utils/auth/isAuthenticated"
 import { isAuthorized } from "@/utils/auth/isAuthorized"
 import axios from 'axios'
+import { neynar } from '@/lib/neynar'
 import { HOST_URL } from '@/utils/hostURL'
 
 async function subscribeFIDToNeynarWebhookCastCreated(
@@ -24,8 +25,7 @@ async function subscribeFIDToNeynarWebhookCastCreated(
       }
     };
 
-    const response = await axios.put(
-      'https://api.neynar.com/v2/farcaster/webhook/',
+    const response = await neynar.put('/v2/farcaster/webhook/',
       {
         subscription,
         name: `${process.env.NEYNAR_NOTIFICATION_WEBHOOK_NAME}`,
@@ -35,9 +35,7 @@ async function subscribeFIDToNeynarWebhookCastCreated(
       {
         headers: {
           'accept': 'application/json',
-          'content-type': 'application/json',
-          'x-api-key': process.env.NEYNAR_API_KEY
-        }
+          'content-type': 'application/json'}
       }
     );
 

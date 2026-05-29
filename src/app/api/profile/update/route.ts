@@ -1,4 +1,5 @@
 import axios from "axios"
+import { neynar } from '@/lib/neynar'
 
 import { prisma } from "@/prisma/client";
 import { isAuthenticated } from "@/utils/auth/isAuthenticated";
@@ -43,7 +44,7 @@ export async function PATCH(req: Request) {
   }
 
   try {
-    const response = await axios.patch(`https://api.neynar.com/v2/farcaster/user/`, updateData, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+    const response = await neynar.patch(`/v2/farcaster/user/`, updateData)
     return Response.json({ "user": response.data })
 
   } catch (error) {

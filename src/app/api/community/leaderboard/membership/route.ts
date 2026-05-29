@@ -2,6 +2,7 @@ import { prisma } from '@/prisma/client'
 import { isAuthenticated } from '@/utils/auth/isAuthenticated'
 import { PLAN } from '@prisma/client'
 import axios from 'axios'
+import { neynar } from '@/lib/neynar'
 import { redis } from '@/utils/redis'
 
 const CACHE_TTL = 24 * 60 * 60 // 24 hours in seconds
@@ -51,8 +52,7 @@ export async function GET(req: Request) {
       return Response.json([])
     }
 
-    const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk/?fids=${allFids}`, {
-      "headers": { "x-api-key": process.env.NEYNAR_API_KEY },
+    const response = await neynar.get(`/v2/farcaster/user/bulk/?fids=${allFids}`, {
       timeout: 5000,
     })
 

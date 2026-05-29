@@ -1,5 +1,6 @@
 import { isAuthenticated } from "@/utils/auth/isAuthenticated";
 import axios from "axios";
+import { neynar } from '@/lib/neynar'
 
 export async function GET(req: Request) {
 
@@ -12,7 +13,7 @@ export async function GET(req: Request) {
   const url = new URL(req.url);
   const username = url.searchParams.get("username");
 
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/fname/availability/?fname=${username}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+  const response = await neynar.get(`/v2/farcaster/fname/availability/?fname=${username}`)
 
   if (response.status !== 200) {
     return Response.json(response.data, { status: response.status })

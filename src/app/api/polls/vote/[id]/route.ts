@@ -2,6 +2,7 @@ import { prisma } from '@/prisma/client'
 import { HOST_URL } from '@/utils/hostURL';
 import { EVENT_TYPE } from '@prisma/client'
 import axios from 'axios';
+import { neynar } from '@/lib/neynar'
 
 import { NextResponse } from 'next/server';
 
@@ -20,7 +21,7 @@ export async function POST(
     "message_bytes_in_hex": voteData.trustedData.messageBytes
   }
 
-  const validatedDataResponse = await axios.post(`https://api.neynar.com/v2/farcaster/frame/validate/`, neynarData, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+  const validatedDataResponse = await neynar.post(`/v2/farcaster/frame/validate/`, neynarData)
 
   if (validatedDataResponse.status !== 200) {
     return Response.json(validatedDataResponse.data, { status: validatedDataResponse.status })

@@ -87,10 +87,12 @@ export default function Feed() {
   }, [])
 
   useEffect(() => {
-    if (regularUser) {
+    // Wait for currentFid before refetching: without it the request goes out
+    // with an empty asFid header and the API rejects it (403) until state hydrates.
+    if (regularUser && supercastUserState.currentFid) {
       notificationsQuery.refetch()
     }
-  }, [regularUser])
+  }, [regularUser, supercastUserState.currentFid])
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {

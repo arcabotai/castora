@@ -2,6 +2,7 @@ import { prisma } from "@/prisma/client"
 import { isAuthenticated } from "@/utils/auth/isAuthenticated"
 import { isAuthorized } from "@/utils/auth/isAuthorized"
 import axios from "axios"
+import { neynar } from '@/lib/neynar'
 
 export async function GET(req: Request) {
 
@@ -33,7 +34,7 @@ export async function GET(req: Request) {
   const sharedWithFids = sharedAccounts.map((sa) => sa.sharedWith.fid)
 
   if (sharedWithFids.length > 0) {
-    const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk/?fids=${sharedWithFids}&viewer_fid=${targetFid}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+    const response = await neynar.get(`/v2/farcaster/user/bulk/?fids=${sharedWithFids}&viewer_fid=${targetFid}`)
 
     if (response.status !== 200) {
       return Response.json(response.data, { status: response.status })

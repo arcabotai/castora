@@ -2,6 +2,7 @@ import { prisma } from '@/prisma/client'
 import { isAuthenticated } from '@/utils/auth/isAuthenticated'
 import { isAuthorized } from '@/utils/auth/isAuthorized'
 import axios from 'axios'
+import { neynar } from '@/lib/neynar'
 
 const prismaToList = (list: any, authorProfile: any) => {
   return {
@@ -62,7 +63,7 @@ export async function GET(req: Request) {
 
   const authorFid = targetFid
 
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk/?fids=${authorFid}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+  const response = await neynar.get(`/v2/farcaster/user/bulk/?fids=${authorFid}`)
 
   const authorProfile = response.data.users.find((user: any) => user.fid === authorFid)
 

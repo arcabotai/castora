@@ -1,4 +1,5 @@
 import axios from "axios"
+import { neynar } from '@/lib/neynar'
 
 import { prisma } from '@/prisma/client'
 import { isAuthenticated } from "@/utils/auth/isAuthenticated"
@@ -24,14 +25,14 @@ export async function GET(req: Request) {
   const supercastFid = 193137
 
   // check follow supercast status
-  const followingResponse = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk/?fids=${supercastUser.fid}&viewer_fid=${supercastFid}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+  const followingResponse = await neynar.get(`/v2/farcaster/user/bulk/?fids=${supercastUser.fid}&viewer_fid=${supercastFid}`)
   const following = followingResponse.data.users[0].viewer_context.followed_by
 
   const groupchatMember = false // TODO remove this and read from warpcast api
 
   // check channel status
 
-  const channelMemberResponse = await axios.get(`https://api.neynar.com/v2/farcaster/channel/?id=super&type=id&viewer_fid=${supercastUser.fid}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+  const channelMemberResponse = await neynar.get(`/v2/farcaster/channel/?id=super&type=id&viewer_fid=${supercastUser.fid}`)
   const channelMember = !!channelMemberResponse.data.channel.viewer_context.role
 
   return Response.json({ "following": following, "groupchatMember": groupchatMember, "channelMember": channelMember }, { status: 200 })

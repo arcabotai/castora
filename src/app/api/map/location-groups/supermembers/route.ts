@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server';
 import axios from 'axios';
+import { neynar } from '@/lib/neynar'
 import { isAuthenticated } from '@/utils/auth/isAuthenticated';
 import { isAuthorized } from '@/utils/auth/isAuthorized';
 import { getAllMemberFids } from '@/utils/members';
@@ -70,14 +71,7 @@ async function fetchAllSuperUsers() {
   for (let i = 0; i < memberFids.length; i += 100) {
     const chunk = memberFids.slice(i, i + 100);
     try {
-      const response = await axios.get(
-        `https://api.neynar.com/v2/farcaster/user/bulk/?fids=${chunk.join(',')}`,
-        {
-          headers: {
-            "x-api-key": process.env.NEYNAR_API_KEY
-          }
-        }
-      );
+      const response = await neynar.get(`/v2/farcaster/user/bulk/?fids=${chunk.join(',')}`);
 
       if (response.status === 200 && response.data.users) {
         allUsers.push(...response.data.users);

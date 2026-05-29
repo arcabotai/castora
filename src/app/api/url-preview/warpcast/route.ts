@@ -1,4 +1,5 @@
 import axios from "axios"
+import { neynar } from '@/lib/neynar'
 import { publicCacheHeaders } from "@/utils/cacheHeaders"
 
 export async function GET(req: Request) {
@@ -11,7 +12,7 @@ export async function GET(req: Request) {
     return Response.json({ error: "query is required" }, { status: 400 })
   }
 
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/cast/?type=url&identifier=${encodeURIComponent(query)}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+  const response = await neynar.get(`/v2/farcaster/cast/?type=url&identifier=${encodeURIComponent(query)}`)
 
   if (response.status !== 200) {
     return Response.json(response.data, { status: response.status })

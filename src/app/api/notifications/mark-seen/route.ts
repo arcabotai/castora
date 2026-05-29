@@ -2,6 +2,7 @@ import { isAuthenticated } from "@/utils/auth/isAuthenticated"
 import { isAuthorized } from "@/utils/auth/isAuthorized"
 import { trackPosthogEvent } from "@/utils/posthogAnalytics"
 import axios from "axios"
+import { neynar } from '@/lib/neynar'
 
 export async function POST(req: Request) {
 
@@ -29,7 +30,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const response = await axios.post(`https://api.neynar.com/v2/farcaster/notifications/seen/`, data, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+    const response = await neynar.post(`/v2/farcaster/notifications/seen/`, data)
     return Response.json({ "casts": response.data.casts })
 
   } catch (error) {

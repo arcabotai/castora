@@ -5,6 +5,7 @@ import { sendNotification } from "../pushnotifications";
 import { prisma } from "@/prisma/client";
 import { HOST_URL } from "@/utils/hostURL";
 import axios from "axios";
+import { neynar } from '@/lib/neynar'
 import Redis from 'ioredis';
 
 let redis: Redis | null = null;
@@ -104,9 +105,7 @@ export async function POST(req: NextRequest) {
 
         // Continue with sending notifications if any subscriptions remain
         if (subscriptions.length > 0) {
-          const res = await axios.get(
-            `https://api.neynar.com/v2/farcaster/user/bulk/?fids=${fid}`,
-            { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } }
+          const res = await neynar.get(`/v2/farcaster/user/bulk/?fids=${fid}`
           );
           const username = res.data.users[0].username;
           const message = `${cast.author.display_name} (@${cast.author.username}) replied: ${cast.text}`;

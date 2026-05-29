@@ -1,4 +1,5 @@
 import axios from "axios"
+import { neynar } from '@/lib/neynar'
 
 import { v4 as uuidv4 } from 'uuid';
 import { prisma } from "@/prisma/client";
@@ -40,7 +41,7 @@ export async function POST(req: Request) {
 
   const fidsLookupString = [targetFid, ...recipientFids].join(',')
 
-  const userDataResponse = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk/?fids=${fidsLookupString}&viewer_fid=${targetFid}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+  const userDataResponse = await neynar.get(`/v2/farcaster/user/bulk/?fids=${fidsLookupString}&viewer_fid=${targetFid}`)
 
   const username = userDataResponse.data.users[0].username
 

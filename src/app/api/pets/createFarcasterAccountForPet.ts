@@ -1,6 +1,7 @@
 import { prisma } from "@/prisma/client"
 import { SupercastFarcasterAccount, PetOption } from "@prisma/client"
 import axios from "axios"
+import { neynar } from '@/lib/neynar'
 import { createWalletClient, createPublicClient, custom, http, Account, bytesToHex } from 'viem';
 import { generatePrivateKey, mnemonicToAccount, privateKeyToAccount } from 'viem/accounts'
 import { mainnet, optimism } from "viem/chains";
@@ -35,7 +36,7 @@ const readNonce = async (account: Account) => {
 
 export const createFarcasterAccountForPet = async (ownerAccount: SupercastFarcasterAccount, petOption: PetOption): Promise<SupercastFarcasterAccount> => {
 
-  const newFidResponse = await axios.get(`https://api.neynar.com/v2/farcaster/user/fid/`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+  const newFidResponse = await neynar.get(`/v2/farcaster/user/fid/`)
 
   const newFid = newFidResponse.data.fid;
 
@@ -79,7 +80,7 @@ export const createFarcasterAccountForPet = async (ownerAccount: SupercastFarcas
   console.log('neynarRegistrationData', neynarRegistrationData)
 
   try {
-    const responseRegistrationResponse = await axios.post(`https://api.neynar.com/v2/farcaster/user/`, neynarRegistrationData, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+    const responseRegistrationResponse = await neynar.post(`/v2/farcaster/user/`, neynarRegistrationData)
 
     const newNeynarFid = responseRegistrationResponse.data.signer.fid;
     const newNeynarSigner = responseRegistrationResponse.data.signer.signer_uuid;
@@ -92,7 +93,7 @@ export const createFarcasterAccountForPet = async (ownerAccount: SupercastFarcas
       ],
       "signer_uuid": newNeynarSigner,
     }
-    const responseFollow1 = await axios.post(`https://api.neynar.com/v2/farcaster/user/follow/`, followData1, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+    const responseFollow1 = await neynar.post(`/v2/farcaster/user/follow/`, followData1)
 
     const followData2 = {
       "target_fids": [
@@ -100,7 +101,7 @@ export const createFarcasterAccountForPet = async (ownerAccount: SupercastFarcas
       ],
       "signer_uuid": ownerAccount.signerUUID,
     }
-    const responseFollow2 = await axios.post(`https://api.neynar.com/v2/farcaster/user/follow/`, followData2, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+    const responseFollow2 = await neynar.post(`/v2/farcaster/user/follow/`, followData2)
 
     const updateData = {
       display_name: petOption.name,
@@ -109,7 +110,7 @@ export const createFarcasterAccountForPet = async (ownerAccount: SupercastFarcas
       signer_uuid: newNeynarSigner
     }
 
-    const updateDataResponse = await axios.patch(`https://api.neynar.com/v2/farcaster/user/`, updateData, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+    const updateDataResponse = await neynar.patch(`/v2/farcaster/user/`, updateData)
 
     const welcomeContent = `hi @${petOption.ownerUsername}!
     
@@ -122,7 +123,7 @@ You look great today!`
       "signer_uuid": newNeynarSigner,
     }
 
-    const response = await axios.post(`https://api.neynar.com/v2/farcaster/cast/`, castData, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+    const response = await neynar.post(`/v2/farcaster/cast/`, castData)
 
     console.log('updateDataResponse', updateDataResponse)
 

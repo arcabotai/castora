@@ -1,6 +1,7 @@
 import { isAuthenticated } from "@/utils/auth/isAuthenticated"
 import { isAuthorized } from "@/utils/auth/isAuthorized"
 import axios from "axios"
+import { neynar } from '@/lib/neynar'
 
 export async function GET(req: Request) {
 
@@ -21,7 +22,7 @@ export async function GET(req: Request) {
   const url = new URL(req.url)
   const cursor = url.searchParams.get('cursor')
 
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/followers/?fid=${targetFid}&viewer_fid=${targetFid}&sort_type=algorithmic&cursor=${cursor}&limit=20`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+  const response = await neynar.get(`/v2/farcaster/followers/?fid=${targetFid}&viewer_fid=${targetFid}&sort_type=algorithmic&cursor=${cursor}&limit=20`)
 
   if (response.status !== 200) {
     return Response.json(response.data, { status: response.status })

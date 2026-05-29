@@ -2,6 +2,7 @@ import { SUPERANON_ADMIN_FIDS } from "@/utils/anon/admin"
 import { isAuthenticated } from "@/utils/auth/isAuthenticated"
 import { isAuthorized } from "@/utils/auth/isAuthorized"
 import axios from "axios"
+import { neynar } from '@/lib/neynar'
 
 export async function DELETE(req: Request) {
 
@@ -33,7 +34,7 @@ export async function DELETE(req: Request) {
   }
 
   try {
-    const response = await axios.delete(`https://api.neynar.com/v2/farcaster/user/verification/`, { "data": removeData, "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+    const response = await neynar.delete(`/v2/farcaster/user/verification/`, { "data": removeData})
     return Response.json({ "result": response.data })
   } catch (error) {
 

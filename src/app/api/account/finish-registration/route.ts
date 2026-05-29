@@ -2,6 +2,7 @@ import { prisma } from "@/prisma/client";
 import { trackPosthogEvent } from "@/utils/posthogAnalytics";
 import { PrivyClient } from "@privy-io/server-auth";
 import axios from "axios";
+import { neynar } from '@/lib/neynar'
 import { getBearerToken } from "@/utils/auth/getBearerToken";
 
 export async function POST(req: Request) {
@@ -54,7 +55,7 @@ export async function POST(req: Request) {
     let response;
 
     try {
-      response = await axios.post(`https://api.neynar.com/v2/farcaster/user/`, neynarRegistrationData, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+      response = await neynar.post(`/v2/farcaster/user/`, neynarRegistrationData)
     } catch (error) {
       console.log(`Neynar fail with error: ${error}.`);
       return Response.json({ "error": "Neynar failed to register user" }, { status: 500 })
@@ -105,7 +106,7 @@ export async function POST(req: Request) {
       signer_uuid: newNeynarSigner,
     }
 
-    const updateDataResponse = await axios.patch(`https://api.neynar.com/v2/farcaster/user/`, updateData, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+    const updateDataResponse = await neynar.patch(`/v2/farcaster/user/`, updateData)
 
     // TODO return the updated user data and set the supercast user state on client side
 

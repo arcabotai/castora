@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Cancel superseded runs on the same ref to save minutes.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Hard gate: the things that actually break a Vercel deploy.
+  build:
+    name: typecheck & build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Generate Prisma client
+        run: npx prisma generate --schema=./src/prisma/schema.prisma
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Build
+        run: npm run build
+        env:
+          # Placeholder values so anything read at module-load doesn't crash the
+          # build. Real values are injected by Vercel at deploy time.
+          NEXT_PUBLIC_APP_URL: https://castora.social
+          NEXT_PUBLIC_URL: https://castora.social
+          POSTGRES_PRISMA_URL: postgresql://user:pass@localhost:5432/db
+          POSTGRES_URL_NON_POOLING: postgresql://user:pass@localhost:5432/db
+
+  # Informational only for now: the project sets eslint.ignoreDuringBuilds, so
+  # there is an existing backlog of lint findings. Keep this visible without
+  # blocking PRs; flip continue-on-error to false once the backlog is cleared.
+  lint:
+    name: lint (non-blocking)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+
+  # Catch secrets committed in the current tree (README hardening target #5).
+  secret-scan:
+    name: secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run gitleaks (working tree)
+        run: |
+          docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:latest \
+            detect --source=/repo --no-git --config=/repo/.gitleaks.toml --redact --verbose

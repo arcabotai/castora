@@ -1,6 +1,7 @@
 import { prisma } from "@/prisma/client";
 import { OPT_OUT_TYPE } from "@prisma/client";
 import axios from "axios";
+import { neynar } from '@/lib/neynar'
 
 const readOptOutCode = async (code: string) => {
   const segments = code.split("-");
@@ -117,7 +118,7 @@ export async function GET(
   }
 
   // get user data about target fid
-  const targetUserDataResponse = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk/?fids=${targetFid}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+  const targetUserDataResponse = await neynar.get(`/v2/farcaster/user/bulk/?fids=${targetFid}`)
 
   const targetUsername = targetUserDataResponse.status === 200 ? targetUserDataResponse.data.users[0].username : targetFid
 
