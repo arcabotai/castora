@@ -1,6 +1,7 @@
 import { isAuthenticated } from "@/utils/auth/isAuthenticated"
 import { isAuthorized } from "@/utils/auth/isAuthorized"
 import axios from "axios"
+import { neynar } from '@/lib/neynar'
 
 export async function POST(req: Request) {
   // ENDPOINT FOR SENDING A FRAME ACTION FROM THE CLIENT
@@ -42,11 +43,10 @@ export async function POST(req: Request) {
   }
 
   try {
-    const response = await axios.post(
-      `https://api.neynar.com/v2/farcaster/frame/action/`,
+    const response = await neynar.post(`/v2/farcaster/frame/action/`,
       frameData,
       {
-        "headers": { "x-api-key": process.env.NEYNAR_API_KEY }, maxRedirects: 0, validateStatus: function (status) {
+        maxRedirects: 0, validateStatus: function (status) {
           return status >= 200 && status < 303; // Resolve only if status code is less than 303
         }
       },

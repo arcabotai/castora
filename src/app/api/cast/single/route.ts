@@ -1,4 +1,5 @@
 import axios from "axios"
+import { neynar } from '@/lib/neynar'
 import { Cast } from "@/types"
 import { privateCacheHeaders, publicCacheHeaders } from "@/utils/cacheHeaders"
 
@@ -15,7 +16,7 @@ export async function GET(req: Request) {
 
   try {
 
-    const response = await axios.get(`https://api.neynar.com/v2/farcaster/cast/?type=hash&identifier=${hash}${!!targetFid ? `&viewer_fid=${targetFid}` : ""}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+    const response = await neynar.get(`/v2/farcaster/cast/?type=hash&identifier=${hash}${!!targetFid ? `&viewer_fid=${targetFid}` : ""}`)
 
     return Response.json({ "currentCast": response.data.cast }, { headers: responseHeaders })
 

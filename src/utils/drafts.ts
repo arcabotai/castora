@@ -2,6 +2,7 @@ import { prisma } from "@/prisma/client";
 import { trackPosthogEvent } from "@/utils/posthogAnalytics";
 import { DRAFT_RECURRING_SCHEDULE, DRAFT_SEND_STATUS, Draft, REACTION_TYPE, SCHEDULED_REACTION_STATUS, ScheduledReaction, SupercastFarcasterAccount, SupercastPrivyUser } from "@prisma/client";
 import axios from "axios";
+import { neynar } from '@/lib/neynar'
 import { isValidAnonPost } from "./anon/moderation";
 
 interface DraftFull extends Draft {
@@ -58,7 +59,7 @@ const sendReactionToFarcaster = async (reaction: ScheduledReactionWithDraftAndAu
       "signer_uuid": reaction.reactionAuthor.signerUUID,
     }
 
-    await axios.post(`https://api.neynar.com/v2/farcaster/reaction/`, reactionData, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+    await neynar.post(`/v2/farcaster/reaction/`, reactionData)
       .then(async (response) => {
 
         const updatedReaction = await prisma.scheduledReaction.update({
@@ -88,7 +89,7 @@ const sendReactionToFarcaster = async (reaction: ScheduledReactionWithDraftAndAu
       "signer_uuid": reaction.reactionAuthor.signerUUID,
     }
 
-    await axios.post(`https://api.neynar.com/v2/farcaster/reaction/`, reactionData, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+    await neynar.post(`/v2/farcaster/reaction/`, reactionData)
       .then(async (response) => {
 
         const updatedReaction = await prisma.scheduledReaction.update({
@@ -119,7 +120,7 @@ const sendReactionToFarcaster = async (reaction: ScheduledReactionWithDraftAndAu
       "idem": reaction.id.slice(0, 16),
     }
 
-    await axios.post(`https://api.neynar.com/v2/farcaster/cast/`, castData, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+    await neynar.post(`/v2/farcaster/cast/`, castData)
       .then(async (response) => {
 
         const updatedReaction = await prisma.scheduledReaction.update({
@@ -188,7 +189,7 @@ export async function sendDraftToFarcaster(draft: DraftFull): Promise<DraftFull 
   let updatedDraft;
 
   try {
-    const response = await axios.post(`https://api.neynar.com/v2/farcaster/cast/`, castData, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+    const response = await neynar.post(`/v2/farcaster/cast/`, castData)
 
     let nextScheduledAt = draft.nextScheduledAt;
 

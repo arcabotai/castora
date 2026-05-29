@@ -2,6 +2,7 @@ import { prisma } from "@/prisma/client"
 import { isAuthenticated } from "@/utils/auth/isAuthenticated"
 import { isAuthorized } from "@/utils/auth/isAuthorized"
 import axios from "axios"
+import { neynar } from '@/lib/neynar'
 
 export async function DELETE(
   request: Request,
@@ -58,7 +59,7 @@ export async function DELETE(
   const memberFids = listMembers.map((member: any) => (member.memberFid)).join(",")
 
   // fetch data for each member
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk/?fids=${memberFids}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+  const response = await neynar.get(`/v2/farcaster/user/bulk/?fids=${memberFids}`)
 
   if (response.status !== 200) {
     return Response.json(response.data, { status: response.status })

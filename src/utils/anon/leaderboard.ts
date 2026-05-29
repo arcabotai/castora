@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { neynar } from '@/lib/neynar'
 import { prisma } from '../../prisma/client'
 import { redis } from '@/utils/redis'
 
@@ -67,9 +68,7 @@ export const calculateLeaderboard = async (days: number | "lifetime"): Promise<L
 
   const allFids = leaderboard.map(user => user.fid).join(",");
 
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk/?fids=${allFids}`, {
-    "headers": { "x-api-key": process.env.NEYNAR_API_KEY }
-  })
+  const response = await neynar.get(`/v2/farcaster/user/bulk/?fids=${allFids}`)
 
   if (response.status !== 200) {
     throw new Error("Failed to fetch user data");

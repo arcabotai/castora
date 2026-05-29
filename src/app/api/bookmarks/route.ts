@@ -1,5 +1,6 @@
 import { prisma } from '@/prisma/client'
 import axios from 'axios'
+import { neynar } from '@/lib/neynar'
 
 import { Cast } from '@/types'
 import { isAuthorized } from '@/utils/auth/isAuthorized'
@@ -43,7 +44,7 @@ export async function GET(req: Request) {
 
   const bookmarkHashes = bookmarks.map((bookmark: any) => bookmark.castHash)
 
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/casts/?viewer_fid=${targetFid}&casts=${castHashes}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+  const response = await neynar.get(`/v2/farcaster/casts/?viewer_fid=${targetFid}&casts=${castHashes}`)
 
   if (response.status !== 200 && response.status !== 206) {
     return Response.json(response.data, { status: response.status })

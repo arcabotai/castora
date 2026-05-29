@@ -1,4 +1,5 @@
 import axios from "axios"
+import { neynar } from '@/lib/neynar'
 import { isAuthenticated } from "@/utils/auth/isAuthenticated"
 import { isAuthorized } from "@/utils/auth/isAuthorized"
 import { trackPosthogEvent } from "@/utils/posthogAnalytics"
@@ -102,7 +103,7 @@ export async function POST(req: Request) {
       "signer_uuid": process.env.SUPERANON_SIGNER_UUID,
     }
 
-    const response = await axios.delete(`https://api.neynar.com/v2/farcaster/cast/`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY }, data: deleteData })
+    const response = await neynar.delete(`/v2/farcaster/cast/`, { data: deleteData })
 
     // TODO: add event for superanon ban
 

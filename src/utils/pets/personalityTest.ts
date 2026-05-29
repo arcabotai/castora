@@ -1,5 +1,6 @@
 import { Post, ProfileInfo, UserPersonality } from "./types";
 import axios from "axios";
+import { neynar } from '@/lib/neynar'
 import OpenAI from "openai";
 
 import dotenv from 'dotenv';
@@ -16,7 +17,7 @@ export const fetchRecentCastsByFid = async (fid: number, limit: number): Promise
   let cursor = undefined;
 
   while (allPosts.length < limit) {
-    const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed/`, {
+    const response = await neynar.get(`/v2/farcaster/feed/`, {
       params: {
         feed_type: "filter",
         filter_type: "fids",
@@ -27,8 +28,7 @@ export const fetchRecentCastsByFid = async (fid: number, limit: number): Promise
       },
       headers: {
         accept: "application/json",
-        "x-api-key": process.env.NEYNAR_API_KEY,
-      },
+        },
     });
 
     const posts = response.data.casts
@@ -61,7 +61,7 @@ const fetchPopularCastsByFid = async (fid: number, limit: number): Promise<Post[
   let cursor = undefined;
 
   while (allPosts.length < limit) {
-    const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed/user/popular/`, {
+    const response = await neynar.get(`/v2/farcaster/feed/user/popular/`, {
       params: {
         fid: fid,
         limit: 10,
@@ -69,8 +69,7 @@ const fetchPopularCastsByFid = async (fid: number, limit: number): Promise<Post[
       },
       headers: {
         accept: "application/json",
-        "x-api-key": process.env.NEYNAR_API_KEY,
-      },
+        },
     });
 
     const posts = response.data.casts
@@ -100,14 +99,12 @@ export const fetchProfileInfoByFid = async (userFid: number) => {
 
   const startTime = performance.now();
 
-  const userProfileResponse = await axios.get(
-    "https://api.neynar.com/v2/farcaster/user/bulk/",
+  const userProfileResponse = await neynar.get("/v2/farcaster/user/bulk/",
     {
       params: { fids: userFid },
       headers: {
         accept: "application/json",
-        "x-api-key": process.env.NEYNAR_API_KEY,
-      },
+        },
     },
   );
 

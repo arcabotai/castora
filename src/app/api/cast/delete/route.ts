@@ -1,4 +1,5 @@
 import axios from "axios"
+import { neynar } from '@/lib/neynar'
 import { isAuthenticated } from "@/utils/auth/isAuthenticated"
 import { isAuthorized } from "@/utils/auth/isAuthorized"
 import { trackPosthogEvent } from "@/utils/posthogAnalytics"
@@ -34,7 +35,7 @@ export async function DELETE(req: Request) {
   }
 
   try {
-    const response = await axios.delete(`https://api.neynar.com/v2/farcaster/cast/`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY }, data: deleteData })
+    const response = await neynar.delete(`/v2/farcaster/cast/`, { data: deleteData })
 
     trackPosthogEvent(supercastUser.fid, "cast_deleted", {
       hash: hash,

@@ -1,4 +1,5 @@
 import axios from "axios"
+import { neynar } from '@/lib/neynar'
 import { prisma } from '@/prisma/client'
 import { Cast } from "@/types"
 import { isAuthorized } from "@/utils/auth/isAuthorized";
@@ -39,7 +40,7 @@ export async function GET(req: Request) {
     })
   })
 
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed/user/replies_and_recasts/?limit=10&viewer_fid=${targetFid}&cursor=${nextCursor}&fid=${profileFid}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+  const response = await neynar.get(`/v2/farcaster/feed/user/replies_and_recasts/?limit=10&viewer_fid=${targetFid}&cursor=${nextCursor}&fid=${profileFid}`)
 
   if (response.status !== 200) {
     return Response.json(response.data, { status: response.status })

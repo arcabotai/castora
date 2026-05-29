@@ -1,4 +1,5 @@
 import axios from "axios"
+import { neynar } from '@/lib/neynar'
 import { prisma } from '@/prisma/client'
 import { isAuthenticated } from "@/utils/auth/isAuthenticated";
 import { isAuthorized } from "@/utils/auth/isAuthorized";
@@ -35,7 +36,7 @@ export async function GET(req: Request) {
       "asFid": targetFid,
     })
 
-    const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed/?feed_type=following&fid=${targetFid}&limit=${PAGE_SIZE}&cursor=${cursor}&with_recasts=false`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+    const response = await neynar.get(`/v2/farcaster/feed/?feed_type=following&fid=${targetFid}&limit=${PAGE_SIZE}&cursor=${cursor}&with_recasts=false`)
 
     if (response.status !== 200) {
       return Response.json(response.data.casts, { status: response.status })
@@ -62,7 +63,7 @@ export async function GET(req: Request) {
       }
     }
 
-    const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed/for_you/?fid=${targetFid}&viewer_fid=${targetFid}&provider=openrank&limit=${PAGE_SIZE}&cursor=${cursor}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+    const response = await neynar.get(`/v2/farcaster/feed/for_you/?fid=${targetFid}&viewer_fid=${targetFid}&provider=openrank&limit=${PAGE_SIZE}&cursor=${cursor}`)
 
     if (response.status !== 200 && response.status !== 206) {
       return Response.json("error", { status: response.status })
@@ -100,7 +101,7 @@ export async function GET(req: Request) {
       }
     }
 
-    const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed/?feed_type=filter&filter_type=global_trending&viewer_fid=${targetFid}&limit=${PAGE_SIZE}&cursor=${cursor}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+    const response = await neynar.get(`/v2/farcaster/feed/?feed_type=filter&filter_type=global_trending&viewer_fid=${targetFid}&limit=${PAGE_SIZE}&cursor=${cursor}`)
 
     if (response.status !== 200) {
       return Response.json(response.data, { status: response.status })
@@ -126,7 +127,7 @@ export async function GET(req: Request) {
       "asFid": targetFid,
     })
 
-    const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed/?feed_type=filter&filter_type=fids&fids=862100&limit=${PAGE_SIZE}&viewer_fid=${targetFid}&cursor=${cursor}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+    const response = await neynar.get(`/v2/farcaster/feed/?feed_type=filter&filter_type=fids&fids=862100&limit=${PAGE_SIZE}&viewer_fid=${targetFid}&cursor=${cursor}`)
 
     if (response.status !== 200) {
       return Response.json(response.data, { status: response.status })
@@ -157,7 +158,7 @@ export async function GET(req: Request) {
     "asFid": targetFid,
   })
 
-  const response = await axios.get(`https://api.neynar.com/v2/farcaster/feed/?feed_type=filter&filter_type=fids&fids=${listMemberFids.join(",")}&with_recasts=${with_recasts}&limit=${PAGE_SIZE}&viewer_fid=${targetFid}&cursor=${cursor}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+  const response = await neynar.get(`/v2/farcaster/feed/?feed_type=filter&filter_type=fids&fids=${listMemberFids.join(",")}&with_recasts=${with_recasts}&limit=${PAGE_SIZE}&viewer_fid=${targetFid}&cursor=${cursor}`)
 
   if (response.status !== 200) {
     return Response.json(response.data, { status: response.status })

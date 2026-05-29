@@ -3,6 +3,7 @@ import { isAuthenticated } from "@/utils/auth/isAuthenticated"
 import { isAuthorized } from "@/utils/auth/isAuthorized"
 import { REACTION_TYPE } from "@prisma/client"
 import axios from "axios"
+import { neynar } from '@/lib/neynar'
 
 export async function GET(
   req: Request,
@@ -75,7 +76,7 @@ export async function GET(
   try {
     const fids = [draft.author.fid, ...scheduledReplies.map(reaction => reaction.reactionAuthor.fid)].join(',')
 
-    const profilesResponse = await axios.get(`https://api.neynar.com/v2/farcaster/user/bulk/?fids=${fids}&viewer_fid=${targetFid}`, { "headers": { "x-api-key": process.env.NEYNAR_API_KEY } })
+    const profilesResponse = await neynar.get(`/v2/farcaster/user/bulk/?fids=${fids}&viewer_fid=${targetFid}`)
 
     profiles = profilesResponse.data.users
   } catch (error) {

@@ -1,6 +1,7 @@
 import { prisma } from "@/prisma/client";
 import { SupercastFarcasterAccount } from "@prisma/client";
 import axios from "axios";
+import { neynar } from '@/lib/neynar'
 import { sendDirectCast } from "./direct-casts";
 import { HOST_URL } from "./hostURL";
 
@@ -116,36 +117,25 @@ export const addToChannel = async (farcasterAccount: SupercastFarcasterAccount, 
 
   const supercastSignerUUID = process.env.SUPERCAST_SIGNER_UUID
 
-  const inviteResponse = await axios.post(`https://api.neynar.com/v2/farcaster/channel/member/invite/`, {
+  const inviteResponse = await neynar.post(`/v2/farcaster/channel/member/invite/`, {
     "role": "member",
     "signer_uuid": supercastSignerUUID,
     "channel_id": channelId,
     "fid": farcasterAccount.fid
-  }, {
-    headers: {
-      "x-api-key": process.env.NEYNAR_API_KEY
-    }
   })
 
-  const acceptResponse = await axios.put(`https://api.neynar.com/v2/farcaster/channel/member/invite/`, {
+  const acceptResponse = await neynar.put(`/v2/farcaster/channel/member/invite/`, {
     "role": "member",
     "accept": true,
     "signer_uuid": farcasterAccount.signerUUID,
     "channel_id": channelId
-  }, {
-    headers: {
-      "x-api-key": process.env.NEYNAR_API_KEY
-    }
   })
 }
 
 export const removeFromChannel = async (fid: number, channelId: string) => {
   const supercastSignerUUID = process.env.SUPERCAST_SIGNER_UUID
 
-  const response = await axios.delete(`https://api.neynar.com/v2/farcaster/channel/member/`, {
-    headers: {
-      "x-api-key": process.env.NEYNAR_API_KEY
-    },
+  const response = await neynar.delete(`/v2/farcaster/channel/member/`, {
     data: {
       "channel_id": channelId,
       "fid": fid,
