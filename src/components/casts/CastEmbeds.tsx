@@ -64,15 +64,6 @@ export default function CastEmbeds({ cast, withQuotes = true, isColumn = false }
     )
     .filter((embed) => !embed.url.startsWith('https://t.co/'))
 
-  // TODO remove
-  const unexpectedEmbeds = cast.embeds.filter((embed) =>
-    (!embed.metadata || !embed.metadata.content_type)
-    && !embed.cast_id
-    && !(!!embed.url && (embed.url.startsWith('https://t.co') || embed.url.startsWith('https://x.com')))
-  )
-
-  if (unexpectedEmbeds.length > 0) console.log('unexpected embeds', unexpectedEmbeds)
-
   return (
     <div className='flex flex-col gap-y-1'>
       {images.length > 0 && <CastEmbedImages images={images} />}
