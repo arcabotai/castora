@@ -1,0 +1,5 @@
+See AGENTS.md for how to work on this repo: always update the changelog
+(src/app/changelog/entries.ts + CHANGELOG.md) on user-facing changes; commit as
+arcabotai (not feliramii@gmail.com) so Vercel deploys; route Neynar calls through
+@/lib/neynar; main deploys to production. Full conventions, local dev, CI, and
+roadmap are in AGENTS.md.
