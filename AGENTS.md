@@ -68,6 +68,16 @@ npm run dev   # http://localhost:3000
   `@/utils/drafts`). The cron auth + `CRON_SECRET` (set in Vercel prod/dev) are already in place.
   Be careful: these post casts / cancel Stripe subscriptions / send DMs — test behind a flag, and
   only add to `vercel.json` crons with explicit sign-off.
+  - **`index-superanon-scores-from-dune` is SHELVED** (kept, not removed). Superanon was a
+    Supercast-only feature; its account `@superanon` (fid 862100) has been dormant since
+    2025-10-28 and the Dune query was never in this fork, so there is no live data to index. The
+    anon-posting idea lives on independently as Anoncast / Anon World ($ANON). Removed from
+    vercel.json crons. Do NOT reconstruct unless a live scoring source returns. The leaderboard
+    routes + `SuperanonScore` model + `NEXT_PUBLIC_SUPERANON_FID` are dormant legacy.
+  - **Direct Casts (DMs):** `@/utils/direct-casts.ts` sends via `api.warpcast.com/v2/ext-send-direct-cast`
+    with a Farcaster app API key (`WARPCAST_DM_API_KEY` — rename to `FARCASTER_DM_*` when wiring it).
+    Send-only and account-bound; there is no official read/receive DM API, so full native DM parity
+    inside Castora is not feasible today. Fine for one-off sends like expiration reminders.
 - Other tech debt: two query libs coexist (`react-query` v3 + `@tanstack/react-query` v5 — converge);
   Next.js is 13.5 (upgrade path to 15/16); `reactStrictMode` and ESLint-on-build are disabled (`next.config.js`, "todo switch back").
 
