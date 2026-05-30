@@ -61,13 +61,16 @@ npm run dev   # http://localhost:3000
 
 ## Roadmap / known work
 
-- **Disabled workers (`src/scripts/*` were never in this fork).** Five routes are gated stubs that
-  return `501 "...disabled in Castora bootstrap"`: `index-superanon-scores-from-dune`,
-  `cancel-expired-subscriptions`, `send-expiration-reminders`, `cast/send-scheduled`,
-  `cast/send-scheduled-drafts`. Re-enabling means reconstructing the modules (send logic exists in
-  `@/utils/drafts`). The cron auth + `CRON_SECRET` (set in Vercel prod/dev) are already in place.
-  Be careful: these post casts / cancel Stripe subscriptions / send DMs — test behind a flag, and
-  only add to `vercel.json` crons with explicit sign-off.
+- **Workers (`src/scripts/*` were never in this fork; being reconstructed one by one).** All are
+  gated by `CRON_SECRET` (`isCronAuthorized`, set in Vercel prod/dev). Status:
+  - ✅ **`cast/send-scheduled-drafts`** → `sendScheduledDrafts` (Draft table; recurring + reactions
+    via `@/utils/drafts`) and **`cast/send-scheduled`** → `sendScheduledCasts` (ScheduledCast table,
+    standalone casts only — threads TODO). Both **reconstructed but OFF**: gated behind
+    `CASTORA_ENABLE_SCHEDULED_SENDER=true` AND not in `vercel.json` crons, so they post nothing until
+    you set the flag + add the cron. End-to-end posting was NOT tested (would post real casts) —
+    verify against a test account / empty schedule before enabling.
+  - ⬜ `cancel-expired-subscriptions` (Stripe — cancel logic exists in `stripe/cancel-subscription`; build for review, keep disabled).
+  - ⬜ `send-expiration-reminders` (DMs via `@/utils/direct-casts` — needs a Farcaster Direct Cast API key; see Direct Casts note below).
   - **`index-superanon-scores-from-dune` is SHELVED** (kept, not removed). Superanon was a
     Supercast-only feature; its account `@superanon` (fid 862100) has been dormant since
     2025-10-28 and the Dune query was never in this fork, so there is no live data to index. The
