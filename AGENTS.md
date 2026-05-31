@@ -49,9 +49,30 @@ npm run dev   # http://localhost:3000
 
 - Prisma uses `POSTGRES_PRISMA_URL` (pooled) + `POSTGRES_URL_NON_POOLING` (direct). The Prisma CLI
   reads `.env`, not `.env.local`, so for CLI commands: `set -a; . ./.env.local; set +a` first.
-- Login is via **Privy**. For localhost login to work, `http://localhost:3000` must be in the Privy
-  app's allowed origins (dashboard → Configuration → App settings → Domains).
+- Login is via **Privy** (app id `cmpke74en00660cjvnb9aq32k`; the auth iframe is hosted at the
+  custom domain `privy.castora.social`). For localhost login to work, `http://localhost:3000` must be
+  in the Privy app's allowed origins (dashboard → Configuration → App settings → Domains).
+- Because the Privy auth iframe is **cross-site** (`privy.castora.social`), a browser that **blocks
+  third-party cookies** can't read the session → the app silently falls back to **guest**. If you log
+  in but stay "guest" in a clean/automation Chrome profile, allow 3rd-party cookies (or launch Chrome
+  with `--disable-features=ThirdPartyStoragePartitioning,TrackingProtection3pcd`).
 - Unauthenticated API routes returning `401`/`403` is expected (auth gates), not a crash.
+
+## ⚠️ Environments are NOT isolated (important)
+
+The Vercel **Development**, **Preview**, and **Production** environments all use the **same Railway
+Postgres database AND the same Privy app** (`cmpke74en…`). There is **no separate dev/staging data**.
+Consequences:
+
+- Running `npm run dev` locally talks to the **live production database**. Local reads/writes,
+  account connections, and any posting hit **real prod data and real Farcaster accounts**.
+- A `prisma migrate`/`db push` run locally would alter the **production** schema. **Never** run DB
+  migrations/seeds from local.
+- "Run prod on localhost" = `vercel env pull .env.local --environment=production` then re-apply the
+  `NEXT_PUBLIC_APP_URL=http://localhost:3000` override. (A dev-env backup can be kept as
+  `.env.local.dev.bak`.) Treat the local window as if you're operating on castora.social directly.
+- **Recommended next infra step:** stand up a real isolated dev environment (separate Railway DB +
+  separate Privy dev app) so local work can't damage production.
 
 ## CI (`.github/workflows/ci.yml`)
 
@@ -80,7 +101,46 @@ npm run dev   # http://localhost:3000
   - **Direct Casts (DMs):** `@/utils/direct-casts.ts` sends via `api.warpcast.com/v2/ext-send-direct-cast`
     with a Farcaster app API key (`WARPCAST_DM_API_KEY` — rename to `FARCASTER_DM_*` when wiring it).
     Send-only and account-bound; there is no official read/receive DM API, so full native DM parity
-    inside Castora is not feasible today. Fine for one-off sends like expiration reminders.
+    inside Castora is not feasible today (the on-protocol E2E "Direct Casts" FIP is still just a
+    proposal). Fine for one-off sends like expiration reminders.
+
+## 🔴 Top-priority bug to fix next: `isAuthenticated` swallows infra errors
+
+`src/utils/auth/isAuthenticated.ts` wraps token verification **and** the
+`prisma.supercastPrivyUser.findUnique()` DB lookup in one try/catch that, on **any** error, returns
+`{ authenticated: false }`. So a **transient DB outage** (the Railway hobby Postgres blips) makes
+every data route 401 → the timeline goes empty and the user can even get dropped into the
+**guest / "connect account"** onboarding. Because local == prod data, that onboarding could write
+duplicate records into production.
+
+**Fix:** distinguish a genuine token-verification failure (→ real `401`) from an infrastructure
+error like a DB connection failure (→ surface a retryable `503`, ideally with a short retry). Do
+**not** treat "database unreachable" as "not authenticated." This was the root cause of the
+"timeline not showing" incident debugged on 2026-05-30.
+
+## Session handoff (through 2026-05-31)
+
+**Shipped & merged to production this run** (PRs #7, #8, #9, #10, #11, #12 — all CI-green):
+- Localhost dev fixed (`hostURL` prefers `window.location.origin`); CI + gitleaks secret scan added.
+- Neynar centralized behind `@/lib/neynar` (68 files migrated).
+- Sensitive-route audit + cron routes gated by `CRON_SECRET` (`requireCronAuth`); `CRON_SECRET` set
+  in Vercel prod/dev.
+- Public `/changelog` + `CHANGELOG.md`; this `AGENTS.md`.
+- Superanon/Dune worker shelved; scheduled-cast senders reconstructed (OFF behind a flag).
+
+**What's needed next (priority order):**
+1. **Fix `isAuthenticated`** (above) — highest value; it's a live footgun given shared prod data.
+2. **Isolate environments** — separate dev DB + dev Privy app so local ≠ prod.
+3. **Workers:** build `cancel-expired-subscriptions` (Stripe, for review/disabled); wire
+   `send-expiration-reminders` once a Farcaster Direct Cast API key is provided; verify the scheduled
+   senders end-to-end on a test account before enabling (`CASTORA_ENABLE_SCHEDULED_SENDER` + cron).
+4. **Tech debt:** dedupe `react-query` v3 → `@tanstack/react-query` v5; plan Next.js 13.5 → 15/16;
+   re-enable `reactStrictMode` + ESLint-on-build (both "todo" in `next.config.js`).
+
+**Live browser debugging:** you can drive Chrome via CDP without an MCP — launch a debuggable
+instance (`open -na "Google Chrome" --args --remote-debugging-port=9222 --user-data-dir=<dir>
+--disable-features=ThirdPartyStoragePartitioning,TrackingProtection3pcd`) and talk to it with a small
+`ws`-based script (Chrome 148 blocks debugging the default profile, so use a separate `--user-data-dir`).
 - Other tech debt: two query libs coexist (`react-query` v3 + `@tanstack/react-query` v5 — converge);
   Next.js is 13.5 (upgrade path to 15/16); `reactStrictMode` and ESLint-on-build are disabled (`next.config.js`, "todo switch back").
 
