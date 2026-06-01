@@ -1,7 +1,16 @@
 {
   "name": "castora",
   "version": "0.1.0",
+  "description": "Castora: an independent Farcaster client by Arca.",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arcabotai/castora.git"
+  },
+  "bugs": {
+    "url": "https://github.com/arcabotai/castora/issues"
+  },
+  "homepage": "https://castora.social",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

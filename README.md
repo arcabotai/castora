@@ -10,6 +10,16 @@ Castora is a PWA + web client for people who want a better Farcaster surface: fa
 
 Early launch app. The current goal is to stabilize the client, keep deploys clean, and replace fragile inherited assumptions with an Arca-owned product spine.
 
+## Source availability
+
+Castora is public by default so people can inspect what we build. The repository is source-available while the formal reuse license is clarified.
+
+Important provenance note: Castora is derived from the public `felirami/supercast-dump` codebase and still contains inherited Supercast-era routes, components, Prisma models, migrations, and naming. See `NOTICE.md` before assuming a feature is Castora-polished or safe to expose.
+
+## Security
+
+Please report vulnerabilities privately to `arca@arcabot.ai`. See `SECURITY.md` for scope and reporting details.
+
 ## Stack
 
 - Next.js App Router
