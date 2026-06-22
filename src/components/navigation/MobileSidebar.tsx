@@ -29,10 +29,7 @@ import { Button } from '../ui/button'
 import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from '../ui/drawer'
 import { ScrollArea } from '../ui/scroll-area'
 import { useIosPwa } from "@/providers/iOSPwaProvider"
-import axios from 'axios'
-import { HOST_URL } from "@/utils/hostURL"
-import { AUTH_URL } from "@/utils/authURL"
-import { usePrivy } from "@privy-io/react-auth"
+import { useRouter } from 'next/navigation'
 import { useCommunityDot } from '@/hooks/useCommunityDot'
 import { Dog } from 'lucide-react'
 import { toast } from 'sonner'
@@ -47,11 +44,10 @@ export default function MobileSidebar({
   const { supercastUserState, switchAccount, getCurrentProfile, isRegularUser, isGuest } = useSupercastUserState();
   const { isSupercastMember } = useSupercastMember()
   const { isIosPwa } = useIosPwa();
-  const { getAccessToken } = usePrivy()
+  const router = useRouter()
   const currentProfile = getCurrentProfile();
 
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [loadingConnectSession, setLoadingConnectSession] = useState<boolean>(false);
 
   const { showDot, handleCommunityClick } = useCommunityDot();
 
@@ -69,27 +65,10 @@ export default function MobileSidebar({
     setOpenSidebar(false);
   };
 
-  const handleAddAccount = async () => {
-
-    alert('Temporarily unavailable, coming back soon!')
-    return
-
+  const handleAddAccount = () => {
     setOpenDrawer(false);
     setOpenSidebar(false);
-    setLoadingConnectSession(true);
-    const accessToken = await getAccessToken();
-
-    axios.post(`${HOST_URL}/api/account/create-connection`, {}, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'asFid': supercastUserState.userFid
-      }
-    }).then((response) => {
-      const sessionId = response.data.connectionSession;
-      window.location.href = `${AUTH_URL}?sessionId=${sessionId}`;
-    }).finally(() => {
-      setLoadingConnectSession(false);
-    });
+    router.push('/add-account');
   };
 
   return (

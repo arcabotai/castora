@@ -1,7 +1,7 @@
-import { Fragment, useEffect, useState } from "react"
+import { Fragment } from "react"
 import { Menu, Transition } from '@headlessui/react'
 import Link from "next/link"
-import axios from "axios"
+import { useRouter } from "next/navigation"
 
 import { classNames } from "@/utils/classNames"
 import { PlusIcon, StarIcon, UserPlusIcon } from "@heroicons/react/24/solid"
@@ -13,9 +13,6 @@ import { truncateLongWord } from "@/utils/textUtils"
 import { useSupercastUserState } from "@/providers/SupercastUserStateProvider"
 import { useLogin, usePrivy } from "@privy-io/react-auth"
 import { UserCircleIcon } from "@heroicons/react/24/solid"
-import { HOST_URL } from "@/utils/hostURL"
-import { AUTH_URL } from "@/utils/authURL"
-import Spinner from "./Spinner"
 import { useDisconnect } from 'wagmi'
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { Skeleton } from "./ui/skeleton"
@@ -28,34 +25,16 @@ import { useSuperLogin } from "@/hooks/useSuperLogin"
 export default function ProfileBar() {
 
   const { supercastUserState, getCurrentProfile, switchAccount, isAuthenticated, isGuest } = useSupercastUserState()
-  const { getAccessToken } = usePrivy()
-  const [loadingConnectSession, setLoadingConnectSession] = useState<boolean>(false)
   const { isSupercastMember } = useSupercastMember();
+  const router = useRouter()
 
   const currentAccount = getCurrentProfile()
 
   const { disconnect } = useDisconnect()
   const { login } = useSuperLogin()
 
-  const handleAddAccount = async () => {
-
-    alert('Temporarily unavailable, coming back soon!')
-    return
-
-    setLoadingConnectSession(true)
-    const accessToken = await getAccessToken()
-
-    axios.post(`${HOST_URL}/api/account/create-connection`, {}, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'asFid': supercastUserState.userFid
-      }
-    }).then((response) => {
-      const sessionId = response.data.connectionSession
-      window.location.href = `${AUTH_URL}?sessionId=${sessionId}`
-    }).finally(() => {
-      setLoadingConnectSession(false)
-    })
+  const handleAddAccount = () => {
+    router.push('/add-account')
   }
 
   const handleSwitchAccount = (fid: number) => {
@@ -133,11 +112,7 @@ export default function ProfileBar() {
                   'px-4 py-2 text-sm w-full text-left flex flex-row items-center font-semibold'
                 )}
               >
-                {loadingConnectSession ?
-                  <Spinner height="h-5" width="w-5" padding="p-0" />
-                  :
-                  <UserPlusIcon className="w-5 h-5 mr-2" />
-                }
+                <UserPlusIcon className="w-5 h-5 mr-2" />
                 {"Add account"}
               </button>
             )}
