@@ -9,6 +9,7 @@ the public changelog at [castora.social/changelog](https://castora.social/change
 
 ## 2026-06-22 — Sign-in reliability
 - Fixed a rare issue where a brief backend hiccup could empty your timeline or bounce you to the connect-account screen even while you were still signed in. The app now treats a momentary outage as something to retry, instead of mistaking it for a sign-out.
+- If a hiccup does happen, the app now retries automatically and shows a simple “try again” screen instead of leaving you on a blank or stuck page.
 
 ## 2026-05-29 — Reliability & security hardening
 - Centralized all Farcaster data access behind a single, server-only client for safer and more consistent loading.

@@ -7,6 +7,7 @@ import ImageModal from './ImageModal'
 import { usePrivy } from '@privy-io/react-auth'
 import LandingPage from './LandingPage'
 import PulsingCastoraLogo from './PulsingCastoraLogo'
+import ReconnectingScreen from './ReconnectingScreen'
 import { useSupercastUserState } from '@/providers/SupercastUserStateProvider'
 import DraftComposeWindow from './casts/DraftComposeWindow'
 import MobileNavbar from './navigation/MobileNavbar'
@@ -38,7 +39,7 @@ export default function Layout({ currentTab, main, rightColumn }: { currentTab: 
     image: imageInFocus,
     setImage: setImageInFocus
   } = useImageInFocus()
-  const { supercastUserState, isAuthenticated, isGuest } = useSupercastUserState()
+  const { supercastUserState, isAuthenticated, isGuest, hasLoadError } = useSupercastUserState()
   const { refreshFeed, isRefreshing } = useFeedRefresh()
   const { ConfettiComponent } = useConfetti()
 
@@ -62,6 +63,13 @@ export default function Layout({ currentTab, main, rightColumn }: { currentTab: 
 
   if (!isAuthenticated() && !ALWAYS_ACCESSIBLE_PAGES.includes(currentTab)) {
     return <LandingPage />;
+  }
+
+  // Signed in (per Privy) but we couldn't load the account after retries — a
+  // transient outage. Show a retry state rather than falling through to guest UI.
+  const hasRealUser = !!supercastUserState && supercastUserState.userFid !== 0;
+  if (hasLoadError() && !hasRealUser && !ALWAYS_ACCESSIBLE_PAGES.includes(currentTab)) {
+    return <ReconnectingScreen />
   }
 
   if (!supercastUserState) {
