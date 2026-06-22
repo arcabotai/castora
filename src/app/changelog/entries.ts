@@ -20,6 +20,15 @@ export type ChangelogEntry = {
 export const changelog: ChangelogEntry[] = [
   {
     date: '2026-06-22',
+    title: 'Fixes & hardening',
+    tag: 'fix',
+    items: [
+      'Fixed the preview image shown when a Castora cast is shared elsewhere — it was failing to render.',
+      'Behind-the-scenes reliability and security work: sturdier handling of malformed requests, safer link previews, a hardened crypto-payment webhook, and a cleanup of unused code and dependencies.',
+    ],
+  },
+  {
+    date: '2026-06-22',
     title: 'Multiple accounts are back',
     tag: 'feature',
     items: [

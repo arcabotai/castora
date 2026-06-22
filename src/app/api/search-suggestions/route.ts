@@ -21,7 +21,11 @@ export async function GET(req: Request) {
 
   const url = new URL(req.url)
 
-  const query = url.searchParams.get("query").replace("@", "").replace("/", "")
+  const rawQuery = url.searchParams.get("query")
+  if (!rawQuery) {
+    return Response.json({ channels: [], users: [] })
+  }
+  const query = rawQuery.replace("@", "").replace("/", "")
 
   const [channelResponse, profileResponse] = await Promise.all([
     neynar.get(`/v2/farcaster/channel/search/?q=${query}`),

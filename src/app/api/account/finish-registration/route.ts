@@ -67,34 +67,32 @@ export async function POST(req: Request) {
 
     const newNeynarSigner = response.data.signer.signer_uuid;
 
-    await prisma.supercastPrivyUser.update({
-      where: {
-        id: supercastUser.id
-      },
-      data: {
-        fid: fid
-      }
-    })
+    // Atomic: a partial failure here would orphan rows and, because
+    // SupercastFarcasterAccount.fid is unique, a retry would then throw on the
+    // duplicate — wedging the registration. Roll back all-or-nothing.
+    await prisma.$transaction(async (tx) => {
+      await tx.supercastPrivyUser.update({
+        where: { id: supercastUser.id },
+        data: { fid: fid },
+      })
 
-    const supercastFarcasterAccount = await prisma.supercastFarcasterAccount.create({
-      data: {
-        fid: fid,
-        signerUUID: newNeynarSigner
-      }
-    })
+      const supercastFarcasterAccount = await tx.supercastFarcasterAccount.create({
+        data: { fid: fid, signerUUID: newNeynarSigner },
+      })
 
-    const connectedAccount = await prisma.connectedAccount.create({
-      data: {
-        supercastFarcasterAccountId: supercastFarcasterAccount.id,
-        supercastPrivyUserId: supercastUser.id,
-      }
-    })
+      await tx.connectedAccount.create({
+        data: {
+          supercastFarcasterAccountId: supercastFarcasterAccount.id,
+          supercastPrivyUserId: supercastUser.id,
+        },
+      })
 
-    const createdAccount = await prisma.createdAccount.create({
-      data: {
-        createdById: supercastUser.id,
-        createdSupercastAccountId: supercastUser.id,
-      }
+      await tx.createdAccount.create({
+        data: {
+          createdById: supercastUser.id,
+          createdSupercastAccountId: supercastUser.id,
+        },
+      })
     })
 
     trackPosthogEvent(fid, "account_created", {})

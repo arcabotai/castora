@@ -36,6 +36,8 @@ export const GET = withAuthInfra(async (req: Request) => {
     response = await neynar.get(`/v2/farcaster/notifications/?fid=${targetFid}&priority_mode=${priority}&cursor=${cursor}`)
   } else if (mode === "mentions") {
     response = await neynar.get(`/v2/farcaster/notifications/?fid=${targetFid}&type=mentions,replies&priority_mode=${priority}&cursor=${cursor}`)
+  } else {
+    return Response.json({ "error": "Invalid mode (expected 'all' or 'mentions')" }, { status: 400 })
   }
 
   return Response.json({ "unread": response.data.unseen_notifications_count, "notifications": response.data.notifications, "cursor": response.data.next.cursor })

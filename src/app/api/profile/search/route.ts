@@ -21,7 +21,11 @@ export async function GET(req: Request) {
 
   const url = new URL(req.url)
 
-  const query = url.searchParams.get("query").replace("@", "")
+  const rawQuery = url.searchParams.get("query")
+  if (!rawQuery) {
+    return Response.json({ "users": [] })
+  }
+  const query = rawQuery.replace("@", "")
 
   const response = await neynar.get(`/v2/farcaster/user/search/?viewer_fid=${targetFid}&q=${query}`)
 
