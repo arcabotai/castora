@@ -43,7 +43,24 @@ export async function GET(req: NextRequest) {
     if (type === 'cast') {
       const textLines = truncateLongWord(text, 80)?.split(/\\n|\n/) || [''];
 
-      const avatarImage = await fetch(new URL(avatar, import.meta.url)).then((res) => res.arrayBuffer());
+      // Load the author avatar defensively — a missing, unreachable, or non-image
+      // avatar must not 500 the whole share-preview image. Fall back to the default
+      // pfp.
+      const loadAvatar = async (): Promise<ArrayBuffer> => {
+        if (avatar && /^https?:\/\//.test(avatar)) {
+          try {
+            const res = await fetch(avatar);
+            const contentType = res.headers.get("content-type") || "";
+            if (res.ok && contentType.startsWith("image/")) {
+              return await res.arrayBuffer();
+            }
+          } catch (e) {
+            // fall through to the default avatar
+          }
+        }
+        return fetch(new URL("../../../../public/user.png", import.meta.url)).then((res) => res.arrayBuffer());
+      };
+      const avatarImage = await loadAvatar();
 
       const farcasterLogo = await fetch(
         new URL("../../../../public/farcaster.png", import.meta.url)
