@@ -19,6 +19,14 @@ export type ChangelogEntry = {
 
 export const changelog: ChangelogEntry[] = [
   {
+    date: '2026-06-22',
+    title: 'Sign-in reliability',
+    tag: 'fix',
+    items: [
+      'Fixed a rare issue where a brief backend hiccup could empty your timeline or bounce you to the connect-account screen even while you were still signed in. The app now treats a momentary outage as something to retry, instead of mistaking it for a sign-out.',
+    ],
+  },
+  {
     date: '2026-05-29',
     title: 'Reliability & security hardening',
     tag: 'security',

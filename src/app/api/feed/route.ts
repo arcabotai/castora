@@ -3,6 +3,7 @@ import { neynar } from '@/lib/neynar'
 import { prisma } from '@/prisma/client'
 import { isAuthenticated } from "@/utils/auth/isAuthenticated";
 import { isAuthorized } from "@/utils/auth/isAuthorized";
+import { withAuthInfra } from "@/utils/auth/authInfraResponse";
 import { trackPosthogEvent } from "@/utils/posthogAnalytics";
 import { redis } from '@/utils/redis'
 
@@ -11,7 +12,8 @@ const CACHE_TTL = 60 * 60 // 1 hour in seconds
 
 // Initialize Redis client
 
-export async function GET(req: Request) {
+// Surface a transient DB/Privy auth outage as a retryable 503, not a false 401.
+export const GET = withAuthInfra(async (req: Request) => {
 
   const { authenticated, supercastUser } = await isAuthenticated(req)
 
@@ -176,4 +178,4 @@ export async function GET(req: Request) {
     "casts": castsWithAuthorInfo,
     "cursor": response.data.next.cursor
   })
-}
+})
