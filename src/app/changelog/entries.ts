@@ -20,6 +20,16 @@ export type ChangelogEntry = {
 export const changelog: ChangelogEntry[] = [
   {
     date: '2026-06-22',
+    title: 'Multiple accounts are back',
+    tag: 'feature',
+    items: [
+      'Connect more than one Farcaster account and switch between them from the profile menu — browse, post, and get notifications as any of your accounts.',
+      'The “Add account” button works again (sign in with Neynar): a new account is attached alongside your existing ones instead of replacing them.',
+      'You can also share access to an account with another Castora user from Settings — handy for teams managing accounts together.',
+    ],
+  },
+  {
+    date: '2026-06-22',
     title: 'Sign-in reliability',
     tag: 'fix',
     items: [
