@@ -108,8 +108,8 @@ export async function GET(req: NextRequest) {
               </div>
             </div>
             <div tw="flex justify-center items-center w-full mt-6">
-              {/* @ts-ignore */}
-              <img src={superlogo} tw="w-12 h-12 mr-2" />
+              {/* @ts-ignore — @vercel/og accepts an ArrayBuffer src at runtime */}
+              <img src={castoraLogo} tw="w-12 h-12 mr-2" />
               <p tw="text-black text-4xl font-bold mr-1">Castora.</p>
               <p tw="text-black text-4xl">Build on Farcaster ツ</p>
             </div>
