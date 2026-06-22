@@ -7,6 +7,9 @@ the public changelog at [castora.social/changelog](https://castora.social/change
 > `src/app/changelog/entries.ts` (the website source of truth, newest first) and
 > mirror it here. Keep wording user-friendly. See `AGENTS.md`.
 
+## 2026-06-22 — Sign-in reliability
+- Fixed a rare issue where a brief backend hiccup could empty your timeline or bounce you to the connect-account screen even while you were still signed in. The app now treats a momentary outage as something to retry, instead of mistaking it for a sign-out.
+
 ## 2026-05-29 — Reliability & security hardening
 - Centralized all Farcaster data access behind a single, server-only client for safer and more consistent loading.
 - Added continuous integration — every change is now type-checked, built, and scanned for leaked secrets before it ships.

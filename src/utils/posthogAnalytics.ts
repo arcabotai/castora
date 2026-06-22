@@ -32,6 +32,7 @@ type POSTHOG_EVENT_TYPE =
   | 'list_created'
   | 'list_followed'
   | 'auth_error'
+  | 'auth_infra_error'
   | 'waitlist_signup'
   | 'storage_purchased'
   | 'registration_purchased'

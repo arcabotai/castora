@@ -2,11 +2,14 @@ import { prisma } from "@/prisma/client";
 import { SupercastUserState } from "@/types";
 import { isAuthenticated } from "@/utils/auth/isAuthenticated";
 import { isAuthorized } from "@/utils/auth/isAuthorized";
+import { withAuthInfra } from "@/utils/auth/authInfraResponse";
 import { PLAN } from "@prisma/client";
 import axios from "axios";
 import { neynar } from '@/lib/neynar'
 
-export async function GET(req: Request) {
+// A transient DB/Privy outage must degrade to a retryable 503, never a guest
+// payload — otherwise a real, signed-in user is silently demoted to guest.
+export const GET = withAuthInfra(async (req: Request) => {
 
   const { authenticated, supercastUser } = await isAuthenticated(req)
 
@@ -75,4 +78,4 @@ export async function GET(req: Request) {
   }
 
   return Response.json({ "state": supercastUserState })
-}
+})
