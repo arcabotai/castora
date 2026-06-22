@@ -11,6 +11,8 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import { HOST_URL } from "@/utils/hostURL";
 import { usePrivy } from '@privy-io/react-auth';
+import PulsingCastoraLogo from "@/components/PulsingCastoraLogo";
+import ReconnectingScreen from "@/components/ReconnectingScreen";
 
 enum OnboardingStage {
   START = 'start',
@@ -23,7 +25,7 @@ type RegistrationStatus = {
 };
 
 const OnboardingPage = () => {
-  const { isRegularUser, isAuthenticated } = useSupercastUserState();
+  const { isRegularUser, isAuthenticated, isReconnecting, hasLoadError } = useSupercastUserState();
   const router = useRouter();
   const { getAccessToken } = usePrivy();
   const [stage, setStage] = useState<OnboardingStage>(OnboardingStage.START);
@@ -101,6 +103,16 @@ const OnboardingPage = () => {
       </div>
     </div>
   );
+
+  // Don't let a transient outage drop a real, signed-in user into onboarding — the
+  // account-creation/connect endpoints could otherwise write duplicate records.
+  // Wait until we definitively know they're a guest (user/state loaded successfully).
+  if (hasLoadError()) {
+    return <ReconnectingScreen message="We couldn’t load your account. This is usually temporary." />;
+  }
+  if (isReconnecting()) {
+    return <PulsingCastoraLogo />;
+  }
 
   // Render based on current stage
   if (stage === OnboardingStage.CREATE_ACCOUNT || registrationStatusQuery.data?.registrationPaidFor) {

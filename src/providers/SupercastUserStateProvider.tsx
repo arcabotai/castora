@@ -28,6 +28,12 @@ type SupercastUserStateType = {
   isAdmin: () => boolean;
   getCurrentProfile: () => any | null;
   switchAccount: (fid: number) => void;
+  // True when Privy says we're signed in but /api/user/state is still loading or
+  // retrying — i.e. we don't yet know if this is a real user or a guest.
+  isReconnecting: () => boolean;
+  // True when /api/user/state failed (e.g. a transient 503) after retries. Callers
+  // must show a retry state, NOT fall through to the guest / onboarding flow.
+  hasLoadError: () => boolean;
 };
 
 const SupercastUserStateContext = createContext<SupercastUserStateType | null>(null);
@@ -96,7 +102,21 @@ export const SupercastUserStateProvider: React.FC<{ children: ReactNode }> = ({ 
       enabled: privyUserReady && authenticated,
       staleTime: 10 * 60 * 1000, // 10 minutes
       cacheTime: 10 * 60 * 1000, // 10 minutes
+      // A 401/403 is a genuine auth failure — don't retry. A transient 5xx (e.g. the
+      // 503 isAuthenticated now returns on a DB/Privy blip) or network error should be
+      // retried with backoff so a brief outage doesn't surface as an error.
+      retry: (failureCount, error) => {
+        const status = (error as any)?.response?.status;
+        if (status === 401 || status === 403) return false;
+        return failureCount < 3;
+      },
+      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000), // 1s, 2s, 4s, …
     });
+
+  // Privy authenticated, but we don't yet have a definitive user/state answer.
+  const isReconnecting = () => isAuthenticated() && supercastUserStateQuery.isLoading;
+  // Privy authenticated, but user/state failed after retries (transient outage).
+  const hasLoadError = () => isAuthenticated() && supercastUserStateQuery.isError;
 
   useEffect(() => {
     if (privyUserReady && !authenticated) {
@@ -144,9 +164,13 @@ export const SupercastUserStateProvider: React.FC<{ children: ReactNode }> = ({ 
   }, []);
 
   useEffect(() => {
+    // While user/state is failing, don't clobber a possibly-good cached state with a
+    // null/guest value — but DO persist real updates (e.g. switchAccount) so the
+    // user's account selection isn't lost during a transient outage.
+    if (supercastUserStateQuery.isError && (!supercastUserState || supercastUserState.userFid === 0)) return;
     // Save currentFid to localStorage whenever it changes
     localStorage.setItem('supercastUserState', JSON.stringify(supercastUserState));
-  }, [supercastUserState]);
+  }, [supercastUserState, supercastUserStateQuery.isError]);
 
   return (
     <SupercastUserStateContext.Provider value={{
@@ -159,7 +183,9 @@ export const SupercastUserStateProvider: React.FC<{ children: ReactNode }> = ({ 
       isSuperanon,
       isAdmin,
       getCurrentProfile,
-      switchAccount
+      switchAccount,
+      isReconnecting,
+      hasLoadError
     }}>
       {children}
     </SupercastUserStateContext.Provider>

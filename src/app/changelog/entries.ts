@@ -24,6 +24,7 @@ export const changelog: ChangelogEntry[] = [
     tag: 'fix',
     items: [
       'Fixed a rare issue where a brief backend hiccup could empty your timeline or bounce you to the connect-account screen even while you were still signed in. The app now treats a momentary outage as something to retry, instead of mistaking it for a sign-out.',
+      'If a hiccup does happen, the app now retries automatically and shows a simple “try again” screen instead of leaving you on a blank or stuck page.',
     ],
   },
   {
