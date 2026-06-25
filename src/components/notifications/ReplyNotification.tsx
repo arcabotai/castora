@@ -15,6 +15,7 @@ import { useSupercastUserState } from "@/providers/SupercastUserStateProvider";
 import CastoraBadge from '../CastoraBadge';
 import { useSupercastMember } from '@/providers/SupercastMemberProvider'
 import CastEmbeds from "../casts/CastEmbeds";
+import ParentCastPreview from "../casts/ParentCastPreview";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Skeleton } from "../ui/skeleton";
 
@@ -102,6 +103,11 @@ export default function ReplyNotification({ notification, isSelected = false }: 
         <div>
           <span className="text-gray-500 dark:text-gray-400 text-xs">Replying to <span className="text-blue-500">you</span></span>
         </div>
+        {notification.cast.parent_hash && (
+          <div className="mt-1">
+            <ParentCastPreview hash={notification.cast.parent_hash} />
+          </div>
+        )}
         <div className="max-w-full mb-2">
           {/* display the content of the cast in gray color and small font */}
           <div className="text-gray-900 dark:text-gray-200 text-sm mb-2">

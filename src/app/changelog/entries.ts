@@ -20,6 +20,15 @@ export type ChangelogEntry = {
 export const changelog: ChangelogEntry[] = [
   {
     date: '2026-06-22',
+    title: 'Tabbed notifications',
+    tag: 'feature',
+    items: [
+      'Notifications now have tabs — All, Replies, Mentions, Likes, Recasts, and Follows — so you can jump straight to the type you care about.',
+      'Replies and mentions now show the cast they\'re responding to, inline, so you get the full context without opening the thread.',
+    ],
+  },
+  {
+    date: '2026-06-22',
     title: 'Multiple accounts are back',
     tag: 'feature',
     items: [

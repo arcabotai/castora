@@ -27,18 +27,27 @@ export const GET = withAuthInfra(async (req: Request) => {
   const url = new URL(req.url)
 
   const cursor = url.searchParams.get("cursor")
-  const mode = url.searchParams.get("mode")
   const priority = url.searchParams.get("priority")
+  // New tabbed inbox: filter by a Neynar notification type (comma-separated ok).
+  const type = url.searchParams.get("type")
+  // Legacy two-tab UI: mode=all | mentions.
+  const mode = url.searchParams.get("mode")
 
-  let response;
+  const NEYNAR_NOTIFICATION_TYPES = new Set(["follows", "recasts", "likes", "mentions", "replies", "quotes"])
 
-  if (mode === "all") {
-    response = await neynar.get(`/v2/farcaster/notifications/?fid=${targetFid}&priority_mode=${priority}&cursor=${cursor}`)
+  let typeFilter = ""
+  if (type) {
+    if (!type.split(",").every((t) => NEYNAR_NOTIFICATION_TYPES.has(t))) {
+      return Response.json({ "error": "Invalid notification type" }, { status: 400 })
+    }
+    typeFilter = `&type=${type}`
   } else if (mode === "mentions") {
-    response = await neynar.get(`/v2/farcaster/notifications/?fid=${targetFid}&type=mentions,replies&priority_mode=${priority}&cursor=${cursor}`)
-  } else {
+    typeFilter = "&type=mentions,replies"
+  } else if (mode && mode !== "all") {
     return Response.json({ "error": "Invalid mode (expected 'all' or 'mentions')" }, { status: 400 })
   }
+
+  const response = await neynar.get(`/v2/farcaster/notifications/?fid=${targetFid}${typeFilter}&priority_mode=${priority}&cursor=${cursor}`)
 
   return Response.json({ "unread": response.data.unseen_notifications_count, "notifications": response.data.notifications, "cursor": response.data.next.cursor })
 })
