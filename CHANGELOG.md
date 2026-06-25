@@ -7,6 +7,9 @@ the public changelog at [castora.social/changelog](https://castora.social/change
 > `src/app/changelog/entries.ts` (the website source of truth, newest first) and
 > mirror it here. Keep wording user-friendly. See `AGENTS.md`.
 
+## 2026-06-22 — Command palette (⌘K)
+- Press ⌘K (or Ctrl+K) anywhere to open a quick command palette — jump to any page, start a new cast, switch accounts, change the theme, or search for people and channels, all from the keyboard.
+
 ## 2026-06-22 — Tabbed notifications
 - Notifications now have tabs — All, Replies, Mentions, Likes, Recasts, and Follows — so you can jump straight to the type you care about.
 - Replies and mentions now show the cast they're responding to, inline, so you get the full context without opening the thread.

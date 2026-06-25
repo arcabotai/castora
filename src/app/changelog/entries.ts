@@ -20,6 +20,14 @@ export type ChangelogEntry = {
 export const changelog: ChangelogEntry[] = [
   {
     date: '2026-06-22',
+    title: 'Command palette (⌘K)',
+    tag: 'feature',
+    items: [
+      'Press ⌘K (or Ctrl+K) anywhere to open a quick command palette — jump to any page, start a new cast, switch accounts, change the theme, or search for people and channels, all from the keyboard.',
+    ],
+  },
+  {
+    date: '2026-06-22',
     title: 'Tabbed notifications',
     tag: 'feature',
     items: [
