@@ -21,6 +21,7 @@ import NavigationHotkeys from './navigation/NavigationHotkeys'
 import HotkeyShortcutWindow from './navigation/HotkeyShortcutWindow'
 import dynamic from 'next/dynamic'
 import DebugState from './debug/DebugState'
+import CommandPalette from './CommandPalette'
 
 const CheckoutDialog = dynamic(
   () => import('./checkout/CheckoutDialog').then((mod) => mod.CheckoutDialog),
@@ -87,6 +88,7 @@ export default function Layout({ currentTab, main, rightColumn }: { currentTab: 
       <ListDetail isColumn={false} />
       <ConfettiComponent />
       <NavigationHotkeys />
+      <CommandPalette />
       {PAYMENTS_ENABLED && <CheckoutDialog />}
       <div className='w-full flex flex-col justify-center items-center min-h-screen'>
         <div className='w-full lg:w-screen max-w-screen-xl lg:flex lg:flex-row relative flex-grow'>
