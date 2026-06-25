@@ -7,7 +7,7 @@ import PullToRefresh from 'react-simple-pull-to-refresh';
 import { isMobile } from 'react-device-detect'
 import { useInView } from 'react-intersection-observer';
 import FeedHeader from './FeedHeader';
-import { useNotifications } from '@/providers/NotificationsProvider'
+import { useNotifications, NOTIFICATION_TABS } from '@/providers/NotificationsProvider'
 import { useNotificationsRefresh } from '@/providers/FeedRefreshProvider'
 import CastInFeedSkeleton from './casts/CastInFeedSkeleton'
 import { Cog6ToothIcon } from '@heroicons/react/24/outline'
@@ -165,27 +165,21 @@ export default function NotificationsFeed() {
           <SettingsButton />
         }
       />
-      <div className='gap-y-2 px-4 sm:px-6 lg:px-8 border-b dark:border-gray-800'>
-        {/* two tabs, "all" and "mentions" */}
-        <div className='flex flex-row'>
-          <button
-            className={`w-1/2 flex flex-row justify-center py-2 lg:hover:bg-gray-50 lg:dark:hover:bg-gray-800 dark:border-gray-700 ${selectedMode === 'all' && 'border-b-4'}`}
-            onClick={() => {
-              setSelectedMode('all')
-              queryClient.resetQueries(['notifications']);
-            }}
-          >
-            <span className='text-sm font-semibold text-gray-700 dark:text-gray-200'>All</span>
-          </button>
-          <button
-            className={`w-1/2 flex flex-row justify-center py-2 lg:hover:bg-gray-50 lg:dark:hover:bg-gray-800 dark:border-gray-700 ${selectedMode === 'mentions' && 'border-b-4'}`}
-            onClick={() => {
-              setSelectedMode('mentions')
-              queryClient.resetQueries(['notifications']);
-            }}
-          >
-            <span className='text-sm font-semibold text-gray-700 dark:text-gray-200'>Mentions</span>
-          </button>
+      <div className='border-b dark:border-gray-800'>
+        {/* tabs: All / Replies / Mentions / Likes / Recasts / Follows */}
+        <div className='flex flex-row overflow-x-auto'>
+          {NOTIFICATION_TABS.map((tab) => (
+            <button
+              key={tab.key}
+              className={`flex-1 min-w-[84px] flex flex-row justify-center py-2 px-3 whitespace-nowrap border-b-4 border-gray-900 dark:border-gray-100 lg:hover:bg-gray-50 lg:dark:hover:bg-gray-800 ${selectedMode === tab.key ? '' : 'border-transparent'}`}
+              onClick={() => {
+                setSelectedMode(tab.key)
+                queryClient.resetQueries(['notifications']);
+              }}
+            >
+              <span className={`text-sm ${selectedMode === tab.key ? 'font-semibold text-gray-900 dark:text-gray-100' : 'font-medium text-gray-500 dark:text-gray-400'}`}>{tab.label}</span>
+            </button>
+          ))}
         </div>
       </div>
       <div>

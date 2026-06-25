@@ -7,16 +7,39 @@ import { usePrivy } from '@privy-io/react-auth';
 import { useSupercastUserState } from '@/providers/SupercastUserStateProvider';
 import { HOST_URL } from '@/utils/hostURL';
 
+export type NotificationTab = 'all' | 'replies' | 'mentions' | 'likes' | 'recasts' | 'follows';
+
+export const NOTIFICATION_TABS: { key: NotificationTab; label: string }[] = [
+  { key: 'all', label: 'All' },
+  { key: 'replies', label: 'Replies' },
+  { key: 'mentions', label: 'Mentions' },
+  { key: 'likes', label: 'Likes' },
+  { key: 'recasts', label: 'Recasts' },
+  { key: 'follows', label: 'Follows' },
+];
+
+// Maps a tab to the Neynar notification `type` filter ('' = no filter / all).
+const TAB_TO_NEYNAR_TYPE: Record<NotificationTab, string> = {
+  all: '',
+  replies: 'replies',
+  mentions: 'mentions',
+  likes: 'likes',
+  recasts: 'recasts',
+  follows: 'follows',
+};
+
 const NotificationsContext = createContext(null);
 
 export const NotificationsProvider = ({ children }) => {
   const { supercastUserState, isRegularUser } = useSupercastUserState();
   const { ready: privyReady, authenticated, getAccessToken } = usePrivy();
   const queryClient = useQueryClient();
-  const [selectedMode, setSelectedMode] = useState<'all' | 'mentions'>(() => {
+  const [selectedMode, setSelectedMode] = useState<NotificationTab>(() => {
     if (typeof window !== 'undefined') {
       const storedMode = localStorage.getItem('selectedMode');
-      return (storedMode === 'all' || storedMode === 'mentions') ? storedMode : 'all';
+      if (storedMode && NOTIFICATION_TABS.some((t) => t.key === storedMode)) {
+        return storedMode as NotificationTab;
+      }
     }
     return 'all';
   });
@@ -55,7 +78,10 @@ export const NotificationsProvider = ({ children }) => {
 
   const fetchNotifications = async ({ pageParam = '' }) => {
     const accessToken = await getAccessToken();
-    return axios.get(`${HOST_URL}/api/notifications?mode=${selectedMode}&priority=${priorityMode}&cursor=${pageParam}`, {
+    const params = new URLSearchParams({ priority: String(priorityMode), cursor: pageParam });
+    const neynarType = TAB_TO_NEYNAR_TYPE[selectedMode];
+    if (neynarType) params.set('type', neynarType);
+    return axios.get(`${HOST_URL}/api/notifications?${params.toString()}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         'asFid': supercastUserState.currentFid,
